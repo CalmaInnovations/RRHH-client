@@ -1,4 +1,4 @@
-import RequestTable from "./components/Table";
+import RequestTable from "./components/table/RequestTable";
 
 export function Requests() {
     return <RequestTable />;
