@@ -1,12 +1,18 @@
-import { Navigate, Route, Routes } from "react-router"
-import { DashboardPage } from "../pages/DashboardPage"
-
+import { Navigate, Route, Routes } from "react-router";
+import { DashboardLayout } from "../layout/DashboardLayout";
+import { DashboardPage } from "../pages";
+import { Requests } from "../pages";
 
 export const DashboardRoutes = () => {
-  return (
-    <Routes>
-        <Route path="/" element={<DashboardPage/>} />
-        <Route path="/*" element={<Navigate to="/"/>} />
-    </Routes>
-  )
-}
+    return (
+        <DashboardLayout>
+            <Routes>
+                <Route path="/" element={<DashboardPage />} />
+
+                <Route path="requests" element={<Requests />} />
+
+                <Route path="/*" element={<Navigate to="/" />} />
+            </Routes>
+        </DashboardLayout>
+    );
+};
