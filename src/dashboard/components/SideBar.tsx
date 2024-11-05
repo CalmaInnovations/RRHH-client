@@ -1,44 +1,154 @@
-import { SupervisedUserCircleRounded } from "@mui/icons-material"
-import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, Toolbar, Typography } from "@mui/material"
+import {
+    Avatar,
+    Box,
+    Collapse,
+    Divider,
+    Drawer,
+    IconButton,
+    List,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    ListSubheader,
+    Toolbar,
+    Typography,
+} from "@mui/material";
 
-export const SideBar = ({ drawerWidth=240 }) => {
-  return (
-    <Box
-    component='nav'
-    sx={{width: {sm: drawerWidth}, flexShrink: {sm: 0}}}
-    >
-        <Drawer
-        variant='permanent'
-        open
-        sx={{display: {xs: 'block'}, '& .MuiDrawer-paper': {boxSizing: 'border-box', width: drawerWidth}}}
-        >
+import {
+    Assignment,
+    Dashboard,
+    ExpandLess,
+    ExpandMore,
+    Person,
+    PersonAdd,
+    PersonSearch,
+} from "@mui/icons-material";
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
 
-            <Toolbar>
-                <Typography
-                variant='h6'
-                noWrap
-                component='div' 
-                >
-                    Bryan Chiang
-                </Typography>
-            </Toolbar>
-            <Divider/>
-            <List>
-                {
-                    ['PROCESO1', 'PROCESO2', 'PROCESO3', 'PROCESO4'].map(text => (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton>
+export const SideBar = ({ drawerWidth = 240 }) => {
+    const [open, setOpen] = useState(true);
+
+    const handleClick = () => {
+        setOpen(!open);
+    };
+    return (
+        <Box component="nav" sx={{ width: drawerWidth, flexShrink: 0 }}>
+            <Drawer
+                variant="permanent"
+                open
+                sx={{
+                    display: "block",
+                    "& .MuiDrawer-paper": {
+                        boxSizing: "border-box",
+                        width: drawerWidth,
+                        backgroundColor: "primary.main",
+                        color: "white",
+                    },
+                }}
+            >
+                <Toolbar sx={{gap: 1}}>
+                    <IconButton>
+                        <Avatar></Avatar>
+                    </IconButton>
+                    <Typography variant="h6" noWrap component="div" >
+                        Bryan Chiang
+                    </Typography>
+                </Toolbar>
+                <Divider />
+                <List>
+                    {
+                        <List
+                            sx={{
+                                width: "100%",
+                                maxWidth: 300,
+                                backgroundColor: "primary.main",
+                            }}
+                            component="nav"
+                            aria-labelledby="nested-list-subheader"
+                            subheader={
+                                <ListSubheader
+                                    sx={{ backgroundColor: "primary.main" }}
+                                    component="div"
+                                    id="nested-list-subheader"
+                                >
+                                    Menú de Reclutamiento
+                                </ListSubheader>
+                            }
+                        >
+                            <NavLink
+                                to="/reclutamiento"
+                                style={{
+                                    textDecoration: "none",
+                                    color: "inherit",
+                                }}
+                            >
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <Dashboard />
+                                    </ListItemIcon>
+                                    <ListItemText primary="DashBoard" />
+                                </ListItemButton>
+                            </NavLink>
+
+                            <ListItemButton onClick={handleClick}>
                                 <ListItemIcon>
-                                    <SupervisedUserCircleRounded/>
+                                    <PersonSearch />
                                 </ListItemIcon>
+                                <ListItemText primary="Reclutamiento" />
+                                {open ? <ExpandLess /> : <ExpandMore />}
                             </ListItemButton>
-                        </ListItem>
-                    ))
 
-                }
-            </List>
-        </Drawer>
-
-    </Box>
-  )
-}
+                            <Collapse in={open} timeout="auto" unmountOnExit>
+                                <List component="div" disablePadding>
+                                    <NavLink
+                                        to="/reclutamiento/postulantes"
+                                        style={{
+                                            textDecoration: "none",
+                                            color: "inherit",
+                                        }}
+                                    >
+                                        <ListItemButton sx={{ pl: 4 }}>
+                                            <ListItemIcon>
+                                                <Person />
+                                            </ListItemIcon>
+                                            <ListItemText primary="Postulantes" />
+                                        </ListItemButton>
+                                    </NavLink>
+                                    <NavLink
+                                        to="/reclutamiento/solicitudes"
+                                        style={{
+                                            textDecoration: "none",
+                                            color: "inherit",
+                                        }}
+                                    >
+                                        <ListItemButton sx={{ pl: 4 }}>
+                                            <ListItemIcon>
+                                                <Assignment />
+                                            </ListItemIcon>
+                                            <ListItemText primary="Solicitudes" />
+                                        </ListItemButton>
+                                    </NavLink>
+                                </List>
+                            </Collapse>
+                            <NavLink
+                                to="/account"
+                                style={{
+                                    textDecoration: "none",
+                                    color: "inherit",
+                                }}
+                            >
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <PersonAdd />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Solicitar Colaborador" />
+                                </ListItemButton>
+                            </NavLink>
+                        </List>
+                    }
+                </List>
+            </Drawer>
+        </Box>
+    );
+};

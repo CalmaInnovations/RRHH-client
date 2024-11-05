@@ -1,31 +1,45 @@
-import { LogoutOutlined, MenuOutlined } from "@mui/icons-material"
-import { AppBar, Grid, IconButton, Toolbar, Typography } from "@mui/material"
+import { LogoutOutlined } from "@mui/icons-material";
+import { AppBar, Box, Grid, IconButton, Toolbar } from "@mui/material";
+import { NavLink } from "react-router-dom";
 
-export const NavBar = ({drawerWidth=240}) => {
-  return (
-
-    <AppBar 
-    position='fixed'
-    sx={{
-        width: {sm: `calc(100% - ${drawerWidth}px)`},
-        ml: `{sm: ${drawerWidth}px}`
-    }}
-    >
-        <Toolbar>
-            <IconButton
-            color='inherit'
-            edge='start'
-            sx={{ mr: 2, display:{sm: 'none'}}}
-            >
-                <MenuOutlined/>
-            </IconButton>
-            <Grid container direction='row' justifyContent='space-between' alignItems='center'>
-                <Typography variant='h6' noWrap component='div'>DashBoard</Typography>
-                <IconButton color='error'>
-                    <LogoutOutlined/>
-                </IconButton>
-            </Grid>
-        </Toolbar>
-    </AppBar>
-  )
-}
+export const NavBar = ({ drawerWidth = 240 }) => {
+    return (
+        <AppBar
+            position="fixed"
+            sx={{
+                width: { sm: `calc(100% - ${drawerWidth}px)` },
+                ml: `{sm: ${drawerWidth}px}`,
+            }}
+        >
+            <Toolbar>
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                >
+                    <NavLink to="#" style={{ textDecoration: "none" }}>
+                        <Box
+                            component="img"
+                            src="/public/logoBienvenidaCalma.png"
+                            alt="Logo"
+                            sx={{
+                                width: 100,
+                                height: 50,
+                                mr: 2,
+                                background: "white",
+                                borderRadius: 2,
+                                padding: 1,
+                            }}
+                        />
+                    </NavLink>
+                    <NavLink to="/auth" style={{ textDecoration: "none" }}>
+                    <IconButton color="error">
+                        <LogoutOutlined />
+                    </IconButton>
+                    </NavLink>
+                </Grid>
+            </Toolbar>
+        </AppBar>
+    );
+};
