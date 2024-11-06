@@ -1,2 +1,2 @@
-export * from "./requests-area-leader/Requests";
+export * from "./requests-area-leader/requests";
 export * from "../DashboardPage";
