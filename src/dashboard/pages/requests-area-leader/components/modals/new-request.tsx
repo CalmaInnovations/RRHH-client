@@ -4,8 +4,9 @@ import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
-import { MenuItem, Select } from "@mui/material";
+import { Button, MenuItem, Select, Typography } from "@mui/material";
 import { useState } from "react";
+import "./modals.css";
 
 export function NewRequest() {
     const [age, setAge] = useState("");
@@ -14,6 +15,15 @@ export function NewRequest() {
     };
     return (
         <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+            <Typography
+                id="transition-modal-title"
+                variant="h6"
+                component="h2"
+                marginBlock={4}
+                margin={2}
+            >
+                Nueva Solicitud
+            </Typography>
             <div>
                 <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
                     <TextField
@@ -52,7 +62,7 @@ export function NewRequest() {
                         Tipo de puesto
                     </InputLabel>
                     <Select
-                        id="outlined-start-adornment"
+                        id="demo-simple-select-label"
                         sx={{ m: 1, width: "25ch" }}
                         value={age}
                         onChange={handleChange}
@@ -63,6 +73,7 @@ export function NewRequest() {
                         <MenuItem value={30}>Thirty</MenuItem>
                     </Select>
                 </FormControl>
+
                 <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
                     <TextField
                         label="Habilidades blandas"
@@ -102,6 +113,11 @@ export function NewRequest() {
                         placeholder="Funciones"
                     />
                 </FormControl>
+
+                <footer>
+                    <Button variant="contained">Solicitar</Button>
+                    <Button variant="text">Limpiar</Button>
+                </footer>
             </div>
         </Box>
     );

@@ -3,9 +3,11 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { useState } from "react";
-import { NewRequest } from "./components/new-request";
+import { ReactNode, useState } from "react";
+
+interface PropsChildren {
+    children: ReactNode;
+}
 
 const style = {
     position: "absolute",
@@ -19,14 +21,14 @@ const style = {
     p: 4,
 };
 
-export default function TransitionsModal() {
+export default function TransitionsModal({ children }: PropsChildren) {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     return (
         <div>
-            <Button onClick={handleOpen}>Open modal</Button>
+            <Button onClick={handleOpen}>Nueva</Button>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -41,19 +43,7 @@ export default function TransitionsModal() {
                 }}
             >
                 <Fade in={open}>
-                    <Box sx={style}>
-                        <Typography
-                            id="transition-modal-title"
-                            variant="h6"
-                            component="h2"
-                            marginBlock={4}
-                            margin={2}
-                        >
-                            Nueva Solicitud
-                        </Typography>
-
-                        <NewRequest></NewRequest>
-                    </Box>
+                    <Box sx={style}>{children}</Box>
                 </Fade>
             </Modal>
         </div>
