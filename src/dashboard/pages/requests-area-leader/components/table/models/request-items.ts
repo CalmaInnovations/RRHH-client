@@ -1,4 +1,4 @@
-export interface Row {
+export interface RequestItems {
     id: number;
     fecha: Date;
     puesto: string;

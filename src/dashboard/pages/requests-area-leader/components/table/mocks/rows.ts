@@ -1,4 +1,4 @@
-import type { Row } from "../models/row";
+import type { Row } from "../models/request-items";
 
 function createData(data: Row): Row {
     return data;

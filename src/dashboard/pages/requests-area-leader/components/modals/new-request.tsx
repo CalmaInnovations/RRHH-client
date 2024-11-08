@@ -1,96 +1,87 @@
-import Box from "@mui/material/Box";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
-import { Button, MenuItem, Select, Typography } from "@mui/material";
+import {
+    Grid,
+    Typography,
+    TextField,
+    InputAdornment,
+    OutlinedInput,
+    MenuItem,
+    Select,
+    FormControl,
+    Button,
+    InputLabel,
+} from "@mui/material";
 import { useState } from "react";
 import "./modals.css";
 
-export function NewRequest() {
+interface PropsNextModal {
+    handleNextModal: () => void;
+}
+
+export function NewRequest({ handleNextModal }: PropsNextModal) {
     const [age, setAge] = useState("");
     const handleChange = (event: { target: { value: string } }) => {
         setAge(event.target.value);
     };
+
     return (
-        <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-            <Typography
-                id="transition-modal-title"
-                variant="h6"
-                component="h2"
-                marginBlock={4}
-                margin={2}
-            >
-                Nueva Solicitud
-            </Typography>
-            <div>
-                <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
+        <Grid container spacing={4}>
+            <Grid item xs={12}>
+                <Typography
+                    id="transition-modal-title"
+                    variant="h6"
+                    component="h2"
+                    marginBlock={4}
+                >
+                    Nueva Solicitud
+                </Typography>
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+                <FormControl fullWidth variant="outlined">
                     <TextField
                         label="Nombre del puesto"
-                        id="outlined-start-adornment"
-                        sx={{ m: 1, width: "25ch" }}
-                        slotProps={{
-                            input: {
-                                startAdornment: (
-                                    <InputAdornment position="start"></InputAdornment>
-                                ),
-                            },
-                        }}
                         placeholder="Desarrollador Front-End"
                     />
                 </FormControl>
+            </Grid>
 
-                <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
-                    <TextField
-                        label="Cantidad"
-                        id="outlined-start-adornment"
-                        sx={{ m: 1, width: "25ch" }}
-                        slotProps={{
-                            input: {
-                                startAdornment: (
-                                    <InputAdornment position="start"></InputAdornment>
-                                ),
-                            },
-                        }}
-                        placeholder="2"
-                    />
+            <Grid item xs={12} sm={6}>
+                <FormControl fullWidth variant="outlined">
+                    <TextField label="Cantidad" placeholder="2" />
                 </FormControl>
+            </Grid>
 
-                <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
-                    <InputLabel id="demo-simple-select-label">
+            <Grid item xs={12} sm={6}>
+                <FormControl fullWidth variant="outlined">
+                    <InputLabel
+                        variant="standard"
+                        htmlFor="uncontrolled-native"
+                    >
                         Tipo de puesto
                     </InputLabel>
                     <Select
-                        id="demo-simple-select-label"
-                        sx={{ m: 1, width: "25ch" }}
                         value={age}
                         onChange={handleChange}
-                        placeholder="Seleccionar"
+                        label="Tipo de puesto"
                     >
                         <MenuItem value={10}>Ten</MenuItem>
                         <MenuItem value={20}>Twenty</MenuItem>
                         <MenuItem value={30}>Thirty</MenuItem>
                     </Select>
                 </FormControl>
+            </Grid>
 
-                <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
+            <Grid item xs={12} sm={6}>
+                <FormControl fullWidth variant="outlined">
                     <TextField
                         label="Habilidades blandas"
-                        id="outlined-start-adornment"
-                        sx={{ m: 1, width: "25ch" }}
-                        slotProps={{
-                            input: {
-                                startAdornment: (
-                                    <InputAdornment position="start"></InputAdornment>
-                                ),
-                            },
-                        }}
                         placeholder="Separar por comas (,)"
                     />
                 </FormControl>
+            </Grid>
 
-                <FormControl fullWidth sx={{ m: 2, width: 465 }}>
+            <Grid item xs={12}>
+                <FormControl fullWidth variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-amount">
                         Conocimientos técnicos
                     </InputLabel>
@@ -103,22 +94,27 @@ export function NewRequest() {
                         placeholder="Separar por comas (,)"
                     />
                 </FormControl>
+            </Grid>
 
-                <FormControl fullWidth sx={{ m: 2, width: 465 }}>
+            <Grid item xs={12}>
+                <FormControl fullWidth variant="outlined">
                     <TextField
-                        id="outlined-multiline-static"
                         label="Funciones"
                         multiline
                         rows={4}
                         placeholder="Funciones"
                     />
                 </FormControl>
+            </Grid>
 
+            <Grid item xs={12}>
                 <footer>
-                    <Button variant="contained">Solicitar</Button>
+                    <Button onClick={handleNextModal} variant="contained">
+                        Solicitar
+                    </Button>
                     <Button variant="text">Limpiar</Button>
                 </footer>
-            </div>
-        </Box>
+            </Grid>
+        </Grid>
     );
 }

@@ -2,7 +2,11 @@ import Box from "@mui/material/Box";
 import { Button, Typography } from "@mui/material";
 import "./modals.css";
 
-export function SuccessfulSending() {
+interface PropsNextModal {
+    handleNextModal: () => void;
+}
+
+export function SuccessfulSending({ handleNextModal }: PropsNextModal) {
     return (
         <Box
             sx={{
@@ -34,7 +38,9 @@ export function SuccessfulSending() {
             </Typography>
 
             <footer>
-                <Button variant="contained">Aceptar</Button>
+                <Button variant="contained" onClick={handleNextModal}>
+                    Aceptar
+                </Button>
             </footer>
         </Box>
     );

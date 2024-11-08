@@ -1,8 +1,8 @@
 import { TableRow, TableCell } from "@mui/material";
-import type { Row } from "../models/row";
+import type { RequestItems } from "../models/request-items";
 
 interface ItemProps {
-    row: Row;
+    row: RequestItems;
 }
 
 export function TableItem({ row }: ItemProps) {
