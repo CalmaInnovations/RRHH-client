@@ -82,9 +82,8 @@ export function NewRequest({ handleNextModal }: PropsNextModal) {
                   <MenuItem value="Seleccionar" disabled>
                      Seleccionar
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={"practicante"}>Practicante</MenuItem>
+                  <MenuItem value={"voluntario"}>Voluntario</MenuItem>
                </Select>
             </FormControl>
          </Grid>
