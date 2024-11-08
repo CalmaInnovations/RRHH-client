@@ -3,45 +3,45 @@ import { Button, Typography } from "@mui/material";
 import "./modals.css";
 
 interface PropsNextModal {
-    handleNextModal: () => void;
+   handleNextModal: () => void;
 }
 
 export function SuccessfulSending({ handleNextModal }: PropsNextModal) {
-    return (
-        <Box
-            sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: "2em",
-                padding: "1em",
-            }}
-        >
-            <Typography
-                id="transition-modal-title"
-                variant="h4"
-                component="h2"
-                color="green"
-                fontWeight="bold"
-            >
-                Envío Exitoso
-            </Typography>
-            <Typography
-                id="transition-modal-title"
-                variant="body1"
-                component="h2"
-            >
-                La solicitud ha sido enviada correctamente. El área de
-                reclutamiento se comunicará pronto con usted.
-            </Typography>
+   return (
+      <Box
+         sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "2em",
+            padding: "0.5em",
+         }}
+      >
+         <Typography
+            id="transition-modal-title"
+            variant="h4"
+            component="h2"
+            sx={{ color: "#2AC22C" }}
+            fontWeight="bold"
+         >
+            Envío Exitoso
+         </Typography>
+         <Typography id="transition-modal-title" variant="body1" component="h2">
+            La solicitud ha sido enviada correctamente. El área de reclutamiento
+            se comunicará pronto con usted.
+         </Typography>
 
-            <footer>
-                <Button variant="contained" onClick={handleNextModal}>
-                    Aceptar
-                </Button>
-            </footer>
-        </Box>
-    );
+         <footer>
+            <Button
+               variant="contained"
+               onClick={handleNextModal}
+               sx={{ color: "white" }}
+            >
+               Aceptar
+            </Button>
+         </footer>
+      </Box>
+   );
 }
