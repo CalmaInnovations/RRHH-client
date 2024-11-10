@@ -21,7 +21,7 @@ import {
 import { rows } from "./mocks/rows";
 import { TableItem } from "./components/table-item";
 
-export default function RequestTable() {
+export const RequestTable = () => {
    const [open, setOpen] = useState(false);
    const handleOpen = () => setOpen(true);
    const handleClose = () => setOpen(false);
@@ -293,4 +293,4 @@ export default function RequestTable() {
          </Modal>
       </TableContainer>
    );
-}
+};

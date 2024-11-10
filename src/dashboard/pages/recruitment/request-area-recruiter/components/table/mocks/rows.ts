@@ -4,7 +4,6 @@ function createData(data: Row): Row {
     return data;
 }
 
-
 export const rows: Row[] = [
     createData({
         id: 1,
