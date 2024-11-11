@@ -1,10 +1,10 @@
-import type { Tipo } from "../../table/models/request-items";
+import type { Type } from "../../table/models/request-items";
 
 export interface NewRequestItems {
-   puesto?: string;
-   cantidad?: number;
-   tipo?: Tipo;
-   habilidadesBlandas?: string;
-   conocimientosTecnicos?: string;
-   funciones?: string;
+   position?: string;
+   quantity?: number;
+   type?: Type;
+   softSkills?: string;
+   technicalKnowledge?: string;
+   functions?: string;
 }

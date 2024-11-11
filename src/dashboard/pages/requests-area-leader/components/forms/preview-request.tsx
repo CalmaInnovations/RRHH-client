@@ -11,42 +11,34 @@ import {
    MenuItem,
 } from "@mui/material";
 import { useState } from "react";
-
-interface PreviewRequestProps {
-   puesto?: string;
-   cantidad?: string;
-   tipo?: string;
-   habilidadesBlandas?: string;
-   conocimientosTecnicos?: string;
-   funciones?: string;
-}
+import { NewRequestItems } from "./models/new-request-items";
 
 interface OnCloseProps {
    onClose: () => void;
 }
 
 export function PreviewRequest({
-   puesto,
-   cantidad,
-   tipo,
-   habilidadesBlandas,
-   conocimientosTecnicos,
-   funciones,
+   position,
+   quantity,
+   type,
+   softSkills,
+   technicalKnowledge,
+   functions,
    onClose,
-}: PreviewRequestProps & OnCloseProps) {
+}: NewRequestItems & OnCloseProps) {
    const [isEditable, setIsEditable] = useState(false);
    const [savedSuccessfully, setSavedSuccessfully] = useState(false);
-   const [positionType, setPositionType] = useState(tipo || "Seleccionar");
+   const [positionType, setPositionType] = useState(type || "Seleccionar");
 
    const handleEdit = () => {
       if (isEditable) {
          console.log("Datos guardados:", {
-            puesto,
-            cantidad,
-            tipo,
-            habilidadesBlandas,
-            conocimientosTecnicos,
-            funciones,
+            position,
+            quantity,
+            type,
+            softSkills,
+            technicalKnowledge,
+            functions,
          });
 
          setSavedSuccessfully(true);
@@ -86,7 +78,7 @@ export function PreviewRequest({
          <Grid item xs={12} sm={6}>
             <TextField
                label="Nombre del puesto"
-               value={puesto}
+               value={position}
                fullWidth
                disabled={!isEditable}
                onChange={(e) => console.log(e.target.value)}
@@ -98,7 +90,7 @@ export function PreviewRequest({
          <Grid item xs={12} sm={6}>
             <TextField
                label="Cantidad"
-               value={cantidad}
+               value={quantity}
                fullWidth
                disabled={!isEditable}
                onChange={(e) => console.log(e.target.value)}
@@ -138,7 +130,7 @@ export function PreviewRequest({
          <Grid item xs={12} sm={6}>
             <TextField
                label="Habilidades blandas"
-               value={habilidadesBlandas}
+               value={softSkills}
                fullWidth
                disabled={!isEditable}
                onChange={(e) => console.log(e.target.value)}
@@ -158,7 +150,7 @@ export function PreviewRequest({
                      <InputAdornment position="start"></InputAdornment>
                   }
                   label="Conocimientos técnicos"
-                  value={conocimientosTecnicos}
+                  value={technicalKnowledge}
                   disabled={!isEditable}
                   onChange={(e) => console.log(e.target.value)}
                   placeholder="Separar por comas (,)"
@@ -169,7 +161,7 @@ export function PreviewRequest({
          <Grid item xs={12}>
             <TextField
                label="Funciones"
-               value={funciones}
+               value={functions}
                multiline
                rows={4}
                fullWidth

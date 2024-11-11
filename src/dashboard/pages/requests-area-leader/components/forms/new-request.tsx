@@ -39,20 +39,20 @@ export function NewRequest({ handleNextModal }: PropsNextModal) {
             <Grid item xs={12} sm={6}>
                <RHFInput
                   control={control}
-                  name="job"
+                  name="position"
                   label="Nombre del puesto"
                   placeholder="Desarrollador Front-End"
-                  error={errors.job}
+                  error={errors.position}
                />
             </Grid>
 
             <Grid item xs={12} sm={6}>
                <RHFInput
                   control={control}
-                  name="amount"
+                  name="quantity"
                   label="Cantidad"
                   placeholder="2"
-                  error={errors.amount}
+                  error={errors.quantity}
                />
             </Grid>
 

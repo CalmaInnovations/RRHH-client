@@ -8,7 +8,7 @@ interface ItemProps {
 export function TableItem({ row }: ItemProps) {
    return (
       <TableRow
-         key={row.fecha.toISOString()}
+         key={row.date.toISOString()}
          sx={{
             "&:last-child td, &:last-child th": {
                border: 0,
@@ -16,22 +16,22 @@ export function TableItem({ row }: ItemProps) {
          }}
       >
          <TableCell component="th" scope="row">
-            {row.fecha.toLocaleDateString()}
+            {row.date.toLocaleDateString()}
          </TableCell>
-         <TableCell>{row.puesto}</TableCell>
-         <TableCell>{row.tipo}</TableCell>
-         <TableCell align="right">{row.cantidad}</TableCell>
+         <TableCell>{row.position}</TableCell>
+         <TableCell>{row.type}</TableCell>
+         <TableCell align="right">{row.quantity}</TableCell>
          <TableCell
             sx={{
                color:
-                  row.estado === "En proceso"
+                  row.status === "En proceso"
                      ? "orange"
-                     : row.estado === "Completado"
+                     : row.status === "Completado"
                      ? "green"
                      : "gray",
             }}
          >
-            {row.estado}
+            {row.status}
          </TableCell>
       </TableRow>
    );
