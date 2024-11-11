@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import { Button, Typography } from "@mui/material";
-import "./modals.css";
+import "./styles/modals.css";
 
 interface PropsNextModal {
    handleNextModal: () => void;

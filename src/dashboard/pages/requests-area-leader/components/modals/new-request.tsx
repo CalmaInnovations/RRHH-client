@@ -11,7 +11,7 @@ import {
    InputLabel,
 } from "@mui/material";
 import { useState } from "react";
-import "./modals.css";
+import "./styles/modals.css";
 
 interface PropsNextModal {
    handleNextModal: () => void;
