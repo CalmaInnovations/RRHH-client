@@ -8,9 +8,17 @@ interface Props {
    name: string;
    label: string;
    placeholder: string;
+   type?: string;
 }
 
-export function RHFInput({ control, error, name, label, placeholder }: Props) {
+export function RHFInput({
+   control,
+   error,
+   name,
+   label,
+   placeholder,
+   type,
+}: Props) {
    return (
       <Controller
          name={name}
@@ -27,6 +35,7 @@ export function RHFInput({ control, error, name, label, placeholder }: Props) {
                   variant="outlined"
                   fullWidth
                   InputLabelProps={{ shrink: true }}
+                  type={type}
                />
             </FormControl>
          )}

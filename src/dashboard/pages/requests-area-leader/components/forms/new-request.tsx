@@ -53,6 +53,7 @@ export function NewRequest({ handleNextModal }: PropsNextModal) {
                   label="Cantidad"
                   placeholder="2"
                   error={errors.quantity}
+                  type="number"
                />
             </Grid>
 
