@@ -11,6 +11,7 @@ export const DashboardRoutes = () => {
 
                 <Route path="/requests" element={<Requests />} />
 
+
                 <Route path="/*" element={<Navigate to="/" />} />
             </Routes>
         </DashboardLayout>
