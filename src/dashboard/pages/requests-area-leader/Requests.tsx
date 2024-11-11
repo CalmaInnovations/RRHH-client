@@ -1,10 +1,10 @@
 import RequestsTable from "./components/table/requests-table";
-import TransitionsModal from "./components/modals/components/modal";
-import { NewRequest } from "./components/modals/new-request";
-import { SuccessfulSending } from "./components/modals/successful-sending";
+import TransitionsModal from "./components/modal/modal";
+import { NewRequest } from "./components/forms/new-request";
+import { SuccessfulSending } from "./components/forms/components/successful-sending";
 import { useState } from "react";
 import { Box, Button } from "@mui/material";
-import { PreviewRequest } from "./components/modals/preview-request";
+import { PreviewRequest } from "./components/forms/preview-request";
 
 export function Requests() {
    const [modalStep, setModalStep] = useState(0);
