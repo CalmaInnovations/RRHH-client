@@ -102,7 +102,7 @@ export const SideBar = ({ drawerWidth = 240 }) => {
                             <Collapse in={open} timeout="auto" unmountOnExit>
                                 <List component="div" disablePadding>
                                     <NavLink
-                                        to="/reclutamiento/postulantes"
+                                        to="/recruitment/requests-recruiter"
                                         style={{
                                             textDecoration: "none",
                                             color: "inherit",
@@ -112,11 +112,11 @@ export const SideBar = ({ drawerWidth = 240 }) => {
                                             <ListItemIcon>
                                                 <Person />
                                             </ListItemIcon>
-                                            <ListItemText primary="Postulantes" />
+                                            <ListItemText primary="Solicitudes" />
                                         </ListItemButton>
                                     </NavLink>
                                     <NavLink
-                                        to="/reclutamiento/solicitudes"
+                                        to="/recruitment/convocatorias"
                                         style={{
                                             textDecoration: "none",
                                             color: "inherit",
@@ -126,13 +126,13 @@ export const SideBar = ({ drawerWidth = 240 }) => {
                                             <ListItemIcon>
                                                 <Assignment />
                                             </ListItemIcon>
-                                            <ListItemText primary="Solicitudes" />
+                                            <ListItemText primary="Convocatorias" />
                                         </ListItemButton>
                                     </NavLink>
                                 </List>
                             </Collapse>
                             <NavLink
-                                to="/account"
+                                to="/requests"
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
