@@ -1,8 +1,12 @@
 import { Navigate, Route, Routes } from "react-router";
 import { DashboardLayout } from "../layout/DashboardLayout";
-import { DashboardPage } from "../pages";
-import { Requests } from "../pages";
-import { RequestsAreaRecruiter } from "../pages/recruitment/request-area-recruiter/Request";
+import {
+   Requests,
+   RequestsAreaRecruiter,
+   Call,
+   DashboardPage,
+   CallBoard,
+} from "../pages";
 
 export const DashboardRoutes = () => {
    return (
@@ -10,13 +14,16 @@ export const DashboardRoutes = () => {
          <Routes>
             <Route path="/" element={<DashboardPage />} />
 
-            <Route path="requests" element={<Requests />} />
+            <Route path="/requests" element={<Requests />} />
 
             <Route path="/recruitment">
                <Route
                   path="requests-recruiter"
                   element={<RequestsAreaRecruiter />}
                />
+               <Route path="call" element={<Call />} />
+
+               <Route path="call/:id" element={<CallBoard />} />
             </Route>
 
             <Route path="/*" element={<Navigate to="/" />} />
