@@ -1,12 +1,10 @@
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
-import { ReactNode, useState } from "react";
+import { Backdrop, Box, Modal } from "@mui/material";
+import { ReactNode } from "react";
 
 interface PropsChildren {
     children: ReactNode;
+    open: boolean;
+    onClose: () => void;
 }
 
 const style = {
@@ -21,19 +19,18 @@ const style = {
     p: 4,
 };
 
-export default function TransitionsModal({ children }: PropsChildren) {
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
+export default function TransitionsModal({
+    children,
+    open,
+    onClose,
+}: PropsChildren) {
     return (
         <div>
-            <Button onClick={handleOpen}>Nueva</Button>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
                 open={open}
-                onClose={handleClose}
+                onClose={onClose}
                 closeAfterTransition
                 slots={{ backdrop: Backdrop }}
                 slotProps={{
@@ -42,9 +39,7 @@ export default function TransitionsModal({ children }: PropsChildren) {
                     },
                 }}
             >
-                <Fade in={open}>
-                    <Box sx={style}>{children}</Box>
-                </Fade>
+                <Box sx={style}>{children}</Box>
             </Modal>
         </div>
     );
