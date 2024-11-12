@@ -3,10 +3,10 @@ import { Button, Typography } from "@mui/material";
 import "../styles/forms.css";
 
 interface PropsNextModal {
-   handleNextModal: () => void;
+   onClose: () => void;
 }
 
-export function SuccessfulSending({ handleNextModal }: PropsNextModal) {
+export function SuccessfulSending({ onClose }: PropsNextModal) {
    return (
       <Box
          sx={{
@@ -36,7 +36,7 @@ export function SuccessfulSending({ handleNextModal }: PropsNextModal) {
          <footer>
             <Button
                variant="contained"
-               onClick={handleNextModal}
+               onClick={onClose}
                sx={{ color: "white" }}
             >
                Aceptar

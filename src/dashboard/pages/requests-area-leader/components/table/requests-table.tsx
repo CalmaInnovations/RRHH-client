@@ -7,10 +7,16 @@ import {
    TableRow,
    Paper,
 } from "@mui/material";
-import { rows } from "./mocks/request-items";
-import { TableItem } from "./components/table-item";
 
-export default function RequestsTable() {
+import { TableItem } from "./components/table-item";
+import { RequestItems } from "./models/request-items";
+
+interface Props {
+   onPreview: (row: RequestItems) => void;
+   rows: RequestItems[];
+}
+
+export default function RequestsTable({ onPreview, rows }: Props) {
    return (
       <TableContainer component={Paper}>
          <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -38,7 +44,7 @@ export default function RequestsTable() {
             </TableHead>
             <TableBody>
                {rows.map((row) => (
-                  <TableItem row={row} key={row.id} />
+                  <TableItem row={row} key={row.id} onPreview={onPreview} />
                ))}
             </TableBody>
          </Table>

@@ -8,6 +8,7 @@ interface Props {
    name: string;
    label: string;
    placeholder: string;
+   disabled?: boolean;
 }
 
 export function RHFMultiline({
@@ -16,6 +17,7 @@ export function RHFMultiline({
    name,
    label,
    placeholder,
+   disabled,
 }: Props) {
    return (
       <Controller
@@ -35,6 +37,7 @@ export function RHFMultiline({
                   InputLabelProps={{ shrink: true }}
                   multiline
                   rows={4}
+                  disabled={disabled}
                />
             </FormControl>
          )}

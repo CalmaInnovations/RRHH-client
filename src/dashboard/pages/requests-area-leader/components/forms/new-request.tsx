@@ -4,20 +4,28 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormValues, schema } from "./validations/schema-new-request";
 import { RHFSelect, RHFInput, RHFMultiline } from "./components/custom-inputs";
+import { RequestItems } from "../table/models/request-items";
 
 interface PropsNextModal {
    handleNextModal: () => void;
+   handleData: (data: RequestItems) => void;
 }
 
-export function NewRequest({ handleNextModal }: PropsNextModal) {
+export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
    const {
       control,
       handleSubmit,
       formState: { errors },
-   } = useForm<FormValues>({ mode: "all", resolver: zodResolver(schema) });
+   } = useForm<FormValues>({ mode: "onSubmit", resolver: zodResolver(schema) });
 
    const onSubmit: SubmitHandler<FormValues> = (data) => {
-      console.log(data);
+      const newData: RequestItems = {
+         ...data,
+         id: Date.now(),
+         date: new Date(),
+         status: "Pendiente",
+      };
+      handleData(newData);
       handleNextModal();
    };
 

@@ -4,7 +4,7 @@ function createData(data: RequestItems): RequestItems {
    return data;
 }
 
-export const rows: RequestItems[] = [
+export const initialRows: RequestItems[] = [
    createData({
       id: 1,
       date: new Date("2023-10-01"),
