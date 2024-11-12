@@ -38,6 +38,7 @@ export function Requests() {
          <TransitionsModal
             open={modalStep === 2}
             onClose={handleCloseAllModals}
+            width={480}
          >
             <SuccessfulSending handleNextModal={handleNextModal} />
          </TransitionsModal>
