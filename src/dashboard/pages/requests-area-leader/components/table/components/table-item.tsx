@@ -1,5 +1,5 @@
 import { TableRow, TableCell } from "@mui/material";
-import type { RequestItems } from "../models/request-items";
+import type { RequestItems } from "../../../models/request-items.model";
 
 interface ItemProps {
    row: RequestItems;

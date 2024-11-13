@@ -1,10 +1,10 @@
 import { Grid, Typography, Button } from "@mui/material";
-import "./styles/forms.css";
+import "./styles/forms.style.css";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormValues, schema } from "./validations/schema-new-request";
 import { RHFSelect, RHFInput, RHFMultiline } from "./components/custom-inputs";
-import { RequestItems } from "../table/models/request-items";
+import { RequestItems } from "../../models/request-items.model";
 
 interface PropsNextModal {
    handleNextModal: () => void;

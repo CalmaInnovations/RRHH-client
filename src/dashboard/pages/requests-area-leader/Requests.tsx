@@ -5,8 +5,7 @@ import { SuccessfulSending } from "./components/forms/components/successful-send
 import { useState } from "react";
 import { Box, Button } from "@mui/material";
 import { PreviewRequest } from "./components/forms/preview-request";
-
-import { RequestItems } from "./components/table/models/request-items";
+import { RequestItems } from "./models/request-items.model";
 import { initialRows } from "./components/table/mocks/request-items";
 
 export function Requests() {
@@ -18,7 +17,6 @@ export function Requests() {
    const handleCloseAllModals = () => setModalStep(0);
 
    const [formData, setFormData] = useState<RequestItems | null>(null);
-
    const [rows, setRows] = useState<RequestItems[]>(initialRows);
    const [editId, setEditId] = useState<number | null>(null);
 

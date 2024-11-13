@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 
 import { TableItem } from "./components/table-item";
-import { RequestItems } from "./models/request-items";
+import { RequestItems } from "../../models/request-items.model";
 
 interface Props {
    onPreview: (row: RequestItems) => void;

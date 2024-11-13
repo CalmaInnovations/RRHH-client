@@ -1,6 +1,6 @@
 import { Grid, Typography, Button } from "@mui/material";
 import { useState, useEffect } from "react";
-import { RequestItems } from "../table/models/request-items";
+import { RequestItems } from "../../models/request-items.model";
 import { RHFInput, RHFMultiline, RHFSelect } from "./components/custom-inputs";
 import { FormValues, schema } from "./validations/schema-new-request";
 import { SubmitHandler, useForm } from "react-hook-form";

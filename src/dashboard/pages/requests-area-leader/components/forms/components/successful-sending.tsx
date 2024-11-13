@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import { Button, Typography } from "@mui/material";
-import "../styles/forms.css";
+import "../styles/forms.style.css";
 
 interface PropsNextModal {
    onClose: () => void;

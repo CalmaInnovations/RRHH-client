@@ -1,4 +1,4 @@
-import type { RequestItems } from "../models/request-items";
+import type { RequestItems } from "../../../models/request-items.model";
 
 function createData(data: RequestItems): RequestItems {
    return data;
