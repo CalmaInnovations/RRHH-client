@@ -1,6 +1,11 @@
 import { Grid, Typography } from "@mui/material";
 
-export const AuthLayout = ({children, title=''}) => {
+interface AuthLayoutProps {
+  children: React.ReactNode;
+  title?: string;
+}
+
+export const AuthLayout: React.FC<AuthLayoutProps> = ({children, title=''}) => {
   return (
     <Grid
       container
