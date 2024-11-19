@@ -5,6 +5,8 @@ import { SuccessfulSending } from "./components/forms/components/successful-send
 import { useState } from "react";
 import { Box, Button } from "@mui/material";
 import { PreviewRequest } from "./components/forms/preview-request";
+import { RequestItems } from "./models/request-items.model";
+import { initialRows } from "./components/table/mocks/request-items";
 
 export function Requests() {
    const [modalStep, setModalStep] = useState(0);
@@ -12,8 +14,34 @@ export function Requests() {
    const handleNextModal = () => {
       setModalStep((prevStep) => prevStep + 1);
    };
-
    const handleCloseAllModals = () => setModalStep(0);
+
+   const [formData, setFormData] = useState<RequestItems | null>(null);
+   const [rows, setRows] = useState<RequestItems[]>(initialRows);
+   const [editId, setEditId] = useState<number | null>(null);
+
+   const handleData = (data: RequestItems) => {
+      if (editId) {
+         setRows((prevRows) =>
+            prevRows.map((row) =>
+               row.id === editId ? { ...row, ...data } : row
+            )
+         );
+      } else {
+         setRows((prevRows) => [
+            ...prevRows,
+            { ...data, id: Date.now(), status: "Pendiente" },
+         ]);
+      }
+      setEditId(null);
+   };
+
+   const handlePreview = (row: RequestItems) => {
+      setFormData(row);
+      setEditId(row.id ?? null);
+      setModalStep(3);
+   };
+
    return (
       <>
          <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
@@ -26,27 +54,35 @@ export function Requests() {
             </Button>
          </Box>
 
-         <RequestsTable />
+         <RequestsTable rows={rows} onPreview={handlePreview} />
 
          <TransitionsModal
             open={modalStep === 1}
             onClose={handleCloseAllModals}
          >
-            <NewRequest handleNextModal={handleNextModal} />
+            <NewRequest
+               handleNextModal={handleNextModal}
+               handleData={handleData}
+            />
          </TransitionsModal>
 
          <TransitionsModal
             open={modalStep === 2}
             onClose={handleCloseAllModals}
+            width={480}
          >
-            <SuccessfulSending handleNextModal={handleNextModal} />
+            <SuccessfulSending onClose={handleCloseAllModals} />
          </TransitionsModal>
 
          <TransitionsModal
             open={modalStep === 3}
             onClose={handleCloseAllModals}
          >
-            <PreviewRequest onClose={handleCloseAllModals} />
+            <PreviewRequest
+               {...formData}
+               onClose={handleCloseAllModals}
+               handleData={handleData}
+            />
          </TransitionsModal>
       </>
    );

@@ -9,6 +9,7 @@ interface Props {
    label: string;
    placeholder: string;
    type?: string;
+   disabled?: boolean;
 }
 
 export function RHFInput({
@@ -18,6 +19,7 @@ export function RHFInput({
    label,
    placeholder,
    type,
+   disabled,
 }: Props) {
    return (
       <Controller
@@ -36,6 +38,7 @@ export function RHFInput({
                   fullWidth
                   InputLabelProps={{ shrink: true }}
                   type={type}
+                  disabled={disabled}
                />
             </FormControl>
          )}

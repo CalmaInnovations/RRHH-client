@@ -20,7 +20,7 @@ export const CardCall = () => {
                Valeria Montoya
             </Typography>
             <Typography variant="h5" component="h2" sx={{ fontWeight: 600 }}>
-               Desarollo Frontend
+               Desarollador Frontend
             </Typography>
             <Typography
                sx={{ mb: 1.5 }}
@@ -49,7 +49,7 @@ export const CardCall = () => {
                   </Typography>
                </Box>
 
-               <Typography sx={{}} component="p">
+               <Typography sx={{ fontWeight: 500 }} component="p">
                   Cantidad: 3
                </Typography>
 

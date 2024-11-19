@@ -13,9 +13,10 @@ interface Props {
    error?: FieldError;
    name: string;
    label: string;
+   disabled?: boolean;
 }
 
-export function RHFSelect({ control, error, name, label }: Props) {
+export function RHFSelect({ control, error, name, label, disabled }: Props) {
    return (
       <Controller
          name={name}
@@ -26,7 +27,13 @@ export function RHFSelect({ control, error, name, label }: Props) {
                <InputLabel shrink htmlFor={name}>
                   {label}
                </InputLabel>
-               <Select id={name} label={label} defaultValue={[""]} {...field}>
+               <Select
+                  id={name}
+                  label={label}
+                  defaultValue={[""]}
+                  {...field}
+                  disabled={disabled}
+               >
                   <MenuItem value="Seleccionar" disabled>
                      Seleccionar
                   </MenuItem>

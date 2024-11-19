@@ -4,7 +4,6 @@ import {
    Container,
    Grid,
    MenuItem,
-   OutlinedInput,
    Select,
    SelectChangeEvent,
    Typography,
@@ -28,7 +27,7 @@ export const Call = () => {
       <Container sx={{ marginTop: 3 }}>
          <Typography
             variant="h4"
-            sx={{ marginBottom: "1rem", fontWeight: "500" }}
+            sx={{ marginBottom: "1rem", fontWeight: "600" }}
             component="h1"
          >
             Convocatorias
@@ -36,29 +35,40 @@ export const Call = () => {
 
          <Box>
             <Select
-               sx={{ width: 200, marginRight: 4 }}
+               sx={{
+                  width: 200,
+                  marginRight: 4,
+                  color: "#0A99E6",
+                  fontWeight: 500,
+                  borderRadius: 2,
+               }}
                labelId="demo-simple-select-label"
                id="demo-simple-select"
-               input={<OutlinedInput label="Name" />}
-               label="Area"
                value={area}
                onChange={handleChangeArea}
+               displayEmpty
             >
-               <MenuItem value={10}>Area</MenuItem>
-               <MenuItem value={20}>Area</MenuItem>
-               <MenuItem value={30}>Area</MenuItem>
+               <MenuItem value="">Área</MenuItem>
+               <MenuItem value={10}>Área</MenuItem>
             </Select>
 
             <Select
-               sx={{ width: 200 }}
+               sx={{
+                  width: 200,
+                  marginRight: 4,
+                  color: "#0A99E6",
+                  fontWeight: 500,
+                  borderRadius: 2,
+               }}
                labelId="demo-simple-select-label"
                id="demo-simple-select"
                value={subArea}
                onChange={handleChangeSubArea}
+               displayEmpty
             >
-               <MenuItem value={10}>Subarea</MenuItem>
-               <MenuItem value={20}>Subarea</MenuItem>
-               <MenuItem value={30}>Subarea</MenuItem>
+               <MenuItem value="">Subárea</MenuItem>
+               <MenuItem value={20}>Subárea</MenuItem>
+               <MenuItem value={30}>Subárea</MenuItem>
             </Select>
          </Box>
 
