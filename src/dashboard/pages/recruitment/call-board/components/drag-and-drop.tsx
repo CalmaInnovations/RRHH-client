@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Box, Button, Modal, TextField, Typography } from "@mui/material";
+import {
+   Box,
+   Button,
+   Modal,
+   TextField,
+   Typography,
+   InputLabel,
+} from "@mui/material";
 import { rectSwappingStrategy, SortableContext } from "@dnd-kit/sortable";
 import {
    DndContext,
@@ -141,9 +148,9 @@ export const DragAndDrop = () => {
                         marginBottom: 3,
                      }}
                   >
-                     <Typography id="modal-modal-title" component="label">
+                     <InputLabel id="modal-modal-title">
                         Nombre Completo
-                     </Typography>
+                     </InputLabel>
 
                      <TextField
                         id="outlined-basic"
@@ -160,9 +167,9 @@ export const DragAndDrop = () => {
                         marginBottom: 3,
                      }}
                   >
-                     <Typography id="modal-modal-title" component="label">
+                     <InputLabel id="modal-modal-title">
                         Correo electronico
-                     </Typography>
+                     </InputLabel>
 
                      <TextField
                         type="email"
@@ -180,9 +187,7 @@ export const DragAndDrop = () => {
                         marginBottom: 3,
                      }}
                   >
-                     <Typography id="modal-modal-title" component="label">
-                        Puesto
-                     </Typography>
+                     <InputLabel id="modal-modal-title">Puesto</InputLabel>
 
                      <TextField
                         id="outlined-basic"
@@ -199,9 +204,9 @@ export const DragAndDrop = () => {
                         marginBottom: 3,
                      }}
                   >
-                     <Typography id="modal-modal-title" component="label">
+                     <InputLabel id="modal-modal-title">
                         Curriculum Vitae
-                     </Typography>
+                     </InputLabel>
 
                      <TextField
                         id="outlined-basic"

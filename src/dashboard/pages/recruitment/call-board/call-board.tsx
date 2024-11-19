@@ -1,7 +1,30 @@
 import { Box, Container, Typography } from "@mui/material";
 import { DragAndDrop } from "./components/drag-and-drop";
+import { useState } from "react";
+import { ModalDetailsCall } from "./components/modal-details-call";
+import { ModalDetailsEditCall } from "./components/modal-details-edit-call";
+import { ModalInformationInduction } from "./components/modal-information-induction";
+import { ModalEntreview } from "./components/modal-entreview";
+import { ModalCreationProfile } from "./components/modal-creation-profile";
 
 export const CallBoard = () => {
+   // FIX: Establecer estos estados de modal en un custom hook
+   const [openModalDetails, setOpenModalDetails] = useState(false);
+   const [openModalDetailsEdit, setOpenModalDetailsEdit] = useState(false);
+   const [openModalInfInduction, setOpenModalInfInduction] = useState(false);
+   const [openModalEntreview, setOpenModalEntreview] = useState(false);
+   const [openModalCreationProfile, setOpenModalCreationProfile] =
+      useState(false);
+   const handleOpenModalDetails = () => setOpenModalDetails(!openModalDetails);
+   const handleOpenModalInfInduction = () =>
+      setOpenModalInfInduction(!openModalInfInduction);
+   const handleOpenModalDetailsEdit = () =>
+      setOpenModalDetailsEdit(!openModalDetailsEdit);
+   const handleOpenModalEntreview = () =>
+      setOpenModalEntreview(!openModalEntreview);
+   const handleOpenModalCreationProfile = () =>
+      setOpenModalCreationProfile(!openModalCreationProfile);
+
    return (
       <Container sx={{ marginTop: 3 }}>
          <Typography
@@ -27,6 +50,7 @@ export const CallBoard = () => {
                }}
                component="span"
                color="primary"
+               onClick={() => handleOpenModalDetails()}
             >
                ver detalles
             </Typography>
@@ -40,7 +64,7 @@ export const CallBoard = () => {
             }}
          >
             <Box>
-               <Typography variant="h6" sx={{}} component="p">
+               <Typography variant="h6" component="p">
                   Tecnologia
                </Typography>
                <Typography
@@ -51,20 +75,39 @@ export const CallBoard = () => {
                </Typography>
             </Box>
 
-            <Typography sx={{}} component="p">
-               Cantidad: 3
-            </Typography>
+            <Typography component="p">Cantidad: 3</Typography>
 
-            <Typography sx={{}} component="p">
-               Pendiente
-            </Typography>
+            <Typography component="p">Pendiente</Typography>
          </Box>
 
-         {/* <Box sx={{ position: "absolute", top: 0, left: 0, overflowX: "auto" }}> */}
          <Box sx={{ marginTop: 2 }}>
             <DragAndDrop />
-            {/* <OtherDrag /> */}
          </Box>
+
+         <ModalDetailsCall
+            openModalDetails={openModalDetails}
+            handleOpenModalDetails={handleOpenModalDetails}
+            handleOpenModalDetailsEdit={handleOpenModalDetailsEdit}
+         />
+
+         <ModalDetailsEditCall
+            openModalDetailsEdit={openModalDetailsEdit}
+            handleOpenModalDetailsEdit={handleOpenModalDetailsEdit}
+         />
+         <ModalInformationInduction
+            openModalInfInduction={openModalInfInduction}
+            handleOpenModalInfInduction={handleOpenModalInfInduction}
+         />
+
+         <ModalEntreview
+            openModalEntreview={openModalEntreview}
+            handleOpenModalEntreview={handleOpenModalEntreview}
+         />
+
+         <ModalCreationProfile
+            openModalCreationProfile={openModalCreationProfile}
+            handleOpenModalCreationProfile={handleOpenModalCreationProfile}
+         />
       </Container>
    );
 };
