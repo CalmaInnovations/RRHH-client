@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
    Table,
    TableBody,
@@ -18,10 +18,12 @@ import {
    SelectChangeEvent,
    Button,
 } from "@mui/material";
-import { rows } from "./mocks/rows";
 import { TableItem } from "./components/table-item";
+import { getCallsService } from "../../services/request-service";
+import { Call } from "../../interfaces/calls-interface";
 
 export const RequestTable = () => {
+   const [calls, setCalls] = useState<Call[]>([]);
    const [open, setOpen] = useState(false);
    const handleOpen = () => setOpen(true);
    const handleClose = () => setOpen(false);
@@ -32,11 +34,21 @@ export const RequestTable = () => {
       setRecluteirerSenior(event.target.value);
    };
 
+   const handleGetCallsService = async () => {
+      const data = await getCallsService();
+      setCalls(data.convocatorias);
+   };
+
+   useEffect(() => {
+      handleGetCallsService();
+   }, []);
+
    return (
       <TableContainer
          component={Paper}
          sx={{
             padding: "2rem",
+            minWidth: "1400px",
          }}
       >
          <Typography variant="h3" sx={{ marginBottom: "1rem" }} component="h1">
@@ -51,17 +63,21 @@ export const RequestTable = () => {
                   <TableCell align="center">Reclutador General</TableCell>
                   <TableCell align="center">Subárea</TableCell>
                   <TableCell align="center">Puesto</TableCell>
-                  <TableCell align="center">Tipo</TableCell>
+                  {/* <TableCell align="center">Tipo</TableCell> */}
                   <TableCell align="center">Fecha</TableCell>
                   <TableCell align="center">Cantidad</TableCell>
-                  <TableCell align="center">Restantes</TableCell>
+                  {/* <TableCell align="center">Restantes</TableCell> */}
                   <TableCell align="center">Estado</TableCell>
-                  <TableCell align="center">Observaciones</TableCell>
+                  {/* <TableCell align="center">Observaciones</TableCell> */}
                </TableRow>
             </TableHead>
             <TableBody>
-               {rows.map((row) => (
-                  <TableItem row={row} key={row.id} handleOpen={handleOpen} />
+               {calls.map((call) => (
+                  <TableItem
+                     call={call}
+                     key={call.idConvocatoria}
+                     handleOpen={handleOpen}
+                  />
                ))}
             </TableBody>
          </Table>

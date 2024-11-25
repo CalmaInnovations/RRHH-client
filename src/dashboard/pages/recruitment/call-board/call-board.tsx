@@ -11,7 +11,7 @@ export const CallBoard = () => {
    // FIX: Establecer estos estados de modal en un custom hook
    const [openModalDetails, setOpenModalDetails] = useState(false);
    const [openModalDetailsEdit, setOpenModalDetailsEdit] = useState(false);
-   const [openModalInfInduction, setOpenModalInfInduction] = useState(false);
+   const [openModalInfInduction, setOpenModalInfInduction] = useState(true);
    const [openModalEntreview, setOpenModalEntreview] = useState(false);
    const [openModalCreationProfile, setOpenModalCreationProfile] =
       useState(false);

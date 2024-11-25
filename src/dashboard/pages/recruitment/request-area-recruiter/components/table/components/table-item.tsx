@@ -1,16 +1,15 @@
 import { TableRow, TableCell } from "@mui/material";
-import type { Row } from "../models/row";
+import { Call } from "../../../interfaces/calls-interface";
 
 interface ItemProps {
-   row: Row;
+   call: Call;
    handleOpen: () => void;
 }
 
-export const TableItem = ({ row, handleOpen }: ItemProps) => {
+export const TableItem = ({ call, handleOpen }: ItemProps) => {
    return (
       <TableRow
          onClick={() => handleOpen()}
-         key={row.fecha.toISOString()}
          sx={{
             "&:last-child td, &:last-child th": {
                border: 0,
@@ -18,19 +17,19 @@ export const TableItem = ({ row, handleOpen }: ItemProps) => {
             cursor: "pointer",
          }}
       >
-         <TableCell align="center">{row.area}</TableCell>
-         <TableCell align="center">{row.reclutador_senior}</TableCell>
-         <TableCell align="center">{row.reclutador_general}</TableCell>
-         <TableCell align="center">{row.subarea}</TableCell>
-         <TableCell align="center">{row.puesto}</TableCell>
-         <TableCell align="center">{row.tipo}</TableCell>
-         <TableCell component="th" scope="row">
-            {row.fecha.toLocaleDateString()}
+         <TableCell align="center">{call.nombreArea}</TableCell>
+         <TableCell align="center">{call.reclutadorSenior}</TableCell>
+         <TableCell align="center">{call.reclutadorGeneral}</TableCell>
+         <TableCell align="center">{call.nombreSubArea}</TableCell>
+         <TableCell align="center">{call.nombrePuesto}</TableCell>
+         {/* <TableCell align="center">{call.tipo}</TableCell> */}
+         <TableCell component="th" scope="call">
+            {call.fechaPublicacion}
          </TableCell>
-         <TableCell align="center">{row.cantidad}</TableCell>
-         <TableCell align="center">{row.restantes}</TableCell>
-         <TableCell align="center">{row.estado}</TableCell>
-         <TableCell align="center">{row.observaciones}</TableCell>
+         <TableCell align="center">{call.cantidad}</TableCell>
+         {/* <TableCell align="center">{call.restantes}</TableCell> */}
+         <TableCell align="center">{call.estadoSolicitud}</TableCell>
+         {/* <TableCell align="center">{call.observaciones}</TableCell> */}
       </TableRow>
    );
 };
