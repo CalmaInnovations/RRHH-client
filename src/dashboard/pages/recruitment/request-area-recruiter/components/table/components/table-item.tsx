@@ -3,13 +3,13 @@ import { Call } from "../../../interfaces/calls-interface";
 
 interface ItemProps {
    call: Call;
-   handleOpen: () => void;
+   handleSelectedRequest: (call: Call) => void;
 }
 
-export const TableItem = ({ call, handleOpen }: ItemProps) => {
+export const TableItem = ({ call, handleSelectedRequest }: ItemProps) => {
    return (
       <TableRow
-         onClick={() => handleOpen()}
+         onClick={() => handleSelectedRequest(call)}
          sx={{
             "&:last-child td, &:last-child th": {
                border: 0,
@@ -22,14 +22,14 @@ export const TableItem = ({ call, handleOpen }: ItemProps) => {
          <TableCell align="center">{call.reclutadorGeneral}</TableCell>
          <TableCell align="center">{call.nombreSubArea}</TableCell>
          <TableCell align="center">{call.nombrePuesto}</TableCell>
-         {/* <TableCell align="center">{call.tipo}</TableCell> */}
+         <TableCell align="center">{call.modalidad}</TableCell>
          <TableCell component="th" scope="call">
             {call.fechaPublicacion}
          </TableCell>
          <TableCell align="center">{call.cantidad}</TableCell>
-         {/* <TableCell align="center">{call.restantes}</TableCell> */}
+         <TableCell align="center">{call.cantidadRestante}</TableCell>
          <TableCell align="center">{call.estadoSolicitud}</TableCell>
-         {/* <TableCell align="center">{call.observaciones}</TableCell> */}
+         <TableCell align="center">{call.observaciones}</TableCell>
       </TableRow>
    );
 };

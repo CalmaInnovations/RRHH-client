@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
    Box,
    Button,
@@ -22,6 +22,7 @@ import {
 import { ItemDrop } from "./item-drop";
 import { ContainerDrop } from "./container-drop";
 import { useDragAndDrop } from "../hooks/useDragAndDrop";
+import { getPostulantsService } from "../services/call-board-service";
 
 const dropAnimationConfig: DropAnimation = {
    sideEffects: defaultDropAnimationSideEffects({
@@ -39,12 +40,13 @@ export const DragAndDrop = () => {
    const {
       activeId,
       containers,
+      setContainers,
       findItemTitle,
       handleDragStart,
       handleDragEnd,
       handleDragMove,
       setCurrentContainerId,
-      onAddItem,
+      // onAddItem,
    } = useDragAndDrop();
    const [open, setOpen] = useState(false);
    const [openModalInformation, setOpenModalInformation] = useState(false);
@@ -59,6 +61,26 @@ export const DragAndDrop = () => {
    });
    const keyboardSensor = useSensor(KeyboardSensor);
    const sensors = useSensors(mouseSensor, keyboardSensor);
+
+   const handleGetPostulantsService = async () => {
+      const { data } = await getPostulantsService();
+
+      const updateContainers = containers.map((container) => {
+         if (container.title === "Postulaciones") {
+            return {
+               ...container,
+               items: data,
+            };
+         }
+         return container;
+      });
+
+      setContainers(updateContainers);
+   };
+
+   useEffect(() => {
+      handleGetPostulantsService();
+   }, []);
 
    return (
       <Box>
@@ -86,11 +108,11 @@ export const DragAndDrop = () => {
                         strategy={rectSwappingStrategy}
                      >
                         <Box>
-                           {container.items.map((i) => (
+                           {container.items.map((item) => (
                               <ItemDrop
-                                 title={i.title}
-                                 id={i.id}
-                                 key={i.id}
+                                 key={item.id}
+                                 title={item.email}
+                                 id={item.id}
                                  handleOpenModalInformation={
                                     handleOpenModalInformation
                                  }
@@ -104,7 +126,7 @@ export const DragAndDrop = () => {
                   adjustScale={false}
                   dropAnimation={dropAnimationConfig}
                >
-                  {activeId && activeId.toString().includes("item") && (
+                  {activeId && (
                      <ItemDrop id={activeId} title={findItemTitle(activeId)} />
                   )}
                </DragOverlay>
@@ -218,7 +240,7 @@ export const DragAndDrop = () => {
 
                   <Button
                      variant="contained"
-                     onClick={onAddItem}
+                     onClick={() => console.log("onAddItem")}
                      sx={{ width: "100%", color: "white" }}
                   >
                      Añadir
@@ -361,7 +383,7 @@ export const DragAndDrop = () => {
 
                   <Button
                      variant="contained"
-                     onClick={onAddItem}
+                     onClick={() => console.log("onAddItem")}
                      sx={{ width: "100%", color: "white" }}
                   >
                      Añadir
