@@ -1,45 +1,82 @@
-import { LogoutOutlined } from "@mui/icons-material";
-import { AppBar, Box, Grid, IconButton, Toolbar } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import {
+   AppBar,
+   Avatar,
+   Box,
+   Grid,
+   IconButton,
+   Menu,
+   MenuItem,
+   Toolbar,
+   Tooltip,
+   Typography,
+} from "@mui/material";
+import React from "react";
+
+
+const settings = ['Mi Perfil', 'Salir'];
+
+
 
 export const NavBar = ({ drawerWidth = 240 }) => {
-    return (
-        <AppBar
-            position="fixed"
-            sx={{
-                width: { sm: `calc(100% - ${drawerWidth}px)` },
-                ml: `{sm: ${drawerWidth}px}`,
-            }}
-        >
-            <Toolbar>
-                <Grid
-                    container
-                    direction="row"
-                    justifyContent="space-between"
-                    alignItems="center"
-                >
-                    <NavLink to="#" style={{ textDecoration: "none" }}>
-                        <Box
-                            component="img"
-                            src="/public/logoBienvenidaCalma.png"
-                            alt="Logo"
-                            sx={{
-                                width: 100,
-                                height: 50,
-                                mr: 2,
-                                background: "white",
-                                borderRadius: 2,
-                                padding: 1,
-                            }}
-                        />
-                    </NavLink>
-                    <NavLink to="/auth" style={{ textDecoration: "none" }}>
-                    <IconButton color="error">
-                        <LogoutOutlined />
-                    </IconButton>
-                    </NavLink>
-                </Grid>
-            </Toolbar>
-        </AppBar>
-    );
+
+
+    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  
+    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+      setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseUserMenu = () => {
+      setAnchorElUser(null);
+    };
+
+
+   return (
+      <AppBar
+         position="fixed"
+         sx={{
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+            ml: `{sm: ${drawerWidth}px}`,
+         }}
+      >
+         <Toolbar>
+            <Grid
+               container
+               direction="row"
+               justifyContent="end"
+               alignItems="center"
+            >
+                <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+            </Grid>
+         </Toolbar>
+      </AppBar>
+   );
 };

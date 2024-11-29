@@ -1,17 +1,13 @@
 import {
-   Avatar,
    Box,
    Collapse,
    Divider,
    Drawer,
-   IconButton,
    List,
    ListItemButton,
    ListItemIcon,
    ListItemText,
-   ListSubheader,
    Toolbar,
-   Typography,
 } from "@mui/material";
 
 import {
@@ -47,13 +43,22 @@ export const SideBar = ({ drawerWidth = 240 }) => {
                },
             }}
          >
-            <Toolbar sx={{ gap: 1 }}>
-               <IconButton>
-                  <Avatar></Avatar>
-               </IconButton>
-               <Typography variant="h6" noWrap component="div">
-                  Bryan Chiang
-               </Typography>
+            <Toolbar sx={{ gap: 1, justifyContent: "center" }}>
+            <NavLink to="#" style={{ textDecoration: "none" }}>
+                  <Box
+                     component="img"
+                     src="/public/logo-calma.png"
+                     alt="Logo"
+                     sx={{
+                        width: 150,
+                        height: 50,
+                        mr: 2,
+                        color: "black",
+                        borderRadius: 2,
+                        padding: 1,
+                     }}
+                  />
+               </NavLink>
             </Toolbar>
             <Divider />
             <List>
@@ -66,15 +71,6 @@ export const SideBar = ({ drawerWidth = 240 }) => {
                      }}
                      component="nav"
                      aria-labelledby="nested-list-subheader"
-                     subheader={
-                        <ListSubheader
-                           sx={{ backgroundColor: "primary.main" }}
-                           component="div"
-                           id="nested-list-subheader"
-                        >
-                           Menú de Reclutamiento
-                        </ListSubheader>
-                     }
                   >
                      <NavLink
                         to="/reclutamiento"
