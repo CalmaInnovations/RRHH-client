@@ -10,24 +10,24 @@ import {
 
 interface Props {
    openModalDetails: boolean;
-   handleOpenModalDetails: () => void;
    handleOpenModalDetailsEdit: () => void;
+   handleCloseModal: () => void;
 }
 
 export const ModalDetailsCall = ({
    openModalDetails,
-   handleOpenModalDetails,
    handleOpenModalDetailsEdit,
+   handleCloseModal,
 }: Props) => {
    const handleEditModal = () => {
-      handleOpenModalDetails();
+      handleCloseModal();
       handleOpenModalDetailsEdit();
    };
 
    return (
       <Modal
          open={openModalDetails}
-         onClose={handleOpenModalDetails}
+         onClose={handleCloseModal}
          aria-labelledby="modal-details-call"
          aria-describedby="modal-details-call-description"
       >

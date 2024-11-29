@@ -2,18 +2,16 @@ import { UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Box } from "@mui/material";
+import { Postulant } from "../interface/call.interface";
 
 type ItemsType = {
    id: UniqueIdentifier;
-   title: string;
-   handleOpenModalInformation?: () => void;
+   title?: string;
+   item?: Postulant;
+   openModalForState?: (columnState?: string) => void;
 };
 
-export const ItemDrop = ({
-   id,
-   title,
-   handleOpenModalInformation,
-}: ItemsType) => {
+export const ItemDrop = ({ id, item, openModalForState }: ItemsType) => {
    const {
       attributes,
       listeners,
@@ -39,7 +37,7 @@ export const ItemDrop = ({
 
    return (
       <Box
-         onClick={() => handleOpenModalInformation!()}
+         onClick={() => openModalForState!(item?.estado)}
          ref={setNodeRef}
          {...attributes}
          {...listeners}
@@ -54,7 +52,12 @@ export const ItemDrop = ({
             opacity: `${isDragging && "0"}`,
          }}
       >
-         <div className="flex items-center justify-between">{title}</div>
+         <Box sx={{ fontSize: 20, fontWeight: 500 }}>
+            {item?.modalidadPracticas}
+         </Box>
+         <Box sx={{ fontSize: 13, color: "666666" }}>
+            {`${item?.nombres} ${item?.apellidoPaterno} ${item?.apellidoMaterno}`}
+         </Box>
       </Box>
    );
 };

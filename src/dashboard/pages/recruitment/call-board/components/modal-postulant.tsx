@@ -15,14 +15,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useState } from "react";
 
 interface Props {
-   openModalCreationProfile: boolean;
+   isOpenModal: boolean;
    handleCloseModal: () => void;
 }
 
-export const ModalCreationProfile = ({
-   openModalCreationProfile,
-   handleCloseModal,
-}: Props) => {
+export const ModalPostulant = ({ isOpenModal, handleCloseModal }: Props) => {
    const [area, setArea] = useState("");
 
    const handleChangeArea = (event: SelectChangeEvent) => {
@@ -31,7 +28,7 @@ export const ModalCreationProfile = ({
 
    return (
       <Modal
-         open={openModalCreationProfile}
+         open={isOpenModal}
          onClose={handleCloseModal}
          aria-labelledby="modal-details-edit-call"
          aria-describedby="modal-details-edit-call-description"
@@ -49,7 +46,7 @@ export const ModalCreationProfile = ({
                borderRadius: 2,
             }}
          >
-            <Box className="flex flex-col w-full items-start gap-y-4">
+            <div className="flex flex-col w-full items-start gap-y-4">
                <Typography
                   variant="h5"
                   component="h2"
@@ -247,7 +244,7 @@ export const ModalCreationProfile = ({
                      </Button>
                   </Grid>
                </Grid>
-            </Box>
+            </div>
          </Box>
       </Modal>
    );

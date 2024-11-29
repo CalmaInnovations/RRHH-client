@@ -5,17 +5,17 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 interface Props {
    openModalInfInduction: boolean;
-   handleOpenModalInfInduction: () => void;
+   handleCloseModal: () => void;
 }
 
 export const ModalInformationInduction = ({
    openModalInfInduction,
-   handleOpenModalInfInduction,
+   handleCloseModal,
 }: Props) => {
    return (
       <Modal
          open={openModalInfInduction}
-         onClose={handleOpenModalInfInduction}
+         onClose={handleCloseModal}
          aria-labelledby="modal-details-edit-call"
          aria-describedby="modal-details-edit-call-description"
       >
@@ -147,7 +147,7 @@ export const ModalInformationInduction = ({
 
                      <Button
                         variant="text"
-                        onClick={() => handleOpenModalInfInduction()}
+                        onClick={() => handleCloseModal()}
                         sx={{ width: "100%" }}
                      >
                         Cancelar

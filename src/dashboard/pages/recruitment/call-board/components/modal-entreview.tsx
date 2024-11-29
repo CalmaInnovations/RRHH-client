@@ -12,17 +12,17 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 interface Props {
    openModalEntreview: boolean;
-   handleOpenModalEntreview: () => void;
+   handleCloseModal: () => void;
 }
 
 export const ModalEntreview = ({
    openModalEntreview,
-   handleOpenModalEntreview,
+   handleCloseModal,
 }: Props) => {
    return (
       <Modal
          open={openModalEntreview}
-         onClose={handleOpenModalEntreview}
+         onClose={handleCloseModal}
          aria-labelledby="modal-details-edit-call"
          aria-describedby="modal-details-edit-call-description"
       >
@@ -176,7 +176,7 @@ export const ModalEntreview = ({
 
                      <Button
                         variant="text"
-                        onClick={() => handleOpenModalEntreview()}
+                        onClick={() => handleCloseModal()}
                         sx={{ width: "100%" }}
                      >
                         Cancelar

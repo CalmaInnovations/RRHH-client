@@ -50,8 +50,8 @@ export const ContainerDrop = ({
             transform: CSS.Translate.toString(transform),
          }}
          sx={{
-            maxWidth: "270px",
-            minWidth: "270px",
+            maxWidth: "300px",
+            minWidth: "300px",
             height: "100%",
             marginX: 1,
             p: 2,

@@ -34,7 +34,11 @@ const dropAnimationConfig: DropAnimation = {
    }),
 };
 
-export const DragAndDrop = () => {
+interface Props {
+   openModalForState: (columnState?: string) => void;
+}
+
+export const DragAndDrop = ({ openModalForState }: Props) => {
    // FIX: Mejorar el manejo de reenderizacion al hacer cada accion
    // FIX: Separar Por componentes
    const {
@@ -111,11 +115,9 @@ export const DragAndDrop = () => {
                            {container.items.map((item) => (
                               <ItemDrop
                                  key={item.id}
-                                 title={item.email}
+                                 item={item}
                                  id={item.id}
-                                 handleOpenModalInformation={
-                                    handleOpenModalInformation
-                                 }
+                                 openModalForState={openModalForState}
                               />
                            ))}
                         </Box>
@@ -127,7 +129,7 @@ export const DragAndDrop = () => {
                   dropAnimation={dropAnimationConfig}
                >
                   {activeId && (
-                     <ItemDrop id={activeId} title={findItemTitle(activeId)} />
+                     <ItemDrop id={activeId} item={findItemTitle(activeId)} />
                   )}
                </DragOverlay>
             </DndContext>

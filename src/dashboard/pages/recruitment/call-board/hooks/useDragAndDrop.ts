@@ -3,7 +3,7 @@ import { DragEndEvent, DragMoveEvent, DragStartEvent, KeyboardSensor, PointerSen
 import { containersData } from "../mocks/containers";
 import { v4 as uuidv4 } from "uuid";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import { CallInterface } from "../interface/call.interface";
+import { CallInterface, Postulant } from "../interface/call.interface";
 
 
 
@@ -16,8 +16,6 @@ export const useDragAndDrop = () => {
    const [itemName, setItemName] = useState("");
    const [showAddContainerModal, setShowAddContainerModal] = useState(false);
    const [showAddItemModal, setShowAddItemModal] = useState(false);
-
-   console.log(currentContainerId)
 
    const onAddContainer = () => {
       if (!containerName) return;
@@ -56,13 +54,6 @@ export const useDragAndDrop = () => {
          return containers.find((item) => item.id === id);
       }
       if (type === "item") {
-         console.log("Desde validacion item", containers.find((container) =>
-            container.items.find((item) => {
-               console.log("item", item)
-               console.log("id", id)
-            })
-         ))
-
          return containers.find((container) =>
             container.items.find((item) => item.id === id)
          );
@@ -71,10 +62,12 @@ export const useDragAndDrop = () => {
 
    const findItemTitle = (id: UniqueIdentifier | undefined) => {
       const container = findValueOfItems(id, "item");
-      if (!container) return "";
+      if (!container) return {} as Postulant;
       const item = container.items.find((item) => item.id === id);
-      if (!item) return "";
-      return item.modalidadPracticas;
+
+      console.log(item)
+      if (!item) return {} as Postulant;
+      return item;
    };
 
    const findContainerTitle = (id: UniqueIdentifier | undefined) => {
@@ -108,6 +101,44 @@ export const useDragAndDrop = () => {
    const handleDragMove = (event: DragMoveEvent) => {
       const { active, over } = event;
 
+      // Handling Item Drop Into a Container
+      if (
+         active.id &&
+         over?.id.toString().includes("container") &&
+         active &&
+         over &&
+         active.id !== over.id
+      ) {
+         // Find the active and over container
+         const activeContainer = findValueOfItems(active.id, "item");
+         const overContainer = findValueOfItems(over.id, "container");
+
+         // If the active or over container is not found, return
+         if (!activeContainer || !overContainer) return;
+
+         // Find the index of the active and over container
+         const activeContainerIndex = containers.findIndex(
+            (container) => container.id === activeContainer.id
+         );
+         const overContainerIndex = containers.findIndex(
+            (container) => container.id === overContainer.id
+         );
+
+         // Find the index of the active and over item
+         const activeitemIndex = activeContainer.items.findIndex(
+            (item) => item.id === active.id
+         );
+
+         // Remove the active item from the active container and add it to the over container
+         const newItems = [...containers];
+         const [removeditem] = newItems[activeContainerIndex].items.splice(
+            activeitemIndex,
+            1
+         );
+         newItems[overContainerIndex].items.push(removeditem);
+         setContainers(newItems);
+      }
+
       // Handle Items Sorting
       if (
          active.id &&
@@ -117,15 +148,9 @@ export const useDragAndDrop = () => {
          active.id !== over.id
       ) {
 
-         console.log("active.id", active.id)
-         console.log("over.id", over.id)
-
          // Find the active container and over container
          const activeContainer = findValueOfItems(active.id, "item");
-         console.log("activeContainer", activeContainer)
          const overContainer = findValueOfItems(over.id, "item");
-         console.log("overContainer", overContainer)
-
 
          // If the active or over container is not found, return
          if (!activeContainer || !overContainer) return;
@@ -135,14 +160,9 @@ export const useDragAndDrop = () => {
             (container) => container.id === activeContainer.id
          );
 
-         console.log("activeContainerIndex", activeContainerIndex)
-
          const overContainerIndex = containers.findIndex(
             (container) => container.id === overContainer.id
          );
-
-         console.log("overContainerIndex", overContainerIndex)
-
 
          // Find the index of the active and over item
          const activeitemIndex = activeContainer.items.findIndex(
@@ -177,43 +197,7 @@ export const useDragAndDrop = () => {
          }
       }
 
-      // Handling Item Drop Into a Container
-      if (
-         active.id &&
-         over?.id &&
-         active &&
-         over &&
-         active.id !== over.id
-      ) {
-         // Find the active and over container
-         const activeContainer = findValueOfItems(active.id, "item");
-         const overContainer = findValueOfItems(over.id, "container");
 
-         // If the active or over container is not found, return
-         if (!activeContainer || !overContainer) return;
-
-         // Find the index of the active and over container
-         const activeContainerIndex = containers.findIndex(
-            (container) => container.id === activeContainer.id
-         );
-         const overContainerIndex = containers.findIndex(
-            (container) => container.id === overContainer.id
-         );
-
-         // Find the index of the active and over item
-         const activeitemIndex = activeContainer.items.findIndex(
-            (item) => item.id === active.id
-         );
-
-         // Remove the active item from the active container and add it to the over container
-         const newItems = [...containers];
-         const [removeditem] = newItems[activeContainerIndex].items.splice(
-            activeitemIndex,
-            1
-         );
-         newItems[overContainerIndex].items.push(removeditem);
-         setContainers(newItems);
-      }
    };
 
    // This is the function that handles the sorting of the containers and items when the user is done dragging.
@@ -319,6 +303,7 @@ export const useDragAndDrop = () => {
       itemName,
       containers,
       setShowAddContainerModal,
+      currentContainerId,
       setCurrentContainerId,
       onAddContainer,
       // onAddItem,

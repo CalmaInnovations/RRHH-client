@@ -1,6 +1,6 @@
 import { Box, Container, Typography } from "@mui/material";
 import { DragAndDrop } from "./components/drag-and-drop";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ModalDetailsCall } from "./components/modal-details-call";
 import { ModalDetailsEditCall } from "./components/modal-details-edit-call";
 import { ModalInformationInduction } from "./components/modal-information-induction";
@@ -9,6 +9,7 @@ import { ModalCreationProfile } from "./components/modal-creation-profile";
 import { useParams } from "react-router";
 import { getCallByIdService } from "./services/call-board-service";
 import { CallDetail } from "../request-area-recruiter/interfaces/calls-interface";
+import { ModalPostulant } from "./components/modal-postulant";
 
 // FIX: Establecer estos estados de modal en un custom hook
 // FIX: fix responsive
@@ -17,27 +18,20 @@ import { CallDetail } from "../request-area-recruiter/interfaces/calls-interface
 
 export const CallBoard = () => {
    const [call, setCall] = useState<CallDetail>({} as CallDetail);
-   const [openModalDetails, setOpenModalDetails] = useState(false);
-   const [openModalDetailsEdit, setOpenModalDetailsEdit] = useState(false);
-   const [openModalInfInduction, setOpenModalInfInduction] = useState(false);
-   const [openModalEntreview, setOpenModalEntreview] = useState(false);
-   const [openModalCreationProfile, setOpenModalCreationProfile] =
-      useState(false);
-   const handleOpenModalDetails = () => setOpenModalDetails(!openModalDetails);
-   const handleOpenModalInfInduction = () =>
-      setOpenModalInfInduction(!openModalInfInduction);
-   const handleOpenModalDetailsEdit = () =>
-      setOpenModalDetailsEdit(!openModalDetailsEdit);
-   const handleOpenModalEntreview = () =>
-      setOpenModalEntreview(!openModalEntreview);
-   const handleOpenModalCreationProfile = () =>
-      setOpenModalCreationProfile(!openModalCreationProfile);
+   const [activeModal, setActiveModal] = useState<string | null>(null);
    const params = useParams();
 
    const handleGetCallByIdService = async () => {
       const { data } = await getCallByIdService(+params.id!);
       setCall(data);
    };
+
+   const openModal = (modalName: string) => setActiveModal(modalName);
+   const closeModal = () => setActiveModal(null);
+
+   const openModalForState = useCallback((columnState?: string) => {
+      openModal(columnState!);
+   }, []);
 
    useEffect(() => {
       handleGetCallByIdService();
@@ -68,7 +62,7 @@ export const CallBoard = () => {
                }}
                component="span"
                color="primary"
-               onClick={() => handleOpenModalDetails()}
+               onClick={() => openModal("details")}
             >
                ver detalles
             </Typography>
@@ -101,32 +95,38 @@ export const CallBoard = () => {
          </Box>
 
          <Box sx={{ marginTop: 2 }}>
-            <DragAndDrop />
+            <DragAndDrop openModalForState={openModalForState} />
          </Box>
 
          <ModalDetailsCall
-            openModalDetails={openModalDetails}
-            handleOpenModalDetails={handleOpenModalDetails}
-            handleOpenModalDetailsEdit={handleOpenModalDetailsEdit}
+            openModalDetails={activeModal === "details"}
+            handleOpenModalDetailsEdit={() => openModal("detailsEdit")}
+            handleCloseModal={closeModal}
          />
 
          <ModalDetailsEditCall
-            openModalDetailsEdit={openModalDetailsEdit}
-            handleOpenModalDetailsEdit={handleOpenModalDetailsEdit}
+            openModalDetailsEdit={activeModal === "detailsEdit"}
+            handleCloseModal={closeModal}
          />
+
          <ModalInformationInduction
-            openModalInfInduction={openModalInfInduction}
-            handleOpenModalInfInduction={handleOpenModalInfInduction}
+            openModalInfInduction={activeModal === "induction"}
+            handleCloseModal={closeModal}
          />
 
          <ModalEntreview
-            openModalEntreview={openModalEntreview}
-            handleOpenModalEntreview={handleOpenModalEntreview}
+            openModalEntreview={activeModal === "entreview"}
+            handleCloseModal={closeModal}
          />
 
          <ModalCreationProfile
-            openModalCreationProfile={openModalCreationProfile}
-            handleOpenModalCreationProfile={handleOpenModalCreationProfile}
+            openModalCreationProfile={activeModal === "creationProfile"}
+            handleCloseModal={closeModal}
+         />
+
+         <ModalPostulant
+            isOpenModal={activeModal === "Postulante"}
+            handleCloseModal={closeModal}
          />
       </Container>
    );
