@@ -6,6 +6,8 @@ interface ItemProps {
    onPreview: (row: RequestItems) => void;
 }
 
+
+
 export function TableItem({ row, onPreview }: ItemProps) {
    return (
       <TableRow
@@ -13,7 +15,7 @@ export function TableItem({ row, onPreview }: ItemProps) {
          sx={{
             "&:last-child td, &:last-child th": {
                border: 0,
-            },
+            }, 
             cursor: "pointer",
          }}
          onClick={() => onPreview(row)}
