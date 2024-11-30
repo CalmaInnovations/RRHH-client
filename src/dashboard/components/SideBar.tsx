@@ -20,9 +20,15 @@ import {
    PersonSearch,
 } from "@mui/icons-material";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";  
 
-export const SideBar = ({ drawerWidth = 240 }) => {
+interface SideBarProps {
+   drawerOpen: boolean;
+   toggleDrawer: () => void;
+   drawerWidth: number;
+}
+
+export const SideBar: React.FC<SideBarProps> = ({ drawerOpen, toggleDrawer, drawerWidth }) => {
    const [open, setOpen] = useState(true);
 
    const handleClick = () => {
@@ -30,9 +36,11 @@ export const SideBar = ({ drawerWidth = 240 }) => {
    };
    return (
       <Box component="nav" sx={{ width: drawerWidth, flexShrink: 0 }}>
+         
          <Drawer
-            variant="permanent"
-            open
+            variant="persistent"
+            open={drawerOpen}
+            onClose={toggleDrawer} 
             sx={{
                display: "block",
                "& .MuiDrawer-paper": {
@@ -41,6 +49,9 @@ export const SideBar = ({ drawerWidth = 240 }) => {
                   backgroundColor: "primary.main",
                   color: "white",
                },
+            }}
+            BackdropProps={{
+               invisible: true, 
             }}
          >
             <Toolbar sx={{ gap: 1, justifyContent: "center" }}>
