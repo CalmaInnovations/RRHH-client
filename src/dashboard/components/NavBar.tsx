@@ -20,7 +20,7 @@ const settings = ["Mi Perfil", "Salir"];
 
 export const NavBar = ({ drawerWidth = 260 }) => {
    const [userName, setUserName] = useState("carlos lora");
-   const [openSearch, setOpenSearch] = useState(false); // Estado para controlar la visibilidad del input de búsqueda
+   const [openSearch, setOpenSearch] = useState(false); // estado para controlar la visibilidad del input de busqueda
    const [searchTerm, setSearchTerm] = useState("");
    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
       null
@@ -179,17 +179,7 @@ export const NavBar = ({ drawerWidth = 260 }) => {
                      borderRadius: 2,
                   }}
                >
-                  <Box
-                     sx={{
-                        marginRight: "10px",
-                        fontWeight: 600,
-                        fontSize: 15,
-                        color: "#9EA5B0",
-                     }}
-                  >
-                     <span>{userName}</span>
-                  </Box>
-                  <Box
+                            <Box
                      onClick={handleOpenUserMenu}
                      sx={{
                         p: 0,
@@ -212,6 +202,17 @@ export const NavBar = ({ drawerWidth = 260 }) => {
                         /> */}
                      {getInitial(userName)}
                   </Box>
+                  <Box
+                     sx={{
+                        ml: "10px",
+                        fontWeight: 600,
+                        fontSize: 15,
+                        color: "#9EA5B0",
+                     }}
+                  >
+                     <span>{userName}</span>
+                  </Box>
+
 
                   <Menu
                      sx={{ mt: "45px" }}
