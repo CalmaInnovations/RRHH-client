@@ -11,7 +11,7 @@ import {
    Toolbar,
    Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
@@ -22,10 +22,13 @@ export const NavBar = ({ drawerWidth = 260 }) => {
    const [openSearch, setOpenSearch] = useState(false); // estado para controlar la visibilidad del input de busqueda
    const [searchTerm, setSearchTerm] = useState("");
 
-   const [openNotification, setOpenNotification] = useState(false); // estado para controlar la visibilidad del input de busqueda
+   const [openNotification, setOpenNotification] = useState(false); // estado para controlar la visibilidad de la notificación
    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
       null
    );
+
+   const searchRef = useRef<HTMLDivElement>(null);
+   const notificationRef = useRef<HTMLDivElement>(null);
 
    const handleCloseUserMenu = () => {
       setAnchorElUser(null);
@@ -48,6 +51,30 @@ export const NavBar = ({ drawerWidth = 260 }) => {
       setOpenNotification(!openNotification);
    };
 
+   // Detectar clics fuera de las áreas activas
+   useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+         if (
+            searchRef.current &&
+            !searchRef.current.contains(event.target as Node)
+         ) {
+            setOpenSearch(false);
+            setSearchTerm("");
+         }
+         if (
+            notificationRef.current &&
+            !notificationRef.current.contains(event.target as Node)
+         ) {
+            setOpenNotification(false);
+         }
+      };
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+         document.removeEventListener("mousedown", handleClickOutside);
+      };
+   }, []);
+
    return (
       <AppBar
          position="fixed"
@@ -67,7 +94,7 @@ export const NavBar = ({ drawerWidth = 260 }) => {
                gap={0.5}
             >
                {/* buscardor */}
-               <Box sx={{ position: "relative" }}>
+               <Box sx={{ position: "relative" }} ref={searchRef}>
                   <Box
                      sx={{
                         flexGrow: 0,
@@ -157,7 +184,7 @@ export const NavBar = ({ drawerWidth = 260 }) => {
                </Box>
 
                {/* Notificaciones */}
-               <Box sx={{ position: "relative" }}>
+               <Box sx={{ position: "relative" }} ref={notificationRef}>
                   <Box
                      onClick={toggleNotification}
                      sx={{
@@ -214,147 +241,6 @@ export const NavBar = ({ drawerWidth = 260 }) => {
                            >
                               Notificaciones
                            </Typography>
-                        </Box>
-
-                        {/* item */}
-                        <Box
-                           sx={{
-                              display: "flex",
-                              justifyContent: "start",
-                              p: 2,
-                              alignItems: "center",
-                              width: "100%",
-                              height: 60,
-                              cursor: "pointer",
-                              "&:hover": {
-                                 backgroundColor: "#F3F6F9",
-                              },
-                           }}
-                        >
-                           <Avatar
-                              alt="Remy Sharp"
-                              sx={{
-                                 width: 40,
-                                 display: "flex",
-                                 justifyContent: "center",
-                                 alignItems: "center",
-                                 borderRadius: 2,
-                                 mr: 2,
-                              }}
-                              src="https://muhimu.es/wp-content/uploads/2017/04/FRENTE-NITIDA.jpg"
-                           />
-                           <Box>
-                              <Typography
-                                 fontSize={13}
-                                 fontWeight={600}
-                                 color="#2E384D"
-                              >
-                                 New report has been receive
-                              </Typography>
-                              <span
-                                 style={{
-                                    fontSize: 12,
-                                    color: "#9EA5B0",
-                                    fontWeight: 600,
-                                 }}
-                              >
-                                 23 hrs ago
-                              </span>
-                           </Box>
-                        </Box>
-
-                        {/* item */}
-                        <Box
-                           sx={{
-                              display: "flex",
-                              justifyContent: "start",
-                              p: 2,
-                              alignItems: "center",
-                              width: "100%",
-                              height: 60,
-                              cursor: "pointer",
-                              "&:hover": {
-                                 backgroundColor: "#F3F6F9",
-                              },
-                           }}
-                        >
-                           <Avatar
-                              alt="Remy Sharp"
-                              sx={{
-                                 width: 40,
-                                 display: "flex",
-                                 justifyContent: "center",
-                                 alignItems: "center",
-                                 borderRadius: 2,
-                                 mr: 2,
-                              }}
-                              src="https://muhimu.es/wp-content/uploads/2017/04/FRENTE-NITIDA.jpg"
-                           />
-                           <Box>
-                              <Typography
-                                 fontSize={13}
-                                 fontWeight={600}
-                                 color="#2E384D"
-                              >
-                                 New report has been receive
-                              </Typography>
-                              <span
-                                 style={{
-                                    fontSize: 12,
-                                    color: "#9EA5B0",
-                                    fontWeight: 600,
-                                 }}
-                              >
-                                 23 hrs ago
-                              </span>
-                           </Box>
-                        </Box>
-
-                        {/* item */}
-                        <Box
-                           sx={{
-                              display: "flex",
-                              justifyContent: "start",
-                              p: 2,
-                              alignItems: "center",
-                              width: "100%",
-                              height: 60,
-                              cursor: "pointer",
-                              "&:hover": {
-                                 backgroundColor: "#F3F6F9",
-                              },
-                           }}
-                        >
-                           <Avatar
-                              alt="Remy Sharp"
-                              sx={{
-                                 width: 40,
-                                 display: "flex",
-                                 justifyContent: "center",
-                                 alignItems: "center",
-                                 borderRadius: 2,
-                                 mr: 2,
-                              }}
-                              src="https://muhimu.es/wp-content/uploads/2017/04/FRENTE-NITIDA.jpg"
-                           />
-                           <Box>
-                              <Typography
-                                 fontSize={13}
-                                 fontWeight={600}
-                                 color="#2E384D"
-                              >
-                                 New report has been receive
-                              </Typography>
-                              <span
-                                 style={{
-                                    fontSize: 12,
-                                    color: "#9EA5B0",
-                                    fontWeight: 600,
-                                 }}
-                              >
-                                 23 hrs ago
-                              </span>
-                           </Box>
                         </Box>
 
                         {/* item */}

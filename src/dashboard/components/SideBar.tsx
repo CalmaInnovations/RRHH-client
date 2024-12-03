@@ -25,7 +25,7 @@ import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 export const SideBar = ({ drawerWidth = 260 }) => {
-   const [open, setOpen] = useState(true);
+   const [open, setOpen] = useState(false);
 
    const [openDrawer, setOpenDrawer] = useState(true);
    const [activeMenu, setActiveMenu] = useState("");
@@ -182,16 +182,18 @@ export const SideBar = ({ drawerWidth = 260 }) => {
                      </NavLink>
 
                      {/* menu y submenus*/}
-                     <Box>
+                     <Box sx={{backgroundColor:open ? "#273044" :"transparent"}}>
                         <ListItemButton
+
                            onClick={handleClick}
-                           sx={{ pl: 3, color: "#CBD5E1" }}
+                           sx={{ pl: 3 }}
                         >
-                           <PersonSearch sx={{ marginRight: 1 }} />
+                           <PersonSearch sx={{ marginRight: 1 ,color:open ? "#5BC1E6" : "#CBD5E1" }} />
                            <ListItemText
                               primary="Reclutamiento"
                               primaryTypographyProps={{
                                  style: {
+                                    color: "#CBD5E1",
                                     fontSize: "14px",
                                     visibility: openDrawer
                                        ? "visible"
