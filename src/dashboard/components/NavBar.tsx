@@ -1,5 +1,6 @@
 import {
    AppBar,
+   Avatar,
    Box,
    Divider,
    Grid,
@@ -15,20 +16,16 @@ import SearchIcon from "@mui/icons-material/Search";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 
-
 const settings = ["Mi Perfil", "Salir"];
 
 export const NavBar = ({ drawerWidth = 260 }) => {
-   const [userName, setUserName] = useState("carlos lora");
    const [openSearch, setOpenSearch] = useState(false); // estado para controlar la visibilidad del input de busqueda
    const [searchTerm, setSearchTerm] = useState("");
+
+   const [openNotification, setOpenNotification] = useState(false); // estado para controlar la visibilidad del input de busqueda
    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
       null
    );
-
-   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-      setAnchorElUser(event.currentTarget);
-   };
 
    const handleCloseUserMenu = () => {
       setAnchorElUser(null);
@@ -43,14 +40,12 @@ export const NavBar = ({ drawerWidth = 260 }) => {
    const toggleSearch = () => {
       setOpenSearch(!openSearch);
       if (openSearch) {
-         setSearchTerm(""); // Limpiar el término de búsqueda cuando se cierra
+         setSearchTerm("");
       }
    };
 
-   // funcion para tomar la inicial de su nombre y convertirlo en MAYUSCULA
-   const getInitial = (name: string) => {
-      const firstName = name.split(" ")[0];
-      return firstName.charAt(0).toUpperCase();
+   const toggleNotification = () => {
+      setOpenNotification(!openNotification);
    };
 
    return (
@@ -71,71 +66,79 @@ export const NavBar = ({ drawerWidth = 260 }) => {
                alignItems="center"
                gap={0.5}
             >
-               <Box
-                  sx={{
-                     flexGrow: 0,
-                     padding: 1.6,
-                     display: "flex",
-                     justifyContent: "center",
-                     alignItems: "center",
-                     borderRadius: 2,
-                     cursor: "pointer",
-                     "&:hover": {
-                        backgroundColor: "#F3F6F9",
-                     },
-                  }}
-                  onClick={toggleSearch}
-               >
-                  <SearchIcon style={{ color: "#2E384D" }} />
-               </Box>
-               {/* Campo de búsqueda visible cuando se hace clic en el icon */}
-               {openSearch && (
+               {/* buscardor */}
+               <Box sx={{ position: "relative" }}>
                   <Box
                      sx={{
-                        width: "20rem",
-                        height: "90%",
+                        flexGrow: 0,
                         padding: 1.6,
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
                         borderRadius: 2,
-                        backgroundColor: "#FFFFFF",
-                        boxShadow:"0px 0px 50px 0px rgba(82, 63, 105, 0.15)",
-                        position: "absolute",
-                        top: 65,
-                        right: 0,
-                        left: 1050,
-                        zIndex: 10,
+                        cursor: "pointer",
+                        "&:hover": {
+                           backgroundColor: "#F3F6F9",
+                        },
                      }}
+                     onClick={toggleSearch}
                   >
-                     <IconButton >
-                        <SearchIcon sx={{ fontSize: "20px" ,color:"#A0A0B1"}} />
-                     </IconButton>
-                     <TextField
-                        autoFocus
-                        variant="outlined"
-                        value={searchTerm}
-                        onChange={handleSearchChange}
-                        fullWidth
-                        placeholder="Buscar..."
-                        sx={{
-                           "& .MuiOutlinedInput-root": {
-                              "&:hover fieldset": {
-                                 borderColor: "none",
-                              },
-                              "&.Mui-focused fieldset": {
-                                 borderColor: "transparent",
-                              },
-                              "& .MuiInputBase-input::placeholder": {
-                                 color: "#A0A0B1",
-                                 fontSize:"14px"
-                              },
-                           },
-                        }}
-                     />
-                     {/* Botón de cerrar */}
+                     <SearchIcon style={{ color: "#2E384D" }} />
                   </Box>
-               )}
+
+                  {/* Campo de busqueda visible cuando se hace clic en el icon */}
+                  {openSearch && (
+                     <Box
+                        sx={{
+                           width: "20rem",
+                           height: "4rem",
+                           padding: 1.6,
+                           display: "flex",
+                           justifyContent: "center",
+                           alignItems: "center",
+                           borderRadius: 2,
+                           backgroundColor: "#FFFFFF",
+                           boxShadow:
+                              "0px 0px 50px 0px rgba(82, 63, 105, 0.15)",
+                           position: "absolute",
+                           top: "100%",
+                           left: -280,
+
+                           zIndex: 10,
+                        }}
+                     >
+                        <IconButton>
+                           <SearchIcon
+                              sx={{ fontSize: "20px", color: "#A0A0B1" }}
+                           />
+                        </IconButton>
+                        <TextField
+                           autoFocus
+                           variant="outlined"
+                           value={searchTerm}
+                           onChange={handleSearchChange}
+                           fullWidth
+                           placeholder="Buscar..."
+                           sx={{
+                              "& .MuiOutlinedInput-root": {
+                                 "&:hover fieldset": {
+                                    borderColor: "transparent",
+                                 },
+                                 "&.Mui-focused fieldset": {
+                                    borderColor: "transparent",
+                                 },
+                                 "& .MuiInputBase-input::placeholder": {
+                                    color: "#A0A0B1",
+                                    fontSize: "14px",
+                                 },
+                              },
+                           }}
+                        />
+                     </Box>
+                  )}
+               </Box>
+
+               {/* chat grupal */}
                <Box
                   sx={{
                      flexGrow: 0,
@@ -152,38 +155,278 @@ export const NavBar = ({ drawerWidth = 260 }) => {
                >
                   <ChatBubbleOutlineIcon style={{ color: "#2E384D" }} />
                </Box>
+
+               {/* Notificaciones */}
+               <Box sx={{ position: "relative" }}>
+                  <Box
+                     onClick={toggleNotification}
+                     sx={{
+                        flexGrow: 0,
+                        padding: 1.6,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        borderRadius: 2,
+                        cursor: "pointer",
+                        "&:hover": {
+                           backgroundColor: "#F3F6F9",
+                        },
+                     }}
+                  >
+                     <NotificationsNoneIcon style={{ color: "#2E384D" }} />
+                  </Box>
+                  {/* Campo de notificaciones visible cuando se hace clic en el icon */}
+                  {openNotification && (
+                     <Box
+                        sx={{
+                           width: "20rem",
+
+                           display: "flex",
+                           flexDirection: "column",
+                           borderRadius: 2,
+                           backgroundColor: "#FFFFFF",
+                           boxShadow:
+                              "0px 0px 50px 0px rgba(82, 63, 105, 0.15)",
+                           position: "absolute",
+                           top: "100%",
+                           left: -270,
+                           zIndex: 10,
+                        }}
+                     >
+                        {/* titulo */}
+                        <Box
+                           sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              borderTopLeftRadius: 4,
+                              borderTopRightRadius: 4,
+                              width: "100%",
+                              height: 60,
+                              backgroundColor: "#5BC1E6",
+                              mb: 2,
+                           }}
+                        >
+                           <Typography
+                              fontSize={17}
+                              fontWeight={500}
+                              color="#FFFFFF"
+                           >
+                              Notificaciones
+                           </Typography>
+                        </Box>
+
+                        {/* item */}
+                        <Box
+                           sx={{
+                              display: "flex",
+                              justifyContent: "start",
+                              p: 2,
+                              alignItems: "center",
+                              width: "100%",
+                              height: 60,
+                              cursor: "pointer",
+                              "&:hover": {
+                                 backgroundColor: "#F3F6F9",
+                              },
+                           }}
+                        >
+                           <Avatar
+                              alt="Remy Sharp"
+                              sx={{
+                                 width: 40,
+                                 display: "flex",
+                                 justifyContent: "center",
+                                 alignItems: "center",
+                                 borderRadius: 2,
+                                 mr: 2,
+                              }}
+                              src="https://muhimu.es/wp-content/uploads/2017/04/FRENTE-NITIDA.jpg"
+                           />
+                           <Box>
+                              <Typography
+                                 fontSize={13}
+                                 fontWeight={600}
+                                 color="#2E384D"
+                              >
+                                 New report has been receive
+                              </Typography>
+                              <span
+                                 style={{
+                                    fontSize: 12,
+                                    color: "#9EA5B0",
+                                    fontWeight: 600,
+                                 }}
+                              >
+                                 23 hrs ago
+                              </span>
+                           </Box>
+                        </Box>
+
+                        {/* item */}
+                        <Box
+                           sx={{
+                              display: "flex",
+                              justifyContent: "start",
+                              p: 2,
+                              alignItems: "center",
+                              width: "100%",
+                              height: 60,
+                              cursor: "pointer",
+                              "&:hover": {
+                                 backgroundColor: "#F3F6F9",
+                              },
+                           }}
+                        >
+                           <Avatar
+                              alt="Remy Sharp"
+                              sx={{
+                                 width: 40,
+                                 display: "flex",
+                                 justifyContent: "center",
+                                 alignItems: "center",
+                                 borderRadius: 2,
+                                 mr: 2,
+                              }}
+                              src="https://muhimu.es/wp-content/uploads/2017/04/FRENTE-NITIDA.jpg"
+                           />
+                           <Box>
+                              <Typography
+                                 fontSize={13}
+                                 fontWeight={600}
+                                 color="#2E384D"
+                              >
+                                 New report has been receive
+                              </Typography>
+                              <span
+                                 style={{
+                                    fontSize: 12,
+                                    color: "#9EA5B0",
+                                    fontWeight: 600,
+                                 }}
+                              >
+                                 23 hrs ago
+                              </span>
+                           </Box>
+                        </Box>
+
+                        {/* item */}
+                        <Box
+                           sx={{
+                              display: "flex",
+                              justifyContent: "start",
+                              p: 2,
+                              alignItems: "center",
+                              width: "100%",
+                              height: 60,
+                              cursor: "pointer",
+                              "&:hover": {
+                                 backgroundColor: "#F3F6F9",
+                              },
+                           }}
+                        >
+                           <Avatar
+                              alt="Remy Sharp"
+                              sx={{
+                                 width: 40,
+                                 display: "flex",
+                                 justifyContent: "center",
+                                 alignItems: "center",
+                                 borderRadius: 2,
+                                 mr: 2,
+                              }}
+                              src="https://muhimu.es/wp-content/uploads/2017/04/FRENTE-NITIDA.jpg"
+                           />
+                           <Box>
+                              <Typography
+                                 fontSize={13}
+                                 fontWeight={600}
+                                 color="#2E384D"
+                              >
+                                 New report has been receive
+                              </Typography>
+                              <span
+                                 style={{
+                                    fontSize: 12,
+                                    color: "#9EA5B0",
+                                    fontWeight: 600,
+                                 }}
+                              >
+                                 23 hrs ago
+                              </span>
+                           </Box>
+                        </Box>
+
+                        {/* item */}
+                        <Box
+                           sx={{
+                              display: "flex",
+                              justifyContent: "start",
+                              p: 2,
+                              alignItems: "center",
+                              width: "100%",
+                              height: 60,
+                              cursor: "pointer",
+                              "&:hover": {
+                                 backgroundColor: "#F3F6F9",
+                              },
+                           }}
+                        >
+                           <Avatar
+                              alt="Remy Sharp"
+                              sx={{
+                                 width: 40,
+                                 display: "flex",
+                                 justifyContent: "center",
+                                 alignItems: "center",
+                                 borderRadius: 2,
+                                 mr: 2,
+                              }}
+                              src="https://muhimu.es/wp-content/uploads/2017/04/FRENTE-NITIDA.jpg"
+                           />
+                           <Box>
+                              <Typography
+                                 fontSize={13}
+                                 fontWeight={600}
+                                 color="#2E384D"
+                              >
+                                 New report has been receive
+                              </Typography>
+                              <span
+                                 style={{
+                                    fontSize: 12,
+                                    color: "#9EA5B0",
+                                    fontWeight: 600,
+                                 }}
+                              >
+                                 23 hrs ago
+                              </span>
+                           </Box>
+                        </Box>
+                     </Box>
+                  )}
+               </Box>
+
+               {/* Avatar de usuario */}
                <Box
                   sx={{
                      flexGrow: 0,
-                     padding: 1.6,
+                     px: 1,
+                     py: 0.5,
+                     my: 0.5,
                      display: "flex",
                      justifyContent: "center",
                      alignItems: "center",
                      borderRadius: 2,
                      cursor: "pointer",
+
                      "&:hover": {
                         backgroundColor: "#F3F6F9",
                      },
                   }}
                >
-                  <NotificationsNoneIcon style={{ color: "#2E384D" }} />
-               </Box>
-               <Box
-                  sx={{
-                     flexGrow: 0,
-                     backgroundColor: "#F3F6F9",
-                     padding: 1,
-                     display: "flex",
-                     justifyContent: "center",
-                     alignItems: "center",
-                     borderRadius: 2,
-                  }}
-               >
-                            <Box
-                     onClick={handleOpenUserMenu}
+                  <Box
                      sx={{
-                        p: 0,
-                        backgroundColor: "#A3E0F5",
                         padding: 0.5,
                         borderRadius: 2,
                         fontSize: 22,
@@ -192,27 +435,47 @@ export const NavBar = ({ drawerWidth = 260 }) => {
                         width: 40,
                         display: "flex",
                         justifyContent: "center",
-                        alignItems: "centers",
-                        cursor: "pointer",
+                        alignItems: "center",
                      }}
                   >
-                     {/* <Avatar
-                           alt="Remy Sharp"
-                           src="/static/images/avatar/2.jpg"
-                        /> */}
-                     {getInitial(userName)}
+                     <Avatar
+                        alt="Remy Sharp"
+                        sx={{
+                           width: 40,
+                           display: "flex",
+                           justifyContent: "center",
+                           alignItems: "center",
+                           borderRadius: 2,
+                        }}
+                        src="https://muhimu.es/wp-content/uploads/2017/04/FRENTE-NITIDA.jpg"
+                     />
                   </Box>
                   <Box
                      sx={{
                         ml: "10px",
-                        fontWeight: 600,
-                        fontSize: 15,
-                        color: "#9EA5B0",
+                        display: "flex",
+                        flexDirection: "column",
                      }}
                   >
-                     <span>{userName}</span>
+                     <span
+                        style={{
+                           fontWeight: 500,
+                           fontSize: 11,
+                           color: "#9EA5B0",
+                        }}
+                     >
+                        Developer Frontend
+                     </span>
+                     <span
+                        style={{
+                           fontWeight: 600,
+                           fontSize: 13.5,
+                           color: "#2E384D",
+                        }}
+                     >
+                        Carlos Lora
+                     </span>
                   </Box>
-
 
                   <Menu
                      sx={{ mt: "45px" }}
