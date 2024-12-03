@@ -23,7 +23,6 @@ import {
 } from "../../services/request-service";
 import { Call, CallRes, RecruiterRes } from "../../interfaces/calls-interface";
 import { Spinner } from "../../../../../components/spinner/spinner";
-import { DragAndDrop } from "../../../call-board/components/drag-and-drop";
 
 // FIX: fix pagination
 // FIX: fix refactorization
@@ -177,7 +176,7 @@ export const RequestTable = () => {
          )}
 
          <Box sx={{ marginTop: 2 }}>
-            <DragAndDrop />
+         
          </Box>
 
          <Modal
