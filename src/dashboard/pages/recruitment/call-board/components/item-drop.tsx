@@ -9,9 +9,15 @@ type ItemsType = {
    title?: string;
    item?: Postulant;
    openModalForState?: (columnState?: string) => void;
+   setSelectedCardPostulation?: React.Dispatch<React.SetStateAction<Postulant>>;
 };
 
-export const ItemDrop = ({ id, item, openModalForState }: ItemsType) => {
+export const ItemDrop = ({
+   id,
+   item,
+   openModalForState,
+   setSelectedCardPostulation,
+}: ItemsType) => {
    const {
       attributes,
       listeners,
@@ -37,7 +43,10 @@ export const ItemDrop = ({ id, item, openModalForState }: ItemsType) => {
 
    return (
       <Box
-         onClick={() => openModalForState!(item?.estado)}
+         onClick={() => {
+            openModalForState!(item?.estado);
+            setSelectedCardPostulation!(item!);
+         }}
          ref={setNodeRef}
          {...attributes}
          {...listeners}

@@ -9,7 +9,11 @@ import { ModalCreationProfile } from "./components/modal-creation-profile";
 import { useParams } from "react-router";
 import { getCallByIdService } from "./services/call-board-service";
 import { CallDetail } from "../request-area-recruiter/interfaces/calls-interface";
-import { ModalPostulant } from "./components/modal-postulant";
+import { Postulant } from "./interface/call.interface";
+import { ModalPostulantPreview } from "./components/modal-postulant-preview";
+import { useDragAndDrop } from "./hooks/useDragAndDrop";
+import { ModalPostulantEdit } from "./components/modal-postulant-edit";
+import { ModalPostulantCreate } from "./components/modal-postulant-create";
 
 // FIX: Establecer estos estados de modal en un custom hook
 // FIX: fix responsive
@@ -19,6 +23,12 @@ import { ModalPostulant } from "./components/modal-postulant";
 export const CallBoard = () => {
    const [call, setCall] = useState<CallDetail>({} as CallDetail);
    const [activeModal, setActiveModal] = useState<string | null>(null);
+   const [selectedCardPostulation, setSelectedCardPostulation] = useState(
+      {} as Postulant
+   );
+   const valuesDragAndDrop = useDragAndDrop();
+   const { containers, setContainers } = valuesDragAndDrop;
+
    const params = useParams();
 
    const handleGetCallByIdService = async () => {
@@ -27,11 +37,32 @@ export const CallBoard = () => {
    };
 
    const openModal = (modalName: string) => setActiveModal(modalName);
+
    const closeModal = () => setActiveModal(null);
 
-   const openModalForState = useCallback((columnState?: string) => {
-      openModal(columnState!);
-   }, []);
+   const openModalForState = useCallback(
+      (columnState?: string, postulant?: Postulant) => {
+         openModal(columnState!);
+         setSelectedCardPostulation(postulant!);
+      },
+      []
+   );
+
+   const handleWithdrawProcess = (postulant: Postulant) => {
+      const updatedContainers = containers.map((container) => {
+         if (container.title === "Postulaciones") {
+            return {
+               ...container,
+               items: container.items.filter(
+                  (item) => item.id !== postulant.id
+               ),
+            };
+         }
+         return container;
+      });
+
+      setContainers(updatedContainers);
+   };
 
    useEffect(() => {
       handleGetCallByIdService();
@@ -95,7 +126,12 @@ export const CallBoard = () => {
          </Box>
 
          <Box sx={{ marginTop: 2 }}>
-            <DragAndDrop openModalForState={openModalForState} />
+            <DragAndDrop
+               openModal={openModal}
+               openModalForState={openModalForState}
+               setSelectedCardPostulation={setSelectedCardPostulation}
+               {...valuesDragAndDrop}
+            />
          </Box>
 
          <ModalDetailsCall
@@ -124,9 +160,24 @@ export const CallBoard = () => {
             handleCloseModal={closeModal}
          />
 
-         <ModalPostulant
+         <ModalPostulantCreate
+            isOpenModal={activeModal === "Postulante-Crear"}
+            handleCloseModal={closeModal}
+            selectedCardPostulation={selectedCardPostulation}
+         />
+
+         <ModalPostulantEdit
+            isOpenModal={activeModal === "Postulante-Edit"}
+            handleCloseModal={closeModal}
+            selectedCardPostulation={selectedCardPostulation}
+         />
+
+         <ModalPostulantPreview
             isOpenModal={activeModal === "Postulante"}
             handleCloseModal={closeModal}
+            selectedCardPostulation={selectedCardPostulation}
+            openModal={openModal}
+            handleWithdrawProcess={handleWithdrawProcess}
          />
       </Container>
    );

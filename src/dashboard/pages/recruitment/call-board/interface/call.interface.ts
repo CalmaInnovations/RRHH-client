@@ -21,18 +21,18 @@ export interface Postulant {
    email: string;
    dni: string;
    telefono: string;
-   convocatoriaId: number;
+   convocatoriaId?: number;
    modalidadPracticas: string;
    institucionEducativa: string;
    carrera: string;
    direccion: string;
    pais: string;
    departamento: string;
-   linkedinUrl: string;
-   cartaRecomendacion: string;
-   fechaRegistro: string; // Cambia a `Date` si procesas la fecha antes.
-   fechaNacimiento: string; // Cambia a `Date` si procesas la fecha antes.
-   cvUrl: string;
-   fotoUrl: string;
-   estado: string;
+   linkedinUrl?: string;
+   cartaRecomendacion?: string;
+   fechaRegistro?: string;
+   fechaNacimiento?: string;
+   cvUrl?: string;
+   fotoUrl?: string;
+   estado?: string;
  }

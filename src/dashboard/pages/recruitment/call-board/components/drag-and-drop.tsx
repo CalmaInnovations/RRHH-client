@@ -21,8 +21,9 @@ import {
 } from "@dnd-kit/core";
 import { ItemDrop } from "./item-drop";
 import { ContainerDrop } from "./container-drop";
-import { useDragAndDrop } from "../hooks/useDragAndDrop";
 import { getPostulantsService } from "../services/call-board-service";
+import { Postulant } from "../interface/call.interface";
+import { DragAndDropReturn } from "../interface/use-drag-drop.interface";
 
 const dropAnimationConfig: DropAnimation = {
    sideEffects: defaultDropAnimationSideEffects({
@@ -34,24 +35,29 @@ const dropAnimationConfig: DropAnimation = {
    }),
 };
 
-interface Props {
+interface Props extends DragAndDropReturn {
    openModalForState: (columnState?: string) => void;
+   setSelectedCardPostulation: React.Dispatch<React.SetStateAction<Postulant>>;
+   openModal: (modalName: string) => void;
 }
 
-export const DragAndDrop = ({ openModalForState }: Props) => {
+export const DragAndDrop = (props: Props) => {
    // FIX: Mejorar el manejo de reenderizacion al hacer cada accion
    // FIX: Separar Por componentes
    const {
-      activeId,
       containers,
-      setContainers,
+      activeId,
       findItemTitle,
-      handleDragStart,
+      setContainers,
+      openModalForState,
       handleDragEnd,
       handleDragMove,
+      handleDragStart,
+      setSelectedCardPostulation,
       setCurrentContainerId,
-      // onAddItem,
-   } = useDragAndDrop();
+      openModal,
+   } = props;
+
    const [open, setOpen] = useState(false);
    const [openModalInformation, setOpenModalInformation] = useState(false);
    const handleOpen = () => setOpen(!open);
@@ -103,7 +109,7 @@ export const DragAndDrop = ({ openModalForState }: Props) => {
                      key={container.id}
                      step={container.step}
                      onAddItem={() => {
-                        handleOpen();
+                        openModal("Postulante-Crear");
                         setCurrentContainerId(container.id);
                      }}
                   >
@@ -118,6 +124,9 @@ export const DragAndDrop = ({ openModalForState }: Props) => {
                                  item={item}
                                  id={item.id}
                                  openModalForState={openModalForState}
+                                 setSelectedCardPostulation={
+                                    setSelectedCardPostulation
+                                 }
                               />
                            ))}
                         </Box>
