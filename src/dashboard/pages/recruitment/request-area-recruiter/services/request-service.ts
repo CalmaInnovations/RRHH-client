@@ -1,10 +1,21 @@
 import clientAxios from "../../../../../config/client-axios"
 import { CallRes, RecruiterRes, RequestUpdateReq } from "../interfaces/calls-interface";
 
+// export const getCallsService = async () => {
+//    const response = await clientAxios.get<CallRes>('api/Convocatoria')
+//    return response;
+// }
+
 export const getCallsService = async () => {
-   const response = await clientAxios.get<CallRes>('api/Convocatoria')
-   return response;
-}
+   try {
+      const response = await clientAxios.get<CallRes>('api/Convocatoria');
+      console.log("Respuesta de getCallsService:", response.data);
+      return response;
+   } catch (error) {
+      console.error("Error en getCallsService:", error);
+      throw error;
+   }
+};
 
 export const getRecruitersAvailableService = async () => {
    const response = await clientAxios.get<RecruiterRes>('api/Convocatoria/reclutadores-disponibles');

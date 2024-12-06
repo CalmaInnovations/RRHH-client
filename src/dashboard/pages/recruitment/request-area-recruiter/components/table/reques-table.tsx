@@ -1,19 +1,11 @@
 import { useEffect, useState } from "react";
 import {
-   Table,
-   TableBody,
-   TableCell,
-   TableContainer,
-   TableHead,
-   TableRow,
-   Paper,
    Pagination,
    Modal,
    Box,
    Typography,
-   TextField,
    Grid,
-   Button,
+   Container,
 } from "@mui/material";
 import { TableItem } from "./components/table-item";
 import {
@@ -21,15 +13,22 @@ import {
    getRecruitersAvailableService,
    updateRequestService,
 } from "../../services/request-service";
+
+import { getAllSolicitudService } from "../../services/solicitudes-services";
 import { Call, CallRes, RecruiterRes } from "../../interfaces/calls-interface";
+import { SolicitudesRes } from "../../interfaces/solicitud-interface";
 import { Spinner } from "../../../../../components/spinner/spinner";
-import { DragAndDrop } from "../../../call-board/components/drag-and-drop";
+
+// import { DragAndDrop } from "../../../call-board/components/drag-and-drop";
 
 // FIX: fix pagination
 // FIX: fix refactorization
 // FIX: separate logic
 
 export const RequestTable = () => {
+   const [solicitudes, setSolicitudes] = useState<SolicitudesRes>(
+      {} as SolicitudesRes
+   );
    const [calls, setCalls] = useState<CallRes>({} as CallRes);
    const [open, setOpen] = useState(false);
    const [isLoading, setIsLoading] = useState(false);
@@ -71,6 +70,19 @@ export const RequestTable = () => {
       try {
          const { data } = await getCallsService();
          setCalls(data);
+      } catch (error) {
+         console.log(error);
+      } finally {
+         setIsLoading(false);
+      }
+   };
+
+   //funcion para llamar a todas las solicitudes
+   const handleGetAllSolicitudService = async () => {
+      setIsLoading(true);
+      try {
+         const { data } = await getAllSolicitudService();
+         setSolicitudes(data);
       } catch (error) {
          console.log(error);
       } finally {
@@ -127,14 +139,14 @@ export const RequestTable = () => {
    useEffect(() => {
       handleGetRecruitersAvailableService();
       handleGetCallsService();
+      handleGetAllSolicitudService();
    }, []);
 
    return (
-      <TableContainer
-         component={Paper}
+      <Box
          sx={{
             padding: "2rem",
-            minWidth: "1400px",
+            ml: 6,
          }}
       >
          <Typography variant="h3" sx={{ marginBottom: "1rem" }} component="h1">
@@ -145,42 +157,26 @@ export const RequestTable = () => {
             <Spinner />
          ) : (
             <>
-               <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                  <TableHead>
-                     <TableRow>
-                        <TableCell align="center">Area</TableCell>
-                        <TableCell align="center">Reclutador Senior</TableCell>
-                        <TableCell align="center">Reclutador General</TableCell>
-                        <TableCell align="center">Subárea</TableCell>
-                        <TableCell align="center">Puesto</TableCell>
-                        <TableCell align="center">Tipo</TableCell>
-                        <TableCell align="center">Fecha</TableCell>
-                        <TableCell align="center">Cantidad</TableCell>
-                        <TableCell align="center">Restantes</TableCell>
-                        <TableCell align="center">Estado</TableCell>
-                        <TableCell align="center">Observaciones</TableCell>
-                     </TableRow>
-                  </TableHead>
-                  <TableBody>
-                     {calls.convocatorias?.map((call) => (
-                        <TableItem
-                           call={call}
-                           key={call.idConvocatoria}
-                           handleSelectedRequest={handleSelectedRequest}
-                        />
-                     ))}
-                  </TableBody>
-               </Table>
+               <Grid
+                  container
+                  spacing={3}
+                  // sx={{ justifyContent: "center" }}
+               >
+                  {solicitudes.solicitudes?.map((sold) => (
+                     <TableItem sold={sold} key={sold.id} />
+                  ))}
 
-               <Pagination count={calls.pags} />
+               </Grid>
+
+               <Pagination count={solicitudes.pags} sx={{ mt: 4 }} />
             </>
          )}
 
-         <Box sx={{ marginTop: 2 }}>
+         {/* <Box sx={{ marginTop: 2 }}>
             <DragAndDrop />
-         </Box>
+         </Box> */}
 
-         <Modal
+         {/* <Modal
             open={open}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
@@ -337,7 +333,7 @@ export const RequestTable = () => {
                         />
                      </Grid>
 
-                     {/* Change input date */}
+
                      <Grid
                         item
                         xs={6}
@@ -472,7 +468,7 @@ export const RequestTable = () => {
                   <Button onClick={() => handleClose()}>Cancelar</Button>
                </Box>
             </Box>
-         </Modal>
-      </TableContainer>
+         </Modal> */}
+      </Box>
    );
 };

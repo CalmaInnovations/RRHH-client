@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
    Box,
-   Container,
    Grid,
    MenuItem,
    Select,
@@ -46,7 +45,13 @@ export const Call = () => {
    console.log(isLoading);
 
    return (
-      <Container sx={{ marginTop: 3 }}>
+      // <Container sx={{ marginTop: 3 }}>
+      <Box
+         sx={{
+            padding: "2rem",
+            ml: 6,
+         }}
+      >
          <Typography
             variant="h4"
             sx={{ marginBottom: "1rem", fontWeight: "600" }}
@@ -99,10 +104,18 @@ export const Call = () => {
                {calls.convocatorias?.map((call) => (
                   <Grid key={call.idConvocatoria} item xs={6}>
                      <CardCall call={call} />
+
+                  </Grid>
+               ))}
+               {calls.convocatorias?.map((call) => (
+                  <Grid key={call.idConvocatoria} item xs={6}>
+                     <CardCall call={call} />
+
                   </Grid>
                ))}
             </Grid>
          </Box>
-      </Container>
+      </Box>
+      // </Container>
    );
 };
