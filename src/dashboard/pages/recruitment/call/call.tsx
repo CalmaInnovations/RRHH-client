@@ -10,6 +10,8 @@ import {
 import { CardCall } from "../call-board/components/card-call";
 import { getCallsService } from "../request-area-recruiter/services/request-service";
 import { CallRes } from "../request-area-recruiter/interfaces/calls-interface";
+import { Tags } from "../../../components/Tag/components/Tags";
+import { Spinner } from "../../../components/spinner/spinner";
 
 export const Call = () => {
    // FIX: Mejorar este campo
@@ -60,60 +62,20 @@ export const Call = () => {
             Convocatorias
          </Typography>
 
-         <Box>
-            <Select
-               sx={{
-                  width: 200,
-                  marginRight: 4,
-                  color: "#0A99E6",
-                  fontWeight: 500,
-                  borderRadius: 2,
-               }}
-               labelId="demo-simple-select-label"
-               id="demo-simple-select"
-               value={area}
-               onChange={handleChangeArea}
-               displayEmpty
-            >
-               <MenuItem value="">Área</MenuItem>
-               <MenuItem value={10}>Área</MenuItem>
-            </Select>
-
-            <Select
-               sx={{
-                  width: 200,
-                  marginRight: 4,
-                  color: "#0A99E6",
-                  fontWeight: 500,
-                  borderRadius: 2,
-               }}
-               labelId="demo-simple-select-label"
-               id="demo-simple-select"
-               value={subArea}
-               onChange={handleChangeSubArea}
-               displayEmpty
-            >
-               <MenuItem value="">Subárea</MenuItem>
-               <MenuItem value={20}>Subárea</MenuItem>
-               <MenuItem value={30}>Subárea</MenuItem>
-            </Select>
-         </Box>
+         <Tags />
 
          <Box sx={{ marginTop: 5 }}>
-            <Grid container spacing={2}>
-               {calls.convocatorias?.map((call) => (
-                  <Grid key={call.idConvocatoria} item xs={6}>
-                     <CardCall call={call} />
-
-                  </Grid>
-               ))}
-               {calls.convocatorias?.map((call) => (
-                  <Grid key={call.idConvocatoria} item xs={6}>
-                     <CardCall call={call} />
-
-                  </Grid>
-               ))}
-            </Grid>
+            {isLoading ? (
+               <Spinner className="mt-64" />
+            ) : (
+               <Grid container spacing={2}>
+                  {calls.convocatorias?.map((call) => (
+                     <Grid key={call.idConvocatoria} item xs={6}>
+                        <CardCall call={call} />
+                     </Grid>
+                  ))}
+               </Grid>
+            )}
          </Box>
       </Box>
       // </Container>

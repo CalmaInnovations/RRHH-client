@@ -84,7 +84,7 @@ export const ModalPostulantCreate = ({
                      fontWeight: 500,
                   }}
                >
-                  Editar Postulante
+                  Añadir Postulante
                </Typography>
 
                <form onSubmit={handleSubmit(onSubmit)}>
