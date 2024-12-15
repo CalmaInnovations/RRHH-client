@@ -68,6 +68,7 @@ export const CallBoard = () => {
    const openModal = (modalName: string) => setActiveModal(modalName);
 
    const handleGetDataPostulantService = async (id_postulant: number) => {
+      console.log("Se vuelve a ejecutar");
       const { data } = await getDataPostulantService(id_postulant);
       setSelectedCardPostulation(data);
    };

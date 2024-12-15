@@ -25,7 +25,7 @@ export const ContainerPostulationEdit = ({
    } = useForm<FormValues>({
       mode: "onSubmit",
       defaultValues: {
-         ...selectedCardPostulation,
+         ...selectedCardPostulation.postulante,
          fechaNacimiento: "2024-12-03T03:29:22.920Z",
          convocatoriaId: 1, // Agregar de manera dinamica
          linkedinUrl:

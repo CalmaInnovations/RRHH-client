@@ -1,6 +1,28 @@
-import { Box, Button, Typography } from "@mui/material";
+import dayjs from "dayjs";
+import { Box, Button, Link, Typography } from "@mui/material";
+import { PostulantDataComplete } from "../interface/call.interface";
+import { useCallBoardProvider } from "../hooks/use-call-board-provider";
 
-export const ContainerInductionPreview = () => {
+interface Props {
+   selectedCardPostulation: PostulantDataComplete;
+   setModalEditCard: React.Dispatch<React.SetStateAction<boolean>>;
+   closeModalPreviewCard: () => void;
+}
+
+export const ContainerInductionPreview = ({
+   closeModalPreviewCard,
+   setModalEditCard,
+   selectedCardPostulation,
+}: Props) => {
+   const { recruiters } = useCallBoardProvider();
+
+   const handleOpenModalEdit = () => {
+      closeModalPreviewCard();
+      setModalEditCard(true);
+   };
+
+   console.log(recruiters);
+
    return (
       <Box>
          <Box>
@@ -10,7 +32,9 @@ export const ContainerInductionPreview = () => {
                   marginBottom: 2,
                }}
             >
-               [Nombre completo del postulante]
+               Nombre: {selectedCardPostulation?.postulante?.nombres}{" "}
+               {selectedCardPostulation?.postulante?.apellidoPaterno}{" "}
+               {selectedCardPostulation?.postulante?.apellidoMaterno}
             </Typography>
 
             <Typography
@@ -19,7 +43,7 @@ export const ContainerInductionPreview = () => {
                   marginBottom: 2,
                }}
             >
-               [Correo electrónico]
+               Correo:{selectedCardPostulation?.postulante?.email}
             </Typography>
 
             <Typography
@@ -28,7 +52,7 @@ export const ContainerInductionPreview = () => {
                   marginBottom: 2,
                }}
             >
-               [Puesto]
+               Puesto:
             </Typography>
 
             <Typography
@@ -37,7 +61,14 @@ export const ContainerInductionPreview = () => {
                   marginBottom: 2,
                }}
             >
-               [Enlace de CV]
+               Enlace de Cv:{" "}
+               <Link
+                  href={selectedCardPostulation?.postulante?.cvUrl}
+                  rel="noreferrer"
+                  target="_blank"
+               >
+                  {selectedCardPostulation?.postulante?.cvUrl}
+               </Link>
             </Typography>
 
             <Typography
@@ -46,7 +77,11 @@ export const ContainerInductionPreview = () => {
                   marginBottom: 2,
                }}
             >
-               Enlace de evidencia
+               Enlace de evidencia:{" "}
+               {
+                  selectedCardPostulation?.induccionGeneral
+                     ?.linkEvidenciaInduccion
+               }
             </Typography>
 
             <Typography
@@ -55,7 +90,15 @@ export const ContainerInductionPreview = () => {
                   marginBottom: 2,
                }}
             >
-               Coordinador de Onboarding
+               Coordinador de Onboarding:{" "}
+               {recruiters?.reclutadoresGeneral.map((recruiter) => {
+                  if (
+                     recruiter.id ===
+                     selectedCardPostulation?.induccionGeneral?.encargadoId
+                  ) {
+                     return recruiter.nombre;
+                  }
+               })}
             </Typography>
 
             <Typography
@@ -64,7 +107,8 @@ export const ContainerInductionPreview = () => {
                   marginBottom: 2,
                }}
             >
-               Enlace de Meet
+               Enlace de Meet:{" "}
+               {selectedCardPostulation?.induccionGeneral?.linkMeet}
             </Typography>
 
             <Typography
@@ -73,7 +117,10 @@ export const ContainerInductionPreview = () => {
                   marginBottom: 2,
                }}
             >
-               Inducción: 30/11/24 a las 8:00
+               Inducción:{" "}
+               {dayjs(
+                  selectedCardPostulation?.induccionGeneral?.fechaHoraInduccion
+               ).format("DD-MM-YYYY HH:mm:ss")}
             </Typography>
 
             <Typography
@@ -82,12 +129,13 @@ export const ContainerInductionPreview = () => {
                   marginBottom: 2,
                }}
             >
-               Observaciones: No definido
+               Observaciones:{" "}
+               {selectedCardPostulation?.induccionGeneral?.observaciones}
             </Typography>
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 4, mb: 2 }}>
                <Button
-                  onClick={() => console.log("openModal(Postulante-Edit)")}
+                  onClick={() => handleOpenModalEdit()}
                   variant="contained"
                   sx={{ width: "100%", color: "white" }}
                >

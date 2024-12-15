@@ -14,7 +14,7 @@ interface Props {
    name: string;
    label: string;
    disabled?: boolean;
-   children: JSX.Element[];
+   children: JSX.Element[] | JSX.Element;
    defaultValue?: string; // Nueva propiedad
 }
 
@@ -25,14 +25,14 @@ export function RHFSelect({
    label,
    disabled,
    children,
-   defaultValue,
+   defaultValue = "default",
 }: Props) {
    return (
       <Controller
          name={name}
          control={control}
          defaultValue={defaultValue}
-         render={({ field }) => (
+         render={({ field: { value, ...fieldProps } }) => (
             <FormControl fullWidth variant="outlined">
                <InputLabel shrink htmlFor={name}>
                   {label}
@@ -40,16 +40,17 @@ export function RHFSelect({
                <Select
                   id={name}
                   label={label}
-                  defaultValue={[""]}
-                  {...field}
+                  value={value || "default"}
+                  {...fieldProps}
                   disabled={disabled}
+                  displayEmpty
                   sx={{
                      "& .MuiInputBase-input": {
                         background: "white",
                      },
                   }}
                >
-                  <MenuItem value="" disabled>
+                  <MenuItem value="default" disabled>
                      Seleccionar
                   </MenuItem>
                   {children}

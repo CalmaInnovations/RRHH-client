@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from "react-router";
 import { DashboardLayout } from "../layout/DashboardLayout";
+import { CallBoardProvider } from "../pages/recruitment/call-board/context/call-board-provider";
 import {
    Requests,
    RequestsAreaRecruiter,
@@ -23,7 +24,14 @@ export const DashboardRoutes = () => {
                />
                <Route path="call" element={<Call />} />
 
-               <Route path="call/:id" element={<CallBoard />} />
+               <Route
+                  path="call/:id"
+                  element={
+                     <CallBoardProvider>
+                        <CallBoard />
+                     </CallBoardProvider>
+                  }
+               />
             </Route>
 
             <Route path="/*" element={<Navigate to="/" />} />

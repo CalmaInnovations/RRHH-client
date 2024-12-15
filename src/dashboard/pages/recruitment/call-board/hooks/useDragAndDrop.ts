@@ -87,7 +87,7 @@ export const useDragAndDrop = () => {
       useSensor(PointerSensor),
       useSensor(KeyboardSensor, {
          coordinateGetter: sortableKeyboardCoordinates,
-         activationConstraint: {delay: 2, tolerance: 5, distance: 100},
+         // activationConstraint: {delay: 2, tolerance: 5, distance: 100},
          onActivation: (event) => console.log("onActivation", event)
       })
    );

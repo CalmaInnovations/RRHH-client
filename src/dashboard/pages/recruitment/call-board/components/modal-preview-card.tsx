@@ -113,7 +113,11 @@ export const ModalPreviewCard = ({
                   />
                </CustomTabPanel>
                <CustomTabPanel value={value} index={2}>
-                  <ContainerInductionPreview />
+                  <ContainerInductionPreview
+                     selectedCardPostulation={selectedCardPostulation}
+                     closeModalPreviewCard={closeModalPreviewCard}
+                     setModalEditCard={setModalEditCard}
+                  />
                </CustomTabPanel>
                <CustomTabPanel value={value} index={3}>
                   Item Four

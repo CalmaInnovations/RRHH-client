@@ -26,9 +26,9 @@ export const ContainerPreviewPreview = ({
                   marginBottom: 2,
                }}
             >
-               Nombre: {selectedCardPostulation?.postulante.nombres}{" "}
-               {selectedCardPostulation?.postulante.apellidoPaterno}{" "}
-               {selectedCardPostulation?.postulante.apellidoMaterno}
+               Nombre: {selectedCardPostulation?.postulante?.nombres}{" "}
+               {selectedCardPostulation?.postulante?.apellidoPaterno}{" "}
+               {selectedCardPostulation?.postulante?.apellidoMaterno}
             </Typography>
 
             <Typography
@@ -37,7 +37,7 @@ export const ContainerPreviewPreview = ({
                   marginBottom: 2,
                }}
             >
-               Correo: {selectedCardPostulation?.postulante.email}
+               Correo: {selectedCardPostulation?.postulante?.email}
             </Typography>
 
             <Typography
@@ -46,7 +46,6 @@ export const ContainerPreviewPreview = ({
                   marginBottom: 2,
                }}
             >
-               {/* Apellido Paterno: {selectedCardPostulation.apellidoPaterno} */}
                Puesto: [Puesto]
             </Typography>
             <Typography
@@ -57,11 +56,11 @@ export const ContainerPreviewPreview = ({
             >
                Enlace de Cv:{" "}
                <Link
-                  href={selectedCardPostulation?.postulante.cvUrl}
+                  href={selectedCardPostulation?.postulante?.cvUrl}
                   rel="noreferrer"
                   target="_blank"
                >
-                  {selectedCardPostulation?.postulante.cvUrl}
+                  {selectedCardPostulation?.postulante?.cvUrl}
                </Link>
             </Typography>
 
@@ -80,8 +79,7 @@ export const ContainerPreviewPreview = ({
                   marginBottom: 2,
                }}
             >
-               {/* Telefono: {selectedCardPostulation.telefono} */}
-               Puntaje: No definido
+               Puntaje: {selectedCardPostulation?.entrevista?.puntaje}
             </Typography>
 
             <Typography
@@ -90,7 +88,7 @@ export const ContainerPreviewPreview = ({
                   marginBottom: 2,
                }}
             >
-               Observaciones: No definido
+               Observaciones: {selectedCardPostulation?.entrevista?.comentarios}
             </Typography>
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 4, mb: 2 }}>
@@ -123,7 +121,7 @@ export const ContainerPreviewPreview = ({
                   backgroundColor: "#F63535",
                }}
             >
-               Retirar Postulante
+               Retirar del proceso
             </Button>
          </Box>
       </Box>

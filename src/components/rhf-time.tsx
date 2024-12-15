@@ -34,8 +34,10 @@ export function RHFTimePicker({
                      label={label}
                      value={value ? dayjs(value) : null} // Convertimos a `Dayjs` si hay valor
                      onChange={(newValue) =>
-                        onChange(newValue ? newValue.toISOString() : null)
-                     } // Convertimos a formato ISO para guardar
+                        onChange(
+                           newValue ? dayjs(newValue).format("HH-mm") : null
+                        )
+                     }
                      disabled={disabled}
                      slotProps={{
                         textField: {

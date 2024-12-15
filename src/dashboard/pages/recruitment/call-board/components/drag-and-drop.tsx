@@ -22,6 +22,7 @@ import {
 import { ItemDrop } from "./item-drop";
 import { ContainerDrop } from "./container-drop";
 import {
+   getInductionsService,
    getInterviewedService,
    getPostulantsService,
 } from "../services/call-board-service";
@@ -87,20 +88,41 @@ export const DragAndDrop = (props: Props) => {
    };
 
    const handleGetInterviewedService = async () => {
-      const { data } = await getInterviewedService();
+      try {
+         const { data } = await getInterviewedService();
 
-      setContainers((prevContainers) =>
-         prevContainers.map((container) =>
-            container.title === "Entrevista"
-               ? { ...container, items: data }
-               : container
-         )
-      );
+         setContainers((prevContainers) =>
+            prevContainers.map((container) =>
+               container.title === "Entrevista"
+                  ? { ...container, items: data }
+                  : container
+            )
+         );
+      } catch (error) {
+         console.log("Error", error);
+      }
+   };
+
+   const handleGetInductionsService = async () => {
+      try {
+         const { data } = await getInductionsService();
+
+         setContainers((prevContainers) =>
+            prevContainers.map((container) =>
+               container.title === "Induccion general"
+                  ? { ...container, items: data }
+                  : container
+            )
+         );
+      } catch (error) {
+         console.log("Error", error);
+      }
    };
 
    useEffect(() => {
       handleGetPostulantsService();
       handleGetInterviewedService();
+      handleGetInductionsService();
    }, []);
 
    return (

@@ -7,19 +7,42 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormValues, schema } from "../validations/schema-entreview-edit";
 import { RHFTimePicker } from "../../../../../components/rhf-time";
 import { RHFDate } from "../../../../../components/rhf-date";
+import { PostulantDataComplete } from "../interface/call.interface";
+import { setPunctualInterviewService } from "../services/call-board-service";
 
 interface Props {
    closeModalEditCard: () => void;
+   selectedCardPostulation: PostulantDataComplete;
 }
 
-export const ContainerEntreviewEdit = ({ closeModalEditCard }: Props) => {
+export const ContainerEntreviewEdit = ({
+   closeModalEditCard,
+   selectedCardPostulation,
+}: Props) => {
    const {
       control,
       handleSubmit,
       formState: { errors },
-   } = useForm<FormValues>({ mode: "onSubmit", resolver: zodResolver(schema) });
+   } = useForm<FormValues>({
+      mode: "onSubmit",
+      resolver: zodResolver(schema),
+      defaultValues: {
+         puntaje: selectedCardPostulation?.entrevista?.puntaje.toString(),
+         observaciones: selectedCardPostulation?.entrevista?.comentarios,
+      },
+   });
 
-   const onSubmit = async (data: FormValues) => {
+   const onSubmit = async (values: FormValues) => {
+      console.log(values);
+
+      const { data } = await setPunctualInterviewService(
+         selectedCardPostulation.postulante.id!,
+         {
+            comentarios: values.observaciones,
+            puntaje: +values.puntaje,
+         }
+      );
+
       console.log(data);
    };
 
@@ -69,22 +92,22 @@ export const ContainerEntreviewEdit = ({ closeModalEditCard }: Props) => {
          <Grid container spacing={3}>
             <Grid item xs={6}>
                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <RHFTimePicker
+                  <RHFDate
                      control={control}
-                     name="hora"
-                     label="Selecciona la hora"
-                     error={errors.hora}
+                     name="fecha"
+                     label="Selecciona la fecha"
+                     error={errors.fecha}
                   />
                </LocalizationProvider>
             </Grid>
 
             <Grid item xs={6}>
                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <RHFDate
+                  <RHFTimePicker
                      control={control}
-                     name="fecha"
-                     label="Selecciona la fecha"
-                     error={errors.fecha}
+                     name="hora"
+                     label="Selecciona la hora"
+                     error={errors.hora}
                   />
                </LocalizationProvider>
             </Grid>

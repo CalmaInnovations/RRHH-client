@@ -1,20 +1,27 @@
 // import dayjs from "dayjs";
-import { Button, Grid, MenuItem, Typography } from "@mui/material";
-import { LocalizationProvider } from "@mui/x-date-pickers";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { Button, Grid, MenuItem, Typography } from "@mui/material";
 import { RHFTimePicker } from "../../../../../components/rhf-time";
 import { RHFDate } from "../../../../../components/rhf-date";
 import { RHFInput } from "../../../../../components/rhf-input";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FormValues, schema } from "../validations/schema-induction-edit";
 import { RHFSelect } from "../../../../../components/rhf-select";
+import { FormValues, schema } from "../validations/schema-induction-edit";
+import { PostulantDataComplete } from "../interface/call.interface";
+import { useCallBoardProvider } from "../hooks/use-call-board-provider";
 
 interface Props {
    closeModalEditCard: () => void;
+   selectedCardPostulation: PostulantDataComplete;
 }
 
-export const ContainerInductionEdit = ({ closeModalEditCard }: Props) => {
+export const ContainerInductionEdit = ({
+   closeModalEditCard,
+   selectedCardPostulation,
+}: Props) => {
+   const { recruiters } = useCallBoardProvider();
    const {
       control,
       handleSubmit,
@@ -28,7 +35,7 @@ export const ContainerInductionEdit = ({ closeModalEditCard }: Props) => {
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <Grid container>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
                <Typography
                   id="modal-modal-title"
                   component="p"
@@ -86,7 +93,7 @@ export const ContainerInductionEdit = ({ closeModalEditCard }: Props) => {
                >
                   [Enlace de evidencia]
                </Typography>
-            </Grid>
+            </Grid> */}
          </Grid>
          <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -96,12 +103,11 @@ export const ContainerInductionEdit = ({ closeModalEditCard }: Props) => {
                   label="Coordinador de Onboarding"
                   error={errors.coordinador}
                >
-                  <MenuItem value="Practicante preprofesional">
-                     Practicante preprofesional
-                  </MenuItem>
-                  <MenuItem value="Practicante profesional">
-                     Practicante profesional
-                  </MenuItem>
+                  {recruiters?.reclutadoresGeneral.map((recruiter) => (
+                     <MenuItem key={recruiter.id} value={recruiter.nombre}>
+                        {recruiter.nombre}
+                     </MenuItem>
+                  ))}
                </RHFSelect>
             </Grid>
 

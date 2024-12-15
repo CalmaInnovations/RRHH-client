@@ -34,7 +34,11 @@ export function RHFDate({
                      label={label}
                      value={value ? dayjs(value) : null} // Convertimos a `Dayjs` si hay valor
                      onChange={(newValue) =>
-                        onChange(newValue ? newValue.toISOString() : null)
+                        onChange(
+                           newValue
+                              ? dayjs(newValue).format("YYYY-MM-DD")
+                              : null
+                        )
                      } // Convertimos a formato ISO para guardar
                      disabled={disabled}
                      slotProps={{

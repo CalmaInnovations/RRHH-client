@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Link, Typography } from "@mui/material";
 import { PostulantDataComplete } from "../interface/call.interface";
 
 interface Props {
@@ -26,7 +26,7 @@ export const ContainerPostulantPreview = ({
                   marginBottom: 2,
                }}
             >
-               Nombre: {selectedCardPostulation.postulante.nombres}
+               Nombre: {selectedCardPostulation?.postulante?.nombres}
             </Typography>
 
             <Typography
@@ -36,7 +36,7 @@ export const ContainerPostulantPreview = ({
                }}
             >
                Apellido Paterno:{" "}
-               {selectedCardPostulation.postulante.apellidoPaterno}
+               {selectedCardPostulation?.postulante?.apellidoPaterno}
             </Typography>
 
             <Typography
@@ -46,7 +46,7 @@ export const ContainerPostulantPreview = ({
                }}
             >
                Apellido Paterno:{" "}
-               {selectedCardPostulation.postulante.apellidoPaterno}
+               {selectedCardPostulation?.postulante?.apellidoPaterno}
             </Typography>
 
             <Typography
@@ -56,7 +56,7 @@ export const ContainerPostulantPreview = ({
                }}
             >
                Apellido Materno:{" "}
-               {selectedCardPostulation.postulante.apellidoMaterno}
+               {selectedCardPostulation?.postulante?.apellidoMaterno}
             </Typography>
 
             <Typography
@@ -65,7 +65,7 @@ export const ContainerPostulantPreview = ({
                   marginBottom: 2,
                }}
             >
-               Correo Electronico: {selectedCardPostulation.postulante.email}
+               Correo Electronico: {selectedCardPostulation?.postulante?.email}
             </Typography>
 
             <Typography
@@ -74,7 +74,8 @@ export const ContainerPostulantPreview = ({
                   marginBottom: 2,
                }}
             >
-               Documento de Identidad : {selectedCardPostulation.postulante.dni}
+               Documento de Identidad :{" "}
+               {selectedCardPostulation?.postulante?.dni}
             </Typography>
 
             <Typography
@@ -83,7 +84,7 @@ export const ContainerPostulantPreview = ({
                   marginBottom: 2,
                }}
             >
-               Telefono: {selectedCardPostulation.postulante.telefono}
+               Telefono: {selectedCardPostulation?.postulante?.telefono}
             </Typography>
 
             <Typography
@@ -93,7 +94,7 @@ export const ContainerPostulantPreview = ({
                }}
             >
                Modalidad de Practicas:{" "}
-               {selectedCardPostulation.postulante.modalidadPracticas}
+               {selectedCardPostulation?.postulante?.modalidadPracticas}
             </Typography>
 
             <Typography
@@ -103,7 +104,7 @@ export const ContainerPostulantPreview = ({
                }}
             >
                Institucion Educativa:{" "}
-               {selectedCardPostulation.postulante.institucionEducativa}
+               {selectedCardPostulation?.postulante?.institucionEducativa}
             </Typography>
 
             <Typography
@@ -112,7 +113,7 @@ export const ContainerPostulantPreview = ({
                   marginBottom: 2,
                }}
             >
-               Carrera: {selectedCardPostulation.postulante.carrera}
+               Carrera: {selectedCardPostulation?.postulante?.carrera}
             </Typography>
 
             <Typography
@@ -121,7 +122,7 @@ export const ContainerPostulantPreview = ({
                   marginBottom: 2,
                }}
             >
-               Direccion: {selectedCardPostulation.postulante.direccion}
+               Direccion: {selectedCardPostulation?.postulante?.direccion}
             </Typography>
 
             <Typography
@@ -130,7 +131,7 @@ export const ContainerPostulantPreview = ({
                   marginBottom: 2,
                }}
             >
-               Pais: {selectedCardPostulation.postulante.pais}
+               Pais: {selectedCardPostulation?.postulante?.pais}
             </Typography>
 
             <Typography
@@ -139,7 +140,7 @@ export const ContainerPostulantPreview = ({
                   marginBottom: 2,
                }}
             >
-               Departamento: {selectedCardPostulation.postulante.departamento}
+               Departamento: {selectedCardPostulation?.postulante?.departamento}
             </Typography>
 
             <Typography
@@ -148,7 +149,14 @@ export const ContainerPostulantPreview = ({
                   marginBottom: 2,
                }}
             >
-               Currículum vitae: drive.google.com/curriculumvitae.pdf
+               Currículum vitae:{" "}
+               <Link
+                  href={selectedCardPostulation?.postulante?.cvUrl}
+                  rel="noreferrer"
+                  target="_blank"
+               >
+                  {selectedCardPostulation?.postulante?.cvUrl}
+               </Link>
             </Typography>
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 4 }}>

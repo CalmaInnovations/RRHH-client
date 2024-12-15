@@ -16,7 +16,7 @@ export interface ColumnPostulant {
 export interface PostulantDataComplete {
    postulante: Postulant;
    entrevista:Entrevista;
-   induccionGeneral: null;
+   induccionGeneral: InductionGeneral;
    induccionArea: null;
    documentacion: null;
 
@@ -53,6 +53,30 @@ export interface Entrevista {
    comentarios: string;
 }
 
- export interface CreatePostulant {
+export interface InductionGeneral {
+   encargadoId: number;
+   fechaHoraInduccion: string;
+   linkEvidenciaInduccion: string;
+   linkMeet: string;
+   observaciones: string;
+   postulanteId: string;
+   realizoInduccion: boolean
+}
 
- }
+export interface ListRecruiters {
+   reclutadoresSenior: Recruiters[];
+   reclutadoresGeneral: Recruiters[]
+}
+
+export interface Recruiters {
+   id: number,
+   nombre: string;
+}
+
+export interface InductionGeneralUpdate {
+   realizoInduccion: boolean,
+   linkEvidenciaInduccion: string,
+   linkMeet: string,
+   observaciones: string
+
+}

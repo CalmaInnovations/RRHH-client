@@ -52,6 +52,8 @@ export const ItemDrop = ({
                changeModalPreviewCard!(0);
             } else if (item.estado === "Entrevista") {
                changeModalPreviewCard!(1);
+            } else if (item.estado === "Induccion general") {
+               changeModalPreviewCard!(2);
             }
 
             await handleGetDataPostulantService!(item.id!);

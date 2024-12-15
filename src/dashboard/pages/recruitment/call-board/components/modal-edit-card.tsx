@@ -99,11 +99,13 @@ export const ModalEditCard = ({
                <CustomTabPanel value={value} index={1}>
                   <ContainerEntreviewEdit
                      closeModalEditCard={closeModalEditCard}
+                     selectedCardPostulation={selectedCardPostulation}
                   />
                </CustomTabPanel>
                <CustomTabPanel value={value} index={2}>
                   <ContainerInductionEdit
                      closeModalEditCard={closeModalEditCard}
+                     selectedCardPostulation={selectedCardPostulation}
                   />
                </CustomTabPanel>
                <CustomTabPanel value={value} index={3}>
