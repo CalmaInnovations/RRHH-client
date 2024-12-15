@@ -104,13 +104,11 @@ export const Call = () => {
                {calls.convocatorias?.map((call) => (
                   <Grid key={call.idConvocatoria} item xs={6}>
                      <CardCall call={call} />
-
                   </Grid>
                ))}
                {calls.convocatorias?.map((call) => (
                   <Grid key={call.idConvocatoria} item xs={6}>
                      <CardCall call={call} />
-
                   </Grid>
                ))}
             </Grid>

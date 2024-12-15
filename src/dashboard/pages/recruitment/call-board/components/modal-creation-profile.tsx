@@ -79,6 +79,9 @@ export const ModalCreationProfile = ({
                         id="outlined-basic"
                         variant="outlined"
                         value="Victor Carrera Carrasco"
+                        sx={{
+                           backgroundColor: "white",
+                        }}
                      />
                   </Grid>
 
@@ -97,6 +100,9 @@ export const ModalCreationProfile = ({
                         id="outlined-basic"
                         variant="outlined"
                         value="Practicante en Desarrollador Fronted"
+                        sx={{
+                           backgroundColor: "white",
+                        }}
                      />
                   </Grid>
 
@@ -117,6 +123,9 @@ export const ModalCreationProfile = ({
                         id="outlined-basic"
                         variant="outlined"
                         value="77808521"
+                        sx={{
+                           backgroundColor: "white",
+                        }}
                      />
                   </Grid>
 
@@ -135,6 +144,9 @@ export const ModalCreationProfile = ({
                         id="outlined-basic"
                         variant="outlined"
                         value="Nombre del area"
+                        sx={{
+                           backgroundColor: "white",
+                        }}
                      />
                   </Grid>
 
@@ -152,9 +164,11 @@ export const ModalCreationProfile = ({
                      </InputLabel>
 
                      <TextField
-                        id="outlined-basic"
                         variant="outlined"
                         value="922406277"
+                        sx={{
+                           backgroundColor: "white",
+                        }}
                      />
                   </Grid>
 
@@ -175,6 +189,9 @@ export const ModalCreationProfile = ({
                         <DateField
                            // defaultValue={dayjs("16-11-2024")}
                            format="DD-MM-YYYY"
+                           sx={{
+                              backgroundColor: "white",
+                           }}
                         />
                      </LocalizationProvider>
                   </Grid>
@@ -193,9 +210,8 @@ export const ModalCreationProfile = ({
                      <Select
                         sx={{
                            borderRadius: 2,
+                           background: "white",
                         }}
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
                         value={area}
                         onChange={handleChangeArea}
                         displayEmpty
@@ -223,6 +239,9 @@ export const ModalCreationProfile = ({
                         <DateField
                            // defaultValue={dayjs("16-11-2024")}
                            format="DD-MM-YYYY"
+                           sx={{
+                              backgroundColor: "white",
+                           }}
                         />
                      </LocalizationProvider>
                   </Grid>

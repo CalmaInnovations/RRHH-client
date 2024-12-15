@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-   Pagination,
-   Modal,
-   Box,
-   Typography,
-   Grid,
-} from "@mui/material";
+import { Pagination, Modal, Box, Typography, Grid } from "@mui/material";
 import { TableItem } from "./components/table-item";
 import {
    getCallsService,
@@ -164,7 +158,6 @@ export const RequestTable = () => {
                   {solicitudes.solicitudes?.map((sold) => (
                      <TableItem sold={sold} key={sold.id} />
                   ))}
-
                </Grid>
 
                <Pagination count={solicitudes.pags} sx={{ mt: 4 }} />

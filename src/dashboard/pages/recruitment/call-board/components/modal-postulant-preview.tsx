@@ -17,10 +17,12 @@ export const ModalPostulantPreview = ({
    handleWithdrawProcess,
 }: Props) => {
    const handleWithdrawProcessService = async () => {
-      await withdrawProcessService(selectedCardPostulation.id);
+      await withdrawProcessService(selectedCardPostulation.id!);
       handleWithdrawProcess(selectedCardPostulation);
       handleCloseModal();
    };
+
+   console.log("Modal Postulant Prewiew Reender");
 
    return (
       <Modal open={isOpenModal} onClose={handleCloseModal}>
