@@ -58,3 +58,5 @@ export interface RequestUpdateReq {
    beneficios: string;
    fechaPublicacion: string
 }
+
+

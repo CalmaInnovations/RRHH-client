@@ -1,10 +1,14 @@
 import { Box, Card, CardContent, IconButton, Typography } from "@mui/material";
 // import { useNavigate } from "react-router";
-import { Call } from "../../request-area-recruiter/interfaces/calls-interface";
+import {
+   Call,
+   RecruiterRes,
+} from "../../request-area-recruiter/interfaces/calls-interface";
 import CircleIcon from "@mui/icons-material/Circle";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useState } from "react";
 import { ModalAsingReclutador } from "./modal-asing-reclutador";
+import { getRecruitersAvailableService } from "../../request-area-recruiter/services/request-service";
 
 interface Props {
    call: Call;
@@ -13,12 +17,28 @@ interface Props {
 // FIX: fix responsive
 
 export const CardCall = ({ call }: Props) => {
-
+   const [recruiters, setRecruiters] = useState<RecruiterRes>(
+      {} as RecruiterRes
+   );
+   const [isLoading, setIsLoading] = useState(false);
    const [activeModal, setActiveModal] = useState<string | null>(null);
+
    // const navigation = useNavigate();
 
-
-   const openModal = (modalName: string) => setActiveModal(modalName);
+   const openModal = async (modalName: string) => {
+      if (modalName === "asign") {
+         setIsLoading(true);
+         try {
+            const { data } = await getRecruitersAvailableService();
+            setRecruiters(data); // Actualiza el estado con los datos de la API
+         } catch (error) {
+            console.error("Error al obtener los reclutadores:", error);
+         } finally {
+            setIsLoading(false);
+         }
+      }
+      setActiveModal(modalName);
+   };
    const closeModal = () => setActiveModal(null);
 
    return (
@@ -100,10 +120,11 @@ export const CardCall = ({ call }: Props) => {
             </Box>
          </CardContent>
 
-
          <ModalAsingReclutador
             openModalDetails={activeModal === "asign"}
             handleCloseModal={closeModal}
+            recruiters={recruiters}
+            isLoading={isLoading}
          />
       </Card>
    );

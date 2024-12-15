@@ -5,3 +5,8 @@
 .box-shadow {
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
 }
+
+
+body {
+   @apply font-sans;
+ }

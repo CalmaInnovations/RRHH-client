@@ -11,6 +11,7 @@ import { getAllSolicitudService } from "../../services/solicitudes-services";
 import { Call, CallRes, RecruiterRes } from "../../interfaces/calls-interface";
 import { SolicitudesRes } from "../../interfaces/solicitud-interface";
 import { Spinner } from "../../../../../components/spinner/spinner";
+import { Tags } from "../../../../../components/Tag/components/Tags";
 
 // import { DragAndDrop } from "../../../call-board/components/drag-and-drop";
 
@@ -146,8 +147,11 @@ export const RequestTable = () => {
             Solicitudes
          </Typography>
 
+         {/* componente de tags  aqui*/}
+         <Tags />
+
          {isLoading ? (
-            <Spinner />
+            <Spinner className="mt-64" />
          ) : (
             <>
                <Grid
