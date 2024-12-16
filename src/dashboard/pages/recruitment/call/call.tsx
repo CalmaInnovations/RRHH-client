@@ -13,6 +13,8 @@ import { CallRes } from "../request-area-recruiter/interfaces/calls-interface";
 import { Tags } from "../../../components/Tag/components/Tags";
 import { Spinner } from "../../../components/spinner/spinner";
 
+
+
 export const Call = () => {
    // FIX: Mejorar este campo
    const [area, setArea] = useState("");
@@ -71,7 +73,7 @@ export const Call = () => {
                <Grid container spacing={2}>
                   {calls.convocatorias?.map((call) => (
                      <Grid key={call.idConvocatoria} item xs={6}>
-                        <CardCall call={call} />
+                        <CardCall call={call} handleGetCallsService={handleGetCallsService}/>
                      </Grid>
                   ))}
                </Grid>

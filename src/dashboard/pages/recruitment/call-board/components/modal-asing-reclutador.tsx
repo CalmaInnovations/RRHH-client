@@ -9,15 +9,21 @@ import {
    RadioGroup,
    Typography,
 } from "@mui/material";
-import { RecruiterRes } from "../../request-area-recruiter/interfaces/calls-interface";
+import {
+   RecruiterRes,
+   RequestUpdateReq,
+} from "../../request-area-recruiter/interfaces/calls-interface";
 import { useState } from "react";
 import { Spinner } from "../../../../components/spinner/spinner";
+import { updateRequestService } from "../../request-area-recruiter/services/request-service";
 
 interface Props {
    openModalDetails: boolean;
    handleCloseModal: () => void;
    recruiters: RecruiterRes;
    isLoading: boolean;
+   idConvocatoria: number;
+   handleGetCallsService: () => void;
 }
 
 export const ModalAsingReclutador = ({
@@ -25,26 +31,58 @@ export const ModalAsingReclutador = ({
    handleCloseModal,
    recruiters,
    isLoading,
+   idConvocatoria,
+   handleGetCallsService,
 }: Props) => {
-   const [selectedRecruiterSenior, setSelectedRecruiterSenior] = useState<
-      string | null
-   >(null);
-   const [selectedRecruiterGeneral, setSelectedRecruitergeneral] = useState<
-      string | null
-   >(null);
+   const [selectedRecruiter, setSelectedRecruiter] = useState<string | null>(
+      null
+   );
 
-   const handleSelectRecruiterSenior = (
+   const handleSelectRecruiter = (
       event: React.ChangeEvent<HTMLInputElement>
    ) => {
-      setSelectedRecruiterSenior(event.target.value);
-      console.log("Seleccionaste el reclutador senior:", event.target.value);
+      setSelectedRecruiter(event.target.value);
    };
 
-   const handleSelectRecruiterGeneral = (
-      event: React.ChangeEvent<HTMLInputElement>
-   ) => {
-      setSelectedRecruitergeneral(event.target.value);
-      console.log("Seleccionaste el reclutador general:", event.target.value);
+   const handleAssignRecruiter = async () => {
+      if (!selectedRecruiter) {
+         alert("Seleccione un reclutador");
+         return;
+      }
+
+      const [type, id] = selectedRecruiter.split("-");
+
+      const requestPayload: RequestUpdateReq = {
+         ...(type === "senior"
+            ? {
+                 reclutadorSeniorId: parseInt(id),
+                 reclutadorGeneralId: undefined,
+              }
+            : {
+                 reclutadorGeneralId: parseInt(id),
+                 reclutadorSeniorId: undefined,
+              }),
+
+         estado: "Completado",
+         observaciones: "",
+         beneficios: "",
+         fechaPublicacion: new Date().toISOString(),
+      };
+
+      try {
+         const response = await updateRequestService(
+            idConvocatoria,
+            requestPayload
+         );
+
+         console.log("Actualización exitosa:", response.data);
+
+
+         await handleGetCallsService();
+         handleCloseModal();
+      } catch (error) {
+         alert("Ocurrió un error al asignar el reclutador.");
+      }
    };
 
    return (
@@ -72,7 +110,7 @@ export const ModalAsingReclutador = ({
                </Typography>
 
                {isLoading ? (
-                  <Spinner className="ml-36" width="45" height="45"/>
+                  <Spinner className="ml-36" width="45" height="45" />
                ) : (
                   <>
                      <FormControl>
@@ -82,13 +120,13 @@ export const ModalAsingReclutador = ({
                         <RadioGroup
                            aria-labelledby="demo-radio-buttons-group-label"
                            name="radio-buttons-group"
-                           value={selectedRecruiterSenior}
-                           onChange={handleSelectRecruiterSenior}
+                           value={selectedRecruiter}
+                           onChange={handleSelectRecruiter}
                         >
                            {recruiters.reclutadoresSenior?.map((recruiter) => (
                               <FormControlLabel
-                                 key={recruiter.id}
-                                 value={recruiter.id}
+                                 key={`senior- ${recruiter.id}`}
+                                 value={`senior- ${recruiter.id}`}
                                  control={<Radio sx={{ color: "#5BC1E6" }} />}
                                  label={recruiter.nombre}
                               />
@@ -103,13 +141,13 @@ export const ModalAsingReclutador = ({
                         <RadioGroup
                            aria-labelledby="demo-radio-buttons-group-label"
                            name="radio-buttons-group"
-                           value={selectedRecruiterGeneral}
-                           onChange={handleSelectRecruiterGeneral}
+                           value={selectedRecruiter}
+                           onChange={handleSelectRecruiter}
                         >
                            {recruiters.reclutadoresGeneral?.map((recruiter) => (
                               <FormControlLabel
-                                 key={recruiter.id}
-                                 value={recruiter.id}
+                                 key={`general- ${recruiter.id}`}
+                                 value={`general- ${recruiter.id}`}
                                  control={<Radio sx={{ color: "#5BC1E6" }} />}
                                  label={recruiter.nombre}
                               />
@@ -122,8 +160,9 @@ export const ModalAsingReclutador = ({
                <Button
                   fullWidth
                   sx={{ backgroundColor: "#5BC1E6", color: "#ffffff" }}
+                  onClick={handleAssignRecruiter}
                >
-                  Asignar
+                  Asignar Reclutador
                </Button>
             </Box>
          </Box>

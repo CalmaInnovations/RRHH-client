@@ -12,21 +12,28 @@ import { getRecruitersAvailableService } from "../../request-area-recruiter/serv
 
 interface Props {
    call: Call;
+   handleGetCallsService: () => void;
 }
 
 // FIX: fix responsive
 
-export const CardCall = ({ call }: Props) => {
+export const CardCall = ({ call ,handleGetCallsService  }: Props) => {
    const [recruiters, setRecruiters] = useState<RecruiterRes>(
       {} as RecruiterRes
    );
+   const [idConvocatoria, setIdConvocatoria] = useState<number>(0);
+
    const [isLoading, setIsLoading] = useState(false);
    const [activeModal, setActiveModal] = useState<string | null>(null);
 
    // const navigation = useNavigate();
 
    const openModal = async (modalName: string) => {
+      const currentId = call.idConvocatoria;
+      setIdConvocatoria(currentId);
+
       if (modalName === "asign") {
+
          setIsLoading(true);
          try {
             const { data } = await getRecruitersAvailableService();
@@ -40,6 +47,8 @@ export const CardCall = ({ call }: Props) => {
       setActiveModal(modalName);
    };
    const closeModal = () => setActiveModal(null);
+
+
 
    return (
       <Card
@@ -115,7 +124,7 @@ export const CardCall = ({ call }: Props) => {
                </Typography>
 
                <Typography sx={{ fontWeight: 500, color: "#B5B5C3" }}>
-                  no definido
+                  {call.reclutadorSenior}
                </Typography>
             </Box>
          </CardContent>
@@ -125,6 +134,9 @@ export const CardCall = ({ call }: Props) => {
             handleCloseModal={closeModal}
             recruiters={recruiters}
             isLoading={isLoading}
+            idConvocatoria={idConvocatoria}
+            handleGetCallsService={handleGetCallsService}
+
          />
       </Card>
    );
