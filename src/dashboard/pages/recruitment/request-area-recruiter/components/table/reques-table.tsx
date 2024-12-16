@@ -162,7 +162,6 @@ export const RequestTable = () => {
                   {solicitudes.solicitudes?.map((sold) => (
                      <TableItem sold={sold} key={sold.id} />
                   ))}
-
                </Grid>
 
                <Pagination count={solicitudes.pags} sx={{ mt: 4 }} />

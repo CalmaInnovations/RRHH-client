@@ -8,15 +8,15 @@ type ItemsType = {
    id: UniqueIdentifier;
    title?: string;
    item?: Postulant;
-   openModalForState?: (columnState?: string) => void;
-   setSelectedCardPostulation?: React.Dispatch<React.SetStateAction<Postulant>>;
+   changeModalPreviewCard?: (newValue: number) => void;
+   handleGetDataPostulantService?: (id_postulant: number) => Promise<void>;
 };
 
 export const ItemDrop = ({
    id,
    item,
-   openModalForState,
-   setSelectedCardPostulation,
+   changeModalPreviewCard,
+   handleGetDataPostulantService,
 }: ItemsType) => {
    const {
       attributes,
@@ -43,9 +43,20 @@ export const ItemDrop = ({
 
    return (
       <Box
-         onClick={() => {
-            openModalForState!(item?.estado);
-            setSelectedCardPostulation!(item!);
+         onClick={async () => {
+            if (!item) {
+               return;
+            }
+
+            if (item.estado === "Postulante") {
+               changeModalPreviewCard!(0);
+            } else if (item.estado === "Entrevista") {
+               changeModalPreviewCard!(1);
+            } else if (item.estado === "Induccion general") {
+               changeModalPreviewCard!(2);
+            }
+
+            await handleGetDataPostulantService!(item.id!);
          }}
          ref={setNodeRef}
          {...attributes}
