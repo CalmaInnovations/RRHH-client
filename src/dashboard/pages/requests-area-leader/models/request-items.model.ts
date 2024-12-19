@@ -8,7 +8,6 @@ export interface RequestItems {
    type?: Type;
    quantity?: number;
    status?: Status;
-
    softSkills?: string;
    technicalKnowledge?: string;
    functions?: string;

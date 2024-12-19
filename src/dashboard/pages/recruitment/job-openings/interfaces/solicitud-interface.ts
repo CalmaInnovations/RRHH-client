@@ -21,3 +21,5 @@ export interface Solicitudes {
    estado: string;
 
 }
+
+

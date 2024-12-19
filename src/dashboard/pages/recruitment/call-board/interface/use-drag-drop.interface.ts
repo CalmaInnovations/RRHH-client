@@ -4,7 +4,6 @@ import { CallInterface, Postulant } from "./call.interface";
 export interface DragAndDropReturn {
    showAddContainerModal: boolean;
    activeId: UniqueIdentifier | null;
-   sensors: any;
    showAddItemModal: boolean;
    containerName: string;
    itemName: string;

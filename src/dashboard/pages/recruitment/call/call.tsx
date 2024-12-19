@@ -8,8 +8,8 @@ import {
    Typography,
 } from "@mui/material";
 import { CardCall } from "../call-board/components/card-call";
-import { getCallsService } from "../request-area-recruiter/services/request-service";
-import { CallRes } from "../request-area-recruiter/interfaces/calls-interface";
+import { getCallsService } from "../job-openings/services/request-service";
+import { CallRes } from "../job-openings/interfaces/calls-interface";
 
 export const Call = () => {
    // FIX: Mejorar este campo

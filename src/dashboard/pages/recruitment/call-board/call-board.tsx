@@ -8,7 +8,7 @@ import { ModalEntreview } from "./components/modal-entreview";
 import { ModalCreationProfile } from "./components/modal-creation-profile";
 import { useParams } from "react-router";
 import { getCallByIdService } from "./services/call-board-service";
-import { CallDetail } from "../request-area-recruiter/interfaces/calls-interface";
+import { CallDetail } from "../job-openings/interfaces/calls-interface";
 import { Postulant } from "./interface/call.interface";
 import { ModalPostulantPreview } from "./components/modal-postulant-preview";
 import { useDragAndDrop } from "./hooks/useDragAndDrop";

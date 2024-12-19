@@ -1,5 +1,5 @@
 import clientAxios from "../../../../../config/client-axios";
-import {  CallDetail } from "../../request-area-recruiter/interfaces/calls-interface";
+import {  CallDetail } from "../../job-openings/interfaces/calls-interface";
 import { Postulant } from "../interface/call.interface";
 
 export const getCallByIdService = async (id_call: number) => {

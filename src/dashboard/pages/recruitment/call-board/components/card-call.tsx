@@ -1,6 +1,6 @@
 import { Box, Card, CardContent, IconButton, Typography } from "@mui/material";
 // import { useNavigate } from "react-router";
-import { Call } from "../../request-area-recruiter/interfaces/calls-interface";
+import { Call } from "../../job-openings/interfaces/calls-interface";
 import CircleIcon from "@mui/icons-material/Circle";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useState } from "react";
