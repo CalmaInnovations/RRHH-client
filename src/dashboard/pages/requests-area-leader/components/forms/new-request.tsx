@@ -15,6 +15,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
    const {
       control,
       handleSubmit,
+      reset,
       formState: { errors },
    } = useForm<FormValues>({ mode: "onSubmit", resolver: zodResolver(schema) });
 
@@ -28,6 +29,12 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
       handleData(newData);
       handleNextModal();
    };
+
+   const handleClear = () => {
+      reset();
+   };
+
+
 
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -113,7 +120,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   >
                      Solicitar
                   </Button>
-                  <Button sx={{ paddingInline: "15px" }} variant="text">
+                  <Button sx={{ paddingInline: "15px" }} variant="text" onClick={handleClear}>
                      Limpiar
                   </Button>
                </footer>
