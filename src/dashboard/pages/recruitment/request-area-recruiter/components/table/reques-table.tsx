@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Pagination, Modal, Box, Typography, Grid } from "@mui/material";
+import {
+   Pagination,
+   Modal,
+   Box,
+   Typography,
+   Grid,
+   TextField,
+   Button,
+} from "@mui/material";
 import { TableItem } from "./components/table-item";
 import {
    getCallsService,
@@ -160,7 +168,11 @@ export const RequestTable = () => {
                   // sx={{ justifyContent: "center" }}
                >
                   {solicitudes.solicitudes?.map((sold) => (
-                     <TableItem sold={sold} key={sold.id} />
+                     <TableItem
+                        sold={sold}
+                        key={sold.id}
+                        handleOpen={handleOpen}
+                     />
                   ))}
                </Grid>
 
@@ -172,7 +184,7 @@ export const RequestTable = () => {
             <DragAndDrop />
          </Box> */}
 
-         {/* <Modal
+         <Modal
             open={open}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
@@ -329,7 +341,6 @@ export const RequestTable = () => {
                         />
                      </Grid>
 
-
                      <Grid
                         item
                         xs={6}
@@ -464,7 +475,7 @@ export const RequestTable = () => {
                   <Button onClick={() => handleClose()}>Cancelar</Button>
                </Box>
             </Box>
-         </Modal> */}
+         </Modal>
       </Box>
    );
 };
