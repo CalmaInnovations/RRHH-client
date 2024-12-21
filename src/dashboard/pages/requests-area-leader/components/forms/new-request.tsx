@@ -17,7 +17,13 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
       handleSubmit,
       reset,
       formState: { errors },
-   } = useForm<FormValues>({ mode: "onSubmit", resolver: zodResolver(schema) });
+   } = useForm<FormValues>({
+      mode: "onSubmit",
+      resolver: zodResolver(schema),
+      defaultValues: {
+         quantity: 1,
+      },
+   });
 
    const onSubmit: SubmitHandler<FormValues> = (data) => {
       const newData: RequestItems = {
@@ -33,8 +39,6 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
    const handleClear = () => {
       reset();
    };
-
-
 
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -58,6 +62,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   label="Nombre del puesto"
                   placeholder="Desarrollador Front-End"
                   error={errors.position}
+
                />
             </Grid>
 
@@ -69,6 +74,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   placeholder="2"
                   error={errors.quantity}
                   type="number"
+                  inputProps={{ min: 0 }}
                />
             </Grid>
 
@@ -120,7 +126,11 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   >
                      Solicitar
                   </Button>
-                  <Button sx={{ paddingInline: "15px" }} variant="text" onClick={handleClear}>
+                  <Button
+                     sx={{ paddingInline: "15px" }}
+                     variant="text"
+                     onClick={handleClear}
+                  >
                      Limpiar
                   </Button>
                </footer>

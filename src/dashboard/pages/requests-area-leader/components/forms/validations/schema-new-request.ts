@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const schema = z.object({
    position: z.string().min(1, "El puesto es obligatorio"),
-   quantity: z.coerce.number().int()   .gte(1, "La cantidad debe ser al menos 1")
+   quantity: z.coerce.number().int().gte(1, "La cantidad debe ser al menos 1")
    .lte(10, "La cantidad no puede ser mayor a 10"),
    type: z.enum(["Practicante", "Voluntario"], {
       errorMap: () => ({ message: "El tipo de puesto es obligatorio" }),
