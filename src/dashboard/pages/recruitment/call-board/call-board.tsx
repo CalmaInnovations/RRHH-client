@@ -9,12 +9,12 @@ import {
    getCallByIdService,
    getDataPostulantService,
 } from "./services/call-board-service";
-import { CallDetail } from "../request-area-recruiter/interfaces/calls-interface";
-import { PostulantDataComplete } from "./interface/call.interface";
+import { PostulantDataComplete } from "./interface/call-interface";
 import { useDragAndDrop } from "./hooks/useDragAndDrop";
 import { ModalPostulantCreate } from "./components/modal-postulant-create";
 import { ModalPreviewCard } from "./components/modal-preview-card";
 import { ModalEditCard } from "./components/modal-edit-card";
+import { CallDetail } from "../request-area-recruiter/interfaces/calls-interface";
 
 // FIX: Establecer estos estados de modal en un custom hook
 // FIX: Colocar estados en un contexto

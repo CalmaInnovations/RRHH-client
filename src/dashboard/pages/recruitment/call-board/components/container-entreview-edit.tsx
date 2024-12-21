@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormValues, schema } from "../validations/schema-entreview-edit";
 import { RHFTimePicker } from "../../../../../components/rhf-time";
 import { RHFDate } from "../../../../../components/rhf-date";
-import { PostulantDataComplete } from "../interface/call.interface";
+import { PostulantDataComplete } from "../interface/call-interface";
 import { setPunctualInterviewService } from "../services/call-board-service";
 
 interface Props {

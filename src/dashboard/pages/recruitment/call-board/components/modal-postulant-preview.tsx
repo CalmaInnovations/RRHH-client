@@ -1,5 +1,5 @@
 import { Box, Button, Modal, Typography } from "@mui/material";
-import { Postulant } from "../interface/call.interface";
+import { Postulant } from "../interface/call-interface";
 import { withdrawProcessService } from "../services/call-board-service";
 
 interface Props {

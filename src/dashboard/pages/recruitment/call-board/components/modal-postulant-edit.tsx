@@ -8,7 +8,7 @@ import {
    Typography,
 } from "@mui/material";
 import { useEffect } from "react";
-import { Postulant } from "../interface/call.interface";
+import { Postulant } from "../interface/call-interface";
 import { useForm } from "react-hook-form";
 
 interface Props {

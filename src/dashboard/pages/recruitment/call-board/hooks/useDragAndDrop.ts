@@ -3,7 +3,7 @@ import { DragEndEvent, DragMoveEvent, DragStartEvent, KeyboardSensor, PointerSen
 import { containersData } from "../mocks/containers";
 import { v4 as uuidv4 } from "uuid";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import { CallInterface, Postulant } from "../interface/call.interface";
+import { CallInterface, Postulant } from "../interface/call-interface";
 
 
 

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { CallBoardContext } from "./call-board-context";
 import { getRecruitersAvailableService } from "../services/call-board-service";
-import { ListRecruiters } from "../interface/call.interface";
+import { ListRecruiters } from "../interface/call-interface";
 
 interface Props {
    children: JSX.Element | JSX.Element[];

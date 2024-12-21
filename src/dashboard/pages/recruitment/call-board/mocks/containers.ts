@@ -1,4 +1,4 @@
-import { CallInterface } from "../interface/call.interface";
+import { CallInterface } from "../interface/call-interface";
 
 export const containersData: CallInterface[] = [
    {

@@ -15,7 +15,7 @@ import { createPostulantService } from "../services/call-board-service";
 import { FormValues, schema } from "../validations/schema-new-request";
 import { RHFInput } from "../../../../../components/rhf-input";
 import { RHFSelect } from "../../../../../components/rhf-select";
-import { Postulant } from "../interface/call.interface";
+import { Postulant } from "../interface/call-interface";
 
 interface Props {
    isOpenModal: boolean;
