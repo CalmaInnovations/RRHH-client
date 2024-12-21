@@ -15,10 +15,18 @@ import React, { useEffect, useRef, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 const settings = ["Mi Perfil", "Salir"];
 
-export const NavBar = ({ drawerWidth = 260 }) => {
+interface NavBarProps {
+   drawerWidth?: number;  // Puede ser opcional con el signo "?"
+   handleDrawerToggle: () => void;  // Añadir onToggleSidebar como prop
+}
+
+export const NavBar: React.FC<NavBarProps> = ({ drawerWidth = 260, handleDrawerToggle }) => {
+   const [openDrawer, setOpenDrawer] = useState(false);
+
    const [openSearch, setOpenSearch] = useState(false); // estado para controlar la visibilidad del input de busqueda
    const [searchTerm, setSearchTerm] = useState("");
 
@@ -91,10 +99,36 @@ export const NavBar = ({ drawerWidth = 260 }) => {
                direction="row"
                justifyContent="end"
                alignItems="center"
-               gap={0.5}
+               gap={0}
             >
+               <IconButton
+                     onClick={() => {
+                        setOpenDrawer(!openDrawer);
+                        handleDrawerToggle();
+                     }}
+                     sx={{
+                        display: { xs: "block", sm: "none" },
+                        color: "#CBD5E1",
+                        position: "relative",
+                        right: 0,
+                        top: 0,
+                     }}
+                  >
+                     {openDrawer ? (
+                        <KeyboardDoubleArrowLeftIcon
+                           style={{ fontSize: "1.8rem" }}
+                        />
+                     ) : (
+                        <KeyboardDoubleArrowRightIcon
+                           style={{ fontSize: "1.8rem" }}
+                        />
+                     )}
+                  </IconButton>
+                  
                {/* buscardor */}
                <Box sx={{ position: "relative" }} ref={searchRef}>
+
+
                   <Box
                      sx={{
                         flexGrow: 0,
@@ -113,6 +147,7 @@ export const NavBar = ({ drawerWidth = 260 }) => {
                      <SearchIcon style={{ color: "#2E384D" }} />
                   </Box>
 
+                  
                   {/* Campo de busqueda visible cuando se hace clic en el icon */}
                   {openSearch && (
                      <Box

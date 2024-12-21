@@ -21,8 +21,11 @@ import {
 } from "@dnd-kit/core";
 import { ItemDrop } from "./item-drop";
 import { ContainerDrop } from "./container-drop";
-import { getPostulantsService } from "../services/call-board-service";
-import { Postulant } from "../interface/call.interface";
+import {
+   getInductionsService,
+   getInterviewedService,
+   getPostulantsService,
+} from "../services/call-board-service";
 import { DragAndDropReturn } from "../interface/use-drag-drop.interface";
 
 const dropAnimationConfig: DropAnimation = {
@@ -36,9 +39,9 @@ const dropAnimationConfig: DropAnimation = {
 };
 
 interface Props extends DragAndDropReturn {
-   openModalForState: (columnState?: string) => void;
-   setSelectedCardPostulation: React.Dispatch<React.SetStateAction<Postulant>>;
    openModal: (modalName: string) => void;
+   changeModalPreviewCard: (newValue: number) => void;
+   handleGetDataPostulantService: (id_postulant: number) => Promise<void>;
 }
 
 export const DragAndDrop = (props: Props) => {
@@ -49,13 +52,13 @@ export const DragAndDrop = (props: Props) => {
       activeId,
       findItemTitle,
       setContainers,
-      openModalForState,
       handleDragEnd,
       handleDragMove,
       handleDragStart,
-      setSelectedCardPostulation,
       setCurrentContainerId,
       openModal,
+      changeModalPreviewCard,
+      handleGetDataPostulantService,
    } = props;
 
    const [open, setOpen] = useState(false);
@@ -75,21 +78,51 @@ export const DragAndDrop = (props: Props) => {
    const handleGetPostulantsService = async () => {
       const { data } = await getPostulantsService();
 
-      const updateContainers = containers.map((container) => {
-         if (container.title === "Postulaciones") {
-            return {
-               ...container,
-               items: data,
-            };
-         }
-         return container;
-      });
+      setContainers((prevContainers) =>
+         prevContainers.map((container) =>
+            container.title === "Postulaciones"
+               ? { ...container, items: data }
+               : container
+         )
+      );
+   };
 
-      setContainers(updateContainers);
+   const handleGetInterviewedService = async () => {
+      try {
+         const { data } = await getInterviewedService();
+
+         setContainers((prevContainers) =>
+            prevContainers.map((container) =>
+               container.title === "Entrevista"
+                  ? { ...container, items: data }
+                  : container
+            )
+         );
+      } catch (error) {
+         console.log("Error", error);
+      }
+   };
+
+   const handleGetInductionsService = async () => {
+      try {
+         const { data } = await getInductionsService();
+
+         setContainers((prevContainers) =>
+            prevContainers.map((container) =>
+               container.title === "Induccion general"
+                  ? { ...container, items: data }
+                  : container
+            )
+         );
+      } catch (error) {
+         console.log("Error", error);
+      }
    };
 
    useEffect(() => {
       handleGetPostulantsService();
+      handleGetInterviewedService();
+      handleGetInductionsService();
    }, []);
 
    return (
@@ -114,7 +147,7 @@ export const DragAndDrop = (props: Props) => {
                      }}
                   >
                      <SortableContext
-                        items={container.items.map((i) => i.id)}
+                        items={container.items.map((i) => i.id!)}
                         strategy={rectSwappingStrategy}
                      >
                         <Box>
@@ -122,10 +155,10 @@ export const DragAndDrop = (props: Props) => {
                               <ItemDrop
                                  key={item.id}
                                  item={item}
-                                 id={item.id}
-                                 openModalForState={openModalForState}
-                                 setSelectedCardPostulation={
-                                    setSelectedCardPostulation
+                                 id={item.id!}
+                                 changeModalPreviewCard={changeModalPreviewCard}
+                                 handleGetDataPostulantService={
+                                    handleGetDataPostulantService
                                  }
                               />
                            ))}

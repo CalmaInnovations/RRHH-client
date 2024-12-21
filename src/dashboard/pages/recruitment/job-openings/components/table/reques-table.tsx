@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-   Pagination,
-   Modal,
-   Box,
-   Typography,
-   Grid,
-} from "@mui/material";
+import { Pagination, Modal, Box, Typography, Grid } from "@mui/material";
 import { TableItem } from "./components/table-item";
 import {
    getCallsService,
@@ -17,6 +11,7 @@ import { getAllSolicitudService } from "../../services/solicitudes-services";
 import { Call, CallRes, RecruiterRes } from "../../interfaces/calls-interface";
 import { SolicitudesRes } from "../../interfaces/solicitud-interface";
 import { Spinner } from "../../../../../components/spinner/spinner";
+import { Tags } from "../../../../../components/Tag/components/Tags";
 
 // import { DragAndDrop } from "../../../call-board/components/drag-and-drop";
 
@@ -152,8 +147,11 @@ export const RequestTable = () => {
             Solicitudes
          </Typography>
 
+         {/* componente de tags  aqui*/}
+         <Tags />
+
          {isLoading ? (
-            <Spinner />
+            <Spinner className="mt-64" />
          ) : (
             <>
                <Grid
@@ -164,7 +162,6 @@ export const RequestTable = () => {
                   {solicitudes.solicitudes?.map((sold) => (
                      <TableItem sold={sold} key={sold.id} />
                   ))}
-
                </Grid>
 
                <Pagination count={solicitudes.pags} sx={{ mt: 4 }} />
