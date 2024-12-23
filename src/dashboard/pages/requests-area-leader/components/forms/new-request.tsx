@@ -1,3 +1,4 @@
+import ClientAxios from '../../../../../config/client-axios'
 import { Grid, Typography, Button } from "@mui/material";
 import "./styles/forms.style.css";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -10,6 +11,7 @@ interface PropsNextModal {
    handleNextModal: () => void;
    handleData: (data: RequestItems) => void;
 }
+
 
 export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
    const {
@@ -25,15 +27,35 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
       },
    });
 
-   const onSubmit: SubmitHandler<FormValues> = (data) => {
-      const newData: RequestItems = {
-         ...data,
-         id: Date.now(),
-         date: new Date(),
-         status: "Pendiente",
-      };
-      handleData(newData);
-      handleNextModal();
+   const onSubmit: SubmitHandler<FormValues> = async(data) => {
+      try {
+         console.log("Datos recibidos para enviar:", data);
+         const response = await ClientAxios.post(
+            "api/SolicitudColaborador", 
+            {
+               ...data,
+               id: Date.now(), 
+               date: new Date(),
+               status: "Pendiente",
+            },
+            {
+               headers: {
+                  "Content-Type": "application/json", 
+               },
+            }
+         );
+   
+         console.log("Datos enviados correctamente:", response.data);
+   
+         
+         handleData(response.data); 
+         handleNextModal();   
+      } catch (error) {
+         console.error("Error al enviar los datos:", error);
+   
+         
+         alert("Ocurrió un error al enviar los datos. Por favor, intenta de nuevo.");
+      }
    };
 
    const handleClear = () => {

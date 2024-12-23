@@ -1,6 +1,6 @@
 import { Box, Modal, Tab, Tabs, Typography } from "@mui/material";
 import { ContainerPostulantPreview } from "./container-postulant-preview";
-import { PostulantDataComplete } from "../interface/call.interface";
+import { PostulantDataComplete } from "../interface/call-interface";
 import { ContainerPreviewPreview } from "./container-entreview-preview";
 import { ContainerInductionPreview } from "./container-induction-preview";
 

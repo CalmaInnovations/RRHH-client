@@ -1,5 +1,5 @@
 import { Box, Button, Link, Typography } from "@mui/material";
-import { PostulantDataComplete } from "../interface/call.interface";
+import { PostulantDataComplete } from "../interface/call-interface";
 
 interface Props {
    selectedCardPostulation: PostulantDataComplete;

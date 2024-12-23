@@ -9,7 +9,7 @@ import { RHFDate } from "../../../../../components/rhf-date";
 import { RHFInput } from "../../../../../components/rhf-input";
 import { RHFSelect } from "../../../../../components/rhf-select";
 import { FormValues, schema } from "../validations/schema-induction-edit";
-import { PostulantDataComplete } from "../interface/call.interface";
+import { PostulantDataComplete } from "../interface/call-interface";
 import { useCallBoardProvider } from "../hooks/use-call-board-provider";
 
 interface Props {

@@ -1,6 +1,6 @@
 import clientAxios from "../../../../../config/client-axios";
 import {  CallDetail } from "../../request-area-recruiter/interfaces/calls-interface";
-import { InductionGeneralUpdate, ListRecruiters, Postulant, PostulantDataComplete } from "../interface/call.interface";
+import { InductionGeneralUpdate, ListRecruiters, Postulant, PostulantDataComplete } from "../interface/call-interface";
 
 export const getCallByIdService = async (id_call: number) => {
    const response = await clientAxios.get<CallDetail>(`api/Convocatoria/${id_call}`)

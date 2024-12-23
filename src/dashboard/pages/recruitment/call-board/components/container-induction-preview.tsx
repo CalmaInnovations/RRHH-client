@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { Box, Button, Link, Typography } from "@mui/material";
-import { PostulantDataComplete } from "../interface/call.interface";
+import { PostulantDataComplete } from "../interface/call-interface";
 import { useCallBoardProvider } from "../hooks/use-call-board-provider";
 
 interface Props {

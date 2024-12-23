@@ -1,8 +1,8 @@
 import { Box, Modal, Tab, Tabs, Typography } from "@mui/material";
-import { PostulantDataComplete } from "../interface/call.interface";
+import { PostulantDataComplete } from "../interface/call-interface";
 import { ContainerPostulationEdit } from "./container-postulation-edit";
 import { ContainerEntreviewEdit } from "./container-entreview-edit";
-import { ContainerInductionEdit } from "./containe-induction-edit";
+import { ContainerInductionEdit } from "./container-induction-edit";
 import { ContainerColaborationEdit } from "./container-colaboration-edit";
 
 interface Props {

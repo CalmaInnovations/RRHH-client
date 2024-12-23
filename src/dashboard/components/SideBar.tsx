@@ -134,7 +134,7 @@ export const SideBar = ({ drawerWidth = 260 }) => {
                      aria-labelledby="nested-list-subheader"
                   >
                      {/* menu */}
-                     <NavLink
+                     {/* <NavLink
                         to="/"
                         style={{
                            textDecoration: "none",
@@ -179,16 +179,21 @@ export const SideBar = ({ drawerWidth = 260 }) => {
                               }}
                            />
                         </ListItemButton>
-                     </NavLink>
+                     </NavLink> */}
 
                      {/* menu y submenus*/}
-                     <Box sx={{backgroundColor:open ? "#273044" :"transparent"}}>
-                        <ListItemButton
-
-                           onClick={handleClick}
-                           sx={{ pl: 3 }}
-                        >
-                           <PersonSearch sx={{ marginRight: 1 ,color:open ? "#5BC1E6" : "#CBD5E1" }} />
+                     <Box
+                        sx={{
+                           backgroundColor: open ? "#273044" : "transparent",
+                        }}
+                     >
+                        <ListItemButton onClick={handleClick} sx={{ pl: 3 }}>
+                           <PersonSearch
+                              sx={{
+                                 marginRight: 1,
+                                 color: open ? "#5BC1E6" : "#CBD5E1",
+                              }}
+                           />
                            <ListItemText
                               primary="Reclutamiento"
                               primaryTypographyProps={{

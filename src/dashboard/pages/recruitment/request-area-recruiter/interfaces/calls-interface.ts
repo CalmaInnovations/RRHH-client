@@ -22,7 +22,7 @@ export interface CallDetail {
    fechaActualizacion: string;
    fechaPublicacion: string;
    beneficios: string;
- }
+}
 
 export interface Call {
    idConvocatoria: number;

@@ -5,7 +5,7 @@ import { RHFInput } from "../../../../../components/rhf-input";
 import { RHFSelect } from "../../../../../components/rhf-select";
 import { FormValues, schema } from "../validations/schema-new-request";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Postulant, PostulantDataComplete } from "../interface/call.interface";
+import { Postulant, PostulantDataComplete } from "../interface/call-interface";
 
 interface Props {
    selectedCardPostulation: PostulantDataComplete;

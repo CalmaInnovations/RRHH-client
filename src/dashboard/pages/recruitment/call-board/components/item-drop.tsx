@@ -2,7 +2,7 @@ import { UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Box } from "@mui/material";
-import { Postulant } from "../interface/call.interface";
+import { Postulant } from "../interface/call-interface";
 
 type ItemsType = {
    id: UniqueIdentifier;
