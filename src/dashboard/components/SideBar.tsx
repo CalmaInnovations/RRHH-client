@@ -24,26 +24,30 @@ import OutputIcon from "@mui/icons-material/Output";
 import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
-export const SideBar = ({ drawerWidth = 260 }) => {
+interface SideBarProps {
+   openDrawer: boolean;
+   setOpenDrawer: React.Dispatch<React.SetStateAction<boolean>>;
+   drawerWidth?: number;  // Prop opcional
+}
+export const SideBar: React.FC<SideBarProps> = ({ openDrawer, setOpenDrawer,drawerWidth=240 }) => {
    const [open, setOpen] = useState(false);
 
-   const [openDrawer, setOpenDrawer] = useState(true);
    const [activeMenu, setActiveMenu] = useState("");
-
+   
    const location = useLocation();
 
    const handleClick = () => {
       setOpen(!open);
-      if (!openDrawer) setOpenDrawer(!openDrawer);
+      if (!openDrawer) setOpenDrawer(!openDrawer); // data
    };
 
    const handleClickDrawer = () => {
-      setOpenDrawer(!openDrawer);
+      setOpenDrawer(!openDrawer); // drawer
       if (open) setOpen(!open);
    };
 
    const handleMenuClick = (menu: string) => {
-      setActiveMenu(menu);
+      setActiveMenu(menu); // menus
    };
 
    useEffect(() => {
