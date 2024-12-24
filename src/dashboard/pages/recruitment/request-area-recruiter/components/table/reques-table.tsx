@@ -470,7 +470,7 @@ export const RequestTable = () => {
                      sx={{ color: "white" }}
                      onClick={() => handleUpdateInformation()}
                   >
-                     Guardar
+                     Editar
                   </Button>
                   <Button onClick={() => handleClose()}>Cancelar</Button>
                </Box>

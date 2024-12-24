@@ -3,7 +3,7 @@ import { CallRes, RecruiterRes, RequestUpdateReq } from "../interfaces/calls-int
 
 export const getCallsService = async () => {
    try {
-      const response = await clientAxios.post<CallRes>('api/Convocatoria');
+      const response = await clientAxios.get<CallRes>('api/Convocatoria');
       console.log("Respuesta de getCallsService:", response.data);
       return response;
    } catch (error) {
