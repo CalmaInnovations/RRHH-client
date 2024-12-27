@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 export const DashboardView = () => {
    return (
       <Box sx={{ mt: 4 }}>
-         <Grid container spacing={2}>
+         <Grid container spacing={2} columns={{ xs: 4, sm: 8, md: 12 }}>
             <Grid size={4}>
                <Paper elevation={3} sx={{ padding: 2, height: 250 }}>
                   <Typography variant="h4">Solicitudes</Typography>

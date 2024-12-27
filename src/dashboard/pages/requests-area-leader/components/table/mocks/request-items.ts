@@ -12,6 +12,9 @@ export const initialRows: RequestItems[] = [
       type: "Practicante",
       quantity: 5,
       status: "Pendiente",
+      softSkills: "Ipsum cccccccs",
+      technicalKnowledge: "Lo Ipsum.cccccceccccccc",
+      functions: "Desarrollo Mobil"
    }),
    createData({
       id: 2,
@@ -20,6 +23,9 @@ export const initialRows: RequestItems[] = [
       type: "Voluntario",
       quantity: 3,
       status: "En proceso",
+      softSkills: "Ipsumssssssssssssssss",
+      technicalKnowledge: "Lo Ipsums",
+      functions: "Desarrollo Mobil"
    }),
    createData({
       id: 3,
@@ -28,6 +34,9 @@ export const initialRows: RequestItems[] = [
       type: "Practicante",
       quantity: 2,
       status: "Completado",
+      softSkills: "Lo Ipsum",
+      technicalKnowledge: "Lo cLorem Ipsum.",
+      functions: "Desarrollo Mobil"
    }),
    createData({
       id: 4,
@@ -36,6 +45,9 @@ export const initialRows: RequestItems[] = [
       type: "Voluntario",
       quantity: 4,
       status: "Pendiente",
+      softSkills: "LoLorem Ipsum",
+      technicalKnowledge: "Lo cof Lorem Ipsum.",
+      functions: "Desarrollo Mobil"
    }),
    createData({
       id: 5,
@@ -44,5 +56,8 @@ export const initialRows: RequestItems[] = [
       type: "Practicante",
       quantity: 1,
       status: "En proceso",
+      softSkills: "Lo cof Lorem Ipsum",
+      technicalKnowledge: "Lo cLorem Ipsum.",
+      functions: "Desarrollo Mobil" 
    }),
 ];

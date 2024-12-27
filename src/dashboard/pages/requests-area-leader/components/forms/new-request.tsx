@@ -1,3 +1,4 @@
+import ClientAxios from '../../../../../config/client-axios'
 import { Grid, Typography, Button } from "@mui/material";
 import "./styles/forms.style.css";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -11,22 +12,54 @@ interface PropsNextModal {
    handleData: (data: RequestItems) => void;
 }
 
+
 export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
    const {
       control,
       handleSubmit,
+      reset,
       formState: { errors },
-   } = useForm<FormValues>({ mode: "onSubmit", resolver: zodResolver(schema) });
+   } = useForm<FormValues>({
+      mode: "onSubmit",
+      resolver: zodResolver(schema),
+      defaultValues: {
+         quantity: 1,
+      },
+   });
 
-   const onSubmit: SubmitHandler<FormValues> = (data) => {
-      const newData: RequestItems = {
-         ...data,
-         id: Date.now(),
-         date: new Date(),
-         status: "Pendiente",
-      };
-      handleData(newData);
-      handleNextModal();
+   const onSubmit: SubmitHandler<FormValues> = async(data) => {
+      try {
+         console.log("Datos recibidos para enviar:", data);
+         const response = await ClientAxios.post(
+            "api/SolicitudColaborador", 
+            {
+               ...data,
+               id: Date.now(), 
+               date: new Date(),
+               status: "Pendiente",
+            },
+            {
+               headers: {
+                  "Content-Type": "application/json", 
+               },
+            }
+         );
+   
+         console.log("Datos enviados correctamente:", response.data);
+   
+         
+         handleData(response.data); 
+         handleNextModal();   
+      } catch (error) {
+         console.error("Error al enviar los datos:", error);
+   
+         
+         alert("Ocurrió un error al enviar los datos. Por favor, intenta de nuevo.");
+      }
+   };
+
+   const handleClear = () => {
+      reset();
    };
 
    return (
@@ -51,6 +84,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   label="Nombre del puesto"
                   placeholder="Desarrollador Front-End"
                   error={errors.position}
+
                />
             </Grid>
 
@@ -62,6 +96,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   placeholder="2"
                   error={errors.quantity}
                   type="number"
+                  inputProps={{ min: 0 }}
                />
             </Grid>
 
@@ -113,7 +148,11 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   >
                      Solicitar
                   </Button>
-                  <Button sx={{ paddingInline: "15px" }} variant="text">
+                  <Button
+                     sx={{ paddingInline: "15px" }}
+                     variant="text"
+                     onClick={handleClear}
+                  >
                      Limpiar
                   </Button>
                </footer>

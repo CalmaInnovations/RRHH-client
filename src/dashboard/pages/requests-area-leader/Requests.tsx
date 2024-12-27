@@ -1,4 +1,4 @@
-import RequestsTable from "./components/table/requests-table";
+import RequestsTable from "./components/table/status-table";
 import TransitionsModal from "./components/modal/modal";
 import { NewRequest } from "./components/forms/new-request";
 import { SuccessfulSending } from "./components/forms/components/successful-sending";
@@ -7,6 +7,7 @@ import { Box, Button } from "@mui/material";
 import { PreviewRequest } from "./components/forms/preview-request";
 import { RequestItems } from "./models/request-items.model";
 import { initialRows } from "./components/table/mocks/request-items";
+import { TableItem } from "./components/table/components/card-item";
 
 export function Requests() {
    const [modalStep, setModalStep] = useState(0);
@@ -44,17 +45,18 @@ export function Requests() {
 
    return (
       <>
-         <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+         <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
+            <RequestsTable rows={rows} onPreview={handlePreview} />
             <Button
                variant="contained"
                onClick={() => setModalStep(1)}
-               sx={{ color: "white" }}
+               sx={{ color: "white", margin: "10px" }}
             >
                + Nueva
             </Button>
          </Box>
 
-         <RequestsTable rows={rows} onPreview={handlePreview} />
+         <TableItem rows={rows} onPreview={handlePreview}/>
 
          <TransitionsModal
             open={modalStep === 1}

@@ -1,37 +1,93 @@
+import { SyntheticEvent, useCallback, useEffect, useState } from "react";
+import { useParams } from "react-router";
 import { Box, Container, Typography } from "@mui/material";
 import { DragAndDrop } from "./components/drag-and-drop";
-import { useCallback, useEffect, useState } from "react";
 import { ModalDetailsCall } from "./components/modal-details-call";
 import { ModalDetailsEditCall } from "./components/modal-details-edit-call";
-import { ModalInformationInduction } from "./components/modal-information-induction";
-import { ModalEntreview } from "./components/modal-entreview";
 import { ModalCreationProfile } from "./components/modal-creation-profile";
-import { useParams } from "react-router";
-import { getCallByIdService } from "./services/call-board-service";
+import {
+   getCallByIdService,
+   getDataPostulantService,
+} from "./services/call-board-service";
+import { PostulantDataComplete } from "./interface/call-interface";
+import { useDragAndDrop } from "./hooks/useDragAndDrop";
+import { ModalPostulantCreate } from "./components/modal-postulant-create";
+import { ModalPreviewCard } from "./components/modal-preview-card";
+import { ModalEditCard } from "./components/modal-edit-card";
 import { CallDetail } from "../request-area-recruiter/interfaces/calls-interface";
-import { ModalPostulant } from "./components/modal-postulant";
 
 // FIX: Establecer estos estados de modal en un custom hook
+// FIX: Colocar estados en un contexto
 // FIX: fix responsive
 // FIX: fix refactor
 // FIX: fix rerenders
 
 export const CallBoard = () => {
    const [call, setCall] = useState<CallDetail>({} as CallDetail);
-   const [activeModal, setActiveModal] = useState<string | null>(null);
+   const [activeModal, setActiveModal] = useState<string | null>("");
+   const [selectedCardPostulation, setSelectedCardPostulation] = useState(
+      {} as PostulantDataComplete
+   );
+   const [modalPreviewCard, setModalPreviewCard] = useState(false);
+   const [modalEditCard, setModalEditCard] = useState(false);
+
+   const valuesDragAndDrop = useDragAndDrop();
+   // const { containers, setContainers } = valuesDragAndDrop;
+
+   const [value, setValue] = useState(0);
+
    const params = useParams();
+
+   const changeModalPreviewCard = useCallback((newValue?: number) => {
+      handleChange({} as unknown as SyntheticEvent, newValue!);
+      setModalPreviewCard(!modalPreviewCard);
+   }, []);
+
+   const changeModalEditCard = () => {
+      setModalPreviewCard(!modalPreviewCard);
+   };
+
+   const closeModalPreviewCard = () => {
+      setModalPreviewCard(false);
+   };
+   const closeModalEditCard = () => {
+      setModalEditCard(false);
+   };
+
+   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+      setValue(newValue);
+   };
 
    const handleGetCallByIdService = async () => {
       const { data } = await getCallByIdService(+params.id!);
       setCall(data);
    };
 
-   const openModal = (modalName: string) => setActiveModal(modalName);
    const closeModal = () => setActiveModal(null);
 
-   const openModalForState = useCallback((columnState?: string) => {
-      openModal(columnState!);
-   }, []);
+   const openModal = (modalName: string) => setActiveModal(modalName);
+
+   const handleGetDataPostulantService = async (id_postulant: number) => {
+      console.log("Se vuelve a ejecutar");
+      const { data } = await getDataPostulantService(id_postulant);
+      setSelectedCardPostulation(data);
+   };
+
+   // const handleWithdrawProcess = (postulant: Postulant) => {
+   //    const updatedContainers = containers.map((container) => {
+   //       if (container.title === "Postulaciones") {
+   //          return {
+   //             ...container,
+   //             items: container.items.filter(
+   //                (item) => item.id !== postulant.id
+   //             ),
+   //          };
+   //       }
+   //       return container;
+   //    });
+
+   //    setContainers(updatedContainers);
+   // };
 
    useEffect(() => {
       handleGetCallByIdService();
@@ -95,7 +151,12 @@ export const CallBoard = () => {
          </Box>
 
          <Box sx={{ marginTop: 2 }}>
-            <DragAndDrop openModalForState={openModalForState} />
+            <DragAndDrop
+               openModal={openModal}
+               changeModalPreviewCard={changeModalPreviewCard}
+               handleGetDataPostulantService={handleGetDataPostulantService}
+               {...valuesDragAndDrop}
+            />
          </Box>
 
          <ModalDetailsCall
@@ -109,24 +170,33 @@ export const CallBoard = () => {
             handleCloseModal={closeModal}
          />
 
-         <ModalInformationInduction
-            openModalInfInduction={activeModal === "induction"}
-            handleCloseModal={closeModal}
-         />
-
-         <ModalEntreview
-            openModalEntreview={activeModal === "entreview"}
-            handleCloseModal={closeModal}
-         />
-
          <ModalCreationProfile
             openModalCreationProfile={activeModal === "creationProfile"}
             handleCloseModal={closeModal}
          />
 
-         <ModalPostulant
-            isOpenModal={activeModal === "Postulante"}
+         <ModalPostulantCreate
+            isOpenModal={activeModal === "Postulante-Crear"}
             handleCloseModal={closeModal}
+         />
+
+         <ModalPreviewCard
+            isOpenModal={modalPreviewCard}
+            value={value}
+            handleChange={handleChange}
+            changeModalPreviewCard={changeModalPreviewCard}
+            closeModalPreviewCard={closeModalPreviewCard}
+            selectedCardPostulation={selectedCardPostulation}
+            setModalEditCard={setModalEditCard}
+         />
+
+         <ModalEditCard
+            isOpenModal={modalEditCard}
+            value={value}
+            handleChange={handleChange}
+            changeModalEditCard={changeModalEditCard}
+            closeModalEditCard={closeModalEditCard}
+            selectedCardPostulation={selectedCardPostulation}
          />
       </Container>
    );

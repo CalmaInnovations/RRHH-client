@@ -3,7 +3,7 @@ import { DragEndEvent, DragMoveEvent, DragStartEvent, KeyboardSensor, PointerSen
 import { containersData } from "../mocks/containers";
 import { v4 as uuidv4 } from "uuid";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import { CallInterface, Postulant } from "../interface/call.interface";
+import { CallInterface, Postulant } from "../interface/call-interface";
 
 
 
@@ -87,7 +87,7 @@ export const useDragAndDrop = () => {
       useSensor(PointerSensor),
       useSensor(KeyboardSensor, {
          coordinateGetter: sortableKeyboardCoordinates,
-         activationConstraint: {delay: 2, tolerance: 5, distance: 100},
+         // activationConstraint: {delay: 2, tolerance: 5, distance: 100},
          onActivation: (event) => console.log("onActivation", event)
       })
    );

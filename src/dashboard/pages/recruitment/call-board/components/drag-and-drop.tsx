@@ -21,8 +21,12 @@ import {
 } from "@dnd-kit/core";
 import { ItemDrop } from "./item-drop";
 import { ContainerDrop } from "./container-drop";
-import { useDragAndDrop } from "../hooks/useDragAndDrop";
-import { getPostulantsService } from "../services/call-board-service";
+import {
+   getInductionsService,
+   getInterviewedService,
+   getPostulantsService,
+} from "../services/call-board-service";
+import { DragAndDropReturn } from "../interface/use-drag-drop.interface";
 
 const dropAnimationConfig: DropAnimation = {
    sideEffects: defaultDropAnimationSideEffects({
@@ -34,24 +38,29 @@ const dropAnimationConfig: DropAnimation = {
    }),
 };
 
-interface Props {
-   openModalForState: (columnState?: string) => void;
+interface Props extends DragAndDropReturn {
+   openModal: (modalName: string) => void;
+   changeModalPreviewCard: (newValue: number) => void;
+   handleGetDataPostulantService: (id_postulant: number) => Promise<void>;
 }
 
-export const DragAndDrop = ({ openModalForState }: Props) => {
+export const DragAndDrop = (props: Props) => {
    // FIX: Mejorar el manejo de reenderizacion al hacer cada accion
    // FIX: Separar Por componentes
    const {
-      activeId,
       containers,
-      setContainers,
+      activeId,
       findItemTitle,
-      handleDragStart,
+      setContainers,
       handleDragEnd,
       handleDragMove,
+      handleDragStart,
       setCurrentContainerId,
-      // onAddItem,
-   } = useDragAndDrop();
+      openModal,
+      changeModalPreviewCard,
+      handleGetDataPostulantService,
+   } = props;
+
    const [open, setOpen] = useState(false);
    const [openModalInformation, setOpenModalInformation] = useState(false);
    const handleOpen = () => setOpen(!open);
@@ -69,21 +78,51 @@ export const DragAndDrop = ({ openModalForState }: Props) => {
    const handleGetPostulantsService = async () => {
       const { data } = await getPostulantsService();
 
-      const updateContainers = containers.map((container) => {
-         if (container.title === "Postulaciones") {
-            return {
-               ...container,
-               items: data,
-            };
-         }
-         return container;
-      });
+      setContainers((prevContainers) =>
+         prevContainers.map((container) =>
+            container.title === "Postulaciones"
+               ? { ...container, items: data }
+               : container
+         )
+      );
+   };
 
-      setContainers(updateContainers);
+   const handleGetInterviewedService = async () => {
+      try {
+         const { data } = await getInterviewedService();
+
+         setContainers((prevContainers) =>
+            prevContainers.map((container) =>
+               container.title === "Entrevista"
+                  ? { ...container, items: data }
+                  : container
+            )
+         );
+      } catch (error) {
+         console.log("Error", error);
+      }
+   };
+
+   const handleGetInductionsService = async () => {
+      try {
+         const { data } = await getInductionsService();
+
+         setContainers((prevContainers) =>
+            prevContainers.map((container) =>
+               container.title === "Induccion general"
+                  ? { ...container, items: data }
+                  : container
+            )
+         );
+      } catch (error) {
+         console.log("Error", error);
+      }
    };
 
    useEffect(() => {
       handleGetPostulantsService();
+      handleGetInterviewedService();
+      handleGetInductionsService();
    }, []);
 
    return (
@@ -103,12 +142,12 @@ export const DragAndDrop = ({ openModalForState }: Props) => {
                      key={container.id}
                      step={container.step}
                      onAddItem={() => {
-                        handleOpen();
+                        openModal("Postulante-Crear");
                         setCurrentContainerId(container.id);
                      }}
                   >
                      <SortableContext
-                        items={container.items.map((i) => i.id)}
+                        items={container.items.map((i) => i.id!)}
                         strategy={rectSwappingStrategy}
                      >
                         <Box>
@@ -116,8 +155,11 @@ export const DragAndDrop = ({ openModalForState }: Props) => {
                               <ItemDrop
                                  key={item.id}
                                  item={item}
-                                 id={item.id}
-                                 openModalForState={openModalForState}
+                                 id={item.id!}
+                                 changeModalPreviewCard={changeModalPreviewCard}
+                                 handleGetDataPostulantService={
+                                    handleGetDataPostulantService
+                                 }
                               />
                            ))}
                         </Box>

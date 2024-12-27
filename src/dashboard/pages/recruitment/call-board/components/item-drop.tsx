@@ -2,16 +2,22 @@ import { UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Box } from "@mui/material";
-import { Postulant } from "../interface/call.interface";
+import { Postulant } from "../interface/call-interface";
 
 type ItemsType = {
    id: UniqueIdentifier;
    title?: string;
    item?: Postulant;
-   openModalForState?: (columnState?: string) => void;
+   changeModalPreviewCard?: (newValue: number) => void;
+   handleGetDataPostulantService?: (id_postulant: number) => Promise<void>;
 };
 
-export const ItemDrop = ({ id, item, openModalForState }: ItemsType) => {
+export const ItemDrop = ({
+   id,
+   item,
+   changeModalPreviewCard,
+   handleGetDataPostulantService,
+}: ItemsType) => {
    const {
       attributes,
       listeners,
@@ -37,7 +43,21 @@ export const ItemDrop = ({ id, item, openModalForState }: ItemsType) => {
 
    return (
       <Box
-         onClick={() => openModalForState!(item?.estado)}
+         onClick={async () => {
+            if (!item) {
+               return;
+            }
+
+            if (item.estado === "Postulante") {
+               changeModalPreviewCard!(0);
+            } else if (item.estado === "Entrevista") {
+               changeModalPreviewCard!(1);
+            } else if (item.estado === "Induccion general") {
+               changeModalPreviewCard!(2);
+            }
+
+            await handleGetDataPostulantService!(item.id!);
+         }}
          ref={setNodeRef}
          {...attributes}
          {...listeners}
