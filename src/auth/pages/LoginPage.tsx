@@ -2,9 +2,30 @@ import { Google } from "@mui/icons-material";
 import { Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { AuthLayout } from "../layout/AuthLayout";
+import { useState } from "react";
 
-export const LoginPage = () => {
-   const navigation = useNavigate();
+interface LoginPageProps {
+   handleLogin: () => void;
+}
+
+
+export const LoginPage: React.FC<LoginPageProps> = ({ handleLogin }) => {
+   const navigate = useNavigate();
+   const [email, setEmail] = useState("");
+   const [password, setPassword] = useState("");
+
+   const handleLoginClick = () => {
+      if (email === "demo@ejemplo.com" && password === "demo123") {
+         handleLogin();
+         navigate("/recruitment/requests-recruiter", { replace: true });
+      } else if (email !== "" && password !== "") {
+         alert(
+            "Credenciales incorrectas. Prueba con demo@ejemplo.com y demo123"
+         );
+      } else {
+         alert("Por favor, ingresa correo y contraseña.");
+      }
+   };
 
    return (
       <AuthLayout title="Login">
@@ -15,6 +36,8 @@ export const LoginPage = () => {
                      label="Correo"
                      type="Email"
                      placeholder="correo@gmial.com"
+                     value={email}
+                     onChange={(e) => setEmail(e.target.value)}
                      fullWidth
                   />
                </Grid>
@@ -23,6 +46,8 @@ export const LoginPage = () => {
                      label="Contrasena"
                      type="password"
                      placeholder="Contrasena"
+                     value={password}
+                     onChange={(e) => setPassword(e.target.value)}
                      fullWidth
                   />
                </Grid>
@@ -31,9 +56,7 @@ export const LoginPage = () => {
                      <Button
                         variant="contained"
                         fullWidth
-                        onClick={() =>
-                           navigation("/recruitment/requests-recruiter")
-                        }
+                        onClick={handleLoginClick}
                      >
                         Login
                      </Button>
