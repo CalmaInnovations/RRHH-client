@@ -19,12 +19,11 @@ import { getAllSolicitudService } from "../../services/solicitudes-services";
 import { Call, CallRes, RecruiterRes } from "../../interfaces/calls-interface";
 import { SolicitudesRes } from "../../interfaces/solicitud-interface";
 import { Spinner } from "../../../../../components/spinner/spinner";
-<<<<<<< HEAD
-=======
+
 import { Tags } from "../../../../../components/Tag/components/Tags";
 
 // import { DragAndDrop } from "../../../call-board/components/drag-and-drop";
->>>>>>> feature
+
 
 // FIX: fix pagination
 // FIX: fix refactorization
@@ -183,15 +182,15 @@ export const RequestTable = () => {
             </>
          )}
 
-<<<<<<< HEAD
+
          <Box sx={{ marginTop: 2 }}>
-         
+
          </Box>
-=======
+
          {/* <Box sx={{ marginTop: 2 }}>
             <DragAndDrop />
          </Box> */}
->>>>>>> feature
+
 
          <Modal
             open={open}
