@@ -22,11 +22,12 @@ const settings = ["Mi Perfil", "Salir"];
 interface NavBarProps {
    drawerWidth?: number;  // Puede ser opcional con el signo "?"
    handleDrawerToggle: () => void;  // Añadir onToggleSidebar como prop
+   openDrawer: boolean; // Sidebar Drawer State
 }
 
-export const NavBar: React.FC<NavBarProps> = ({ drawerWidth = 260, handleDrawerToggle }) => {
-   const [openDrawer, setOpenDrawer] = useState(false);
-
+export const NavBar: React.FC<NavBarProps> = ({ drawerWidth = 260, handleDrawerToggle,openDrawer }) => {
+   
+   const [openDrawerNav, setOpenDrawerNav] = useState(false);
    const [openSearch, setOpenSearch] = useState(false); // estado para controlar la visibilidad del input de busqueda
    const [searchTerm, setSearchTerm] = useState("");
 
@@ -87,23 +88,27 @@ export const NavBar: React.FC<NavBarProps> = ({ drawerWidth = 260, handleDrawerT
       <AppBar
          position="fixed"
          sx={{
-            width: { sm: `calc(100% - ${drawerWidth}px)` },
+            maxWidth: "100%",
+            width: { sm: openDrawer ? `calc(100% - ${drawerWidth}px)`: "100%" },
             ml: `{sm: ${drawerWidth}px}`,
             backgroundColor: "#FFFFFF",
             boxShadow: "none",
          }}
       >
-         <Toolbar>
+         <Toolbar
+            sx={{width: {sm:'100%'}}}>
+            
             <Grid
                container
                direction="row"
                justifyContent="end"
                alignItems="center"
-               gap={0}
+               gap={5}
+               maxWidth="100%"
             >
                <IconButton
                      onClick={() => {
-                        setOpenDrawer(!openDrawer);
+                        setOpenDrawerNav(!openDrawerNav);
                         handleDrawerToggle();
                      }}
                      sx={{

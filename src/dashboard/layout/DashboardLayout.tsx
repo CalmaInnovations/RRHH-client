@@ -6,12 +6,16 @@ interface PropChildren {
    children: ReactNode;
 }
 
-const drawerWidth = 260;
+const drawerWidth = 260;// variables outside
+
 
 export const DashboardLayout = ({ children }: PropChildren) => {
    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-   const [mobileOpen, setMobileOpen] = useState(false);
+   const [mobileOpen, setMobileOpen] = useState(false); // hooks within
+   const [openDrawer, setOpenDrawer] = useState(true); // sidebar drawer state
 
+
+   
    const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
    };
@@ -30,13 +34,13 @@ export const DashboardLayout = ({ children }: PropChildren) => {
    return (
       <Box sx={{ display: "flex", minHeight: "100vh", backgroundColor: "#F5F7FF" }}>
          {/* NavBar */}
-         <NavBar drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} />
+         <NavBar drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} openDrawer={openDrawer}/>
          {/* Sidebar */}
-         {windowWidth > 500 && <SideBar drawerWidth={drawerWidth} />}
+         {windowWidth > 500 && <SideBar drawerWidth={drawerWidth} openDrawer={openDrawer} setOpenDrawer={setOpenDrawer}/>}
          {windowWidth < 500 && <SideBarResponsive mobileOpen={mobileOpen}
             handleDrawerClose={handleDrawerToggle}
             drawerWidth={240}/>}
-
+         
          <Box
             component="main"
             sx={{ flexGrow: 1, p: 1, backgroundColor: "inherit" }}

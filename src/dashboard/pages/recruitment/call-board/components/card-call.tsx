@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, IconButton, Typography } from "@mui/material";
-// import { useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import {
    Call,
    RecruiterRes,
@@ -17,7 +17,7 @@ interface Props {
 
 // FIX: fix responsive
 
-export const CardCall = ({ call ,handleGetCallsService  }: Props) => {
+export const CardCall = ({ call, handleGetCallsService }: Props) => {
    const [recruiters, setRecruiters] = useState<RecruiterRes>(
       {} as RecruiterRes
    );
@@ -26,14 +26,13 @@ export const CardCall = ({ call ,handleGetCallsService  }: Props) => {
    const [isLoading, setIsLoading] = useState(false);
    const [activeModal, setActiveModal] = useState<string | null>(null);
 
-   // const navigation = useNavigate();
+   const navigation = useNavigate();
 
    const openModal = async (modalName: string) => {
       const currentId = call.idConvocatoria;
       setIdConvocatoria(currentId);
 
       if (modalName === "asign") {
-
          setIsLoading(true);
          try {
             const { data } = await getRecruitersAvailableService();
@@ -48,8 +47,6 @@ export const CardCall = ({ call ,handleGetCallsService  }: Props) => {
    };
    const closeModal = () => setActiveModal(null);
 
-
-
    return (
       <Card
          sx={{
@@ -58,7 +55,6 @@ export const CardCall = ({ call ,handleGetCallsService  }: Props) => {
             borderRadius: 2,
             "&:hover": { boxShadow: 5 },
          }}
-         // onClick={() => navigation(`/recruitment/call/${call.idConvocatoria}`)}
       >
          <CardContent>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -79,53 +75,64 @@ export const CardCall = ({ call ,handleGetCallsService  }: Props) => {
                   </IconButton>
                </Box>
             </Box>
-            <Box sx={{ mt: 2 }}>
-               <Typography
-                  sx={{ fontWeight: 600, color: "#5BC1E6", fontSize: "28px" }}
-               >
-                  {call.nombrePuesto}
-               </Typography>
-
-               <Typography
-                  sx={{ mb: 1.5, fontSize: "18px", fontWeight: 500 }}
-                  color="#7E8299"
-               >
-                  {call.modalidad}
-               </Typography>
-            </Box>
-            <Box
-               sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  gap: 1,
-               }}
-            >
-               <Typography sx={{ fontWeight: 500, color: "#B5B5C3" }}>
-                  <span style={{ color: "#2E384D" }}>Subárea:</span>{" "}
-                  {call.nombreArea}
-               </Typography>
-
-               <Typography sx={{ fontWeight: 500, color: "#B5B5C3" }}>
-                  <span style={{ color: "#2E384D" }}>Cantidad:</span>{" "}
-                  {call.cantidad}
-               </Typography>
-            </Box>
 
             <Box
-               sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-               }}
+               onClick={() =>
+                  navigation(`/recruitment/call/${call.idConvocatoria}`)
+               }
             >
-               <Typography sx={{ fontWeight: 500, color: "#2E384D" }}>
-                  Reclutador(a) asginado:
-               </Typography>
+               <Box sx={{ mt: 2 }}>
+                  <Typography
+                     sx={{
+                        fontWeight: 600,
+                        color: "#5BC1E6",
+                        fontSize: "28px",
+                     }}
+                  >
+                     {call.nombrePuesto}
+                  </Typography>
 
-               <Typography sx={{ fontWeight: 500, color: "#B5B5C3" }}>
-                  {call.reclutadorSenior}
-               </Typography>
+                  <Typography
+                     sx={{ mb: 1.5, fontSize: "18px", fontWeight: 500 }}
+                     color="#7E8299"
+                  >
+                     {call.modalidad}
+                  </Typography>
+               </Box>
+               <Box
+                  sx={{
+                     display: "flex",
+                     justifyContent: "space-between",
+                     alignItems: "center",
+                     gap: 1,
+                  }}
+               >
+                  <Typography sx={{ fontWeight: 500, color: "#B5B5C3" }}>
+                     <span style={{ color: "#2E384D" }}>Subárea:</span>{" "}
+                     {call.nombreArea}
+                  </Typography>
+
+                  <Typography sx={{ fontWeight: 500, color: "#B5B5C3" }}>
+                     <span style={{ color: "#2E384D" }}>Cantidad:</span>{" "}
+                     {call.cantidad}
+                  </Typography>
+               </Box>
+
+               <Box
+                  sx={{
+                     display: "flex",
+                     justifyContent: "space-between",
+                     alignItems: "center",
+                  }}
+               >
+                  <Typography sx={{ fontWeight: 500, color: "#2E384D" }}>
+                     Reclutador(a) asginado:
+                  </Typography>
+
+                  <Typography sx={{ fontWeight: 500, color: "#B5B5C3" }}>
+                     {call.reclutadorSenior}
+                  </Typography>
+               </Box>
             </Box>
          </CardContent>
 
@@ -136,7 +143,6 @@ export const CardCall = ({ call ,handleGetCallsService  }: Props) => {
             isLoading={isLoading}
             idConvocatoria={idConvocatoria}
             handleGetCallsService={handleGetCallsService}
-
          />
       </Card>
    );

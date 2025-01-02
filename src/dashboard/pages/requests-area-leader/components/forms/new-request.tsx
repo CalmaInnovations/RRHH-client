@@ -117,8 +117,8 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   control={control}
                   name="position"
                   label="Nombre del puesto"
-                  options={filteredPosition}
-                  disabled={!selectSubArea}
+                  placeholder="Desarrollador Front-End"
+                  error={errors.position}
                />
             </Grid>
 
@@ -130,6 +130,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   placeholder="2"
                   error={errors.cantidad}
                   type="number"
+                  inputProps={{ min: 0 }}
                />
             </Grid>
 
