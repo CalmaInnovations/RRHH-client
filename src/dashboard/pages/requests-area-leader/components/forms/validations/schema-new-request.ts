@@ -1,24 +1,30 @@
 import { z } from "zod";
 
 export const schema = z.object({
-   position: z.string().min(1, "El puesto es obligatorio"),
-   quantity: z.coerce.number().int()   .gte(1, "La cantidad debe ser al menos 1")
-   .lte(10, "La cantidad no puede ser mayor a 10"),
-   type: z.enum(["Practicante", "Voluntario"], {
-      errorMap: () => ({ message: "El tipo de puesto es obligatorio" }),
-   }),
-   softSkills: z
-   .string()
-   .min(1, "Las habilidades blandas son obligatorias")
-   .regex(/^[a-zA-Z\s,]+$/, "No se permiten caracteres especiales en habilidades blandas"),
-   technicalKnowledge: z
-   .string()
-   .min(1, "Los conocimientos técnicos son obligatorios")
-   .regex(/^[a-zA-Z\s,]+$/, "No se permiten caracteres especiales en conocimientos técnicos"),
-   functions: z
+   colaboradorLiderId: z
+      .number()
+      .min(1, { message: "El ID del líder debe ser un número positivo" }),
+   puestoId: z
+      .number()
+      .min(1, { message: "El ID del puesto debe ser un número positivo" }),
+   cantidad: z
+      .number()
+      .min(0, { message: "La cantidad debe ser un número no negativo" }),
+   habilidadesBlandas: z
       .string()
-      .min(1, "Las funciones son obligatorias")
-      .regex(/^[a-zA-Z\s,]+$/, "No se permiten caracteres especiales en funciones"),
+      .min(1, { message: "Las habilidades blandas son obligatorias" }),
+   conocimientosTecnicos: z
+      .string()
+      .min(1, { message: "Los conocimientos técnicos son obligatorios" }),
+   tipoModalidad: z
+      .string()
+      .min(1, { message: "El tipo de modalidad es obligatorio" }),
+   observaciones: z
+      .string()
+      .min(1, { message: "Las observaciones son obligatorias" }),
+   beneficios: z
+      .string()
+      .min(1, { message: "Los beneficios son obligatorios" }),
 });
 
 export type FormValues = z.infer<typeof schema>;
