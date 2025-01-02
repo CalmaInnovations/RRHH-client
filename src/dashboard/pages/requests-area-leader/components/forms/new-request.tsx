@@ -112,7 +112,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   disabled={!selectedArea}
                />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            {/* <Grid item xs={12} sm={6}>
                <RHFSelect
                   control={control}
                   name="position"
@@ -120,8 +120,16 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   placeholder="Desarrollador Front-End"
                   error={errors.position}
                />
-            </Grid>
+            </Grid> */}
 
+            <Grid item xs={12} sm={6}>
+               <RHFSelect
+                  control={control}
+                  name="type"
+                  label="Tipo de puesto"
+                  options={subAreas}
+               />
+            </Grid>
             <Grid item xs={12} sm={6}>
                <RHFInput
                   control={control}
@@ -134,14 +142,6 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                />
             </Grid>
 
-            <Grid item xs={12} sm={6}>
-               <RHFSelect
-                  control={control}
-                  name="type"
-                  label="Tipo de puesto"
-                  options={subAreas}
-               />
-            </Grid>
 
             <Grid item xs={12} sm={6}>
                <RHFInput
@@ -153,7 +153,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
                <RHFInput
                   control={control}
                   name="technicalKnowledge"
