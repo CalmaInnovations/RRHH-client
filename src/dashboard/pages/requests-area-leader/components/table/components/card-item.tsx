@@ -8,39 +8,36 @@ import {
    MenuItem,
    Menu,
 } from "@mui/material";
-import type { RequestItems } from "../../../models/request-items.model";
+import type { CollaboratorGet } from "../../../interface/request-items.model";
 import { MoreHoriz } from "@mui/icons-material";
 import React from "react";
 
 interface ItemProps {
-   rows: RequestItems[];
-   onPreview: (row: RequestItems) => void;
+   cards: CollaboratorGet[];
+   onPreview: (row: CollaboratorGet) => void;
 }
 
-export function TableItem({ rows, onPreview }: ItemProps) {
-
+export function TableItem({ cards, onPreview }: ItemProps) {
    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
    const open = Boolean(anchorEl);
+
    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
       setAnchorEl(event.currentTarget);
    };
 
    const handleClose = () => {
       setAnchorEl(null);
-      
    };
 
- 
-
    return (
-     
       <Grid
          container
          spacing={2}
          sx={{ mt: "10px", overflow: "hidden", boxSizing: "border-box" }}
       >
-         {rows.map((row) => (
-            <Grid item xs={12} md={6} lg={4} key={row.id}>
+         {cards.map((card) => (
+            <Grid item xs={12} md={6} lg={4} key={card.id}>
                <Card>
                   <CardContent
                      sx={{
@@ -64,14 +61,14 @@ export function TableItem({ rows, onPreview }: ItemProps) {
                            sx={{
                               fontSize: 14,
                               color:
-                                 row.status === "En proceso"
+                                 card.estado === "En proceso"
                                     ? "orange"
-                                    : row.status === "Completado"
+                                    : card.estado === "Completado"
                                     ? "green"
                                     : "gray",
                            }}
                         >
-                           {row.status}
+                           {card.estado}
                         </Typography>
                         <Button
                            id="demo-positioned-button"
@@ -99,14 +96,28 @@ export function TableItem({ rows, onPreview }: ItemProps) {
                               horizontal: "left",
                            }}
                         >
-                           <MenuItem onClick={() => {onPreview(row); handleClose}}>Editar</MenuItem>
+                           <MenuItem
+                              onClick={() => {
+                                 onPreview(card);
+                                 handleClose;
+                              }}
+                           >
+                              Editar
+                           </MenuItem>
                         </Menu>
                      </Box>
-                     <Typography variant="h5" component="div">
-                        {row.type}
+                     <Typography
+                        sx={{ color: "text.secondary" }}
+                        variant="h6"
+                        component="div"
+                     >
+                        {card.tipoModalidad}
                      </Typography>
-                     <Typography sx={{ color: "text.secondary", mb: 1.5 }}>
-                        {row.position}
+                     <Typography
+                        variant="h5"
+                        sx={{ mb: 1.5, fontWeight: "bold" }}
+                     >
+                        {card.puesto}
                      </Typography>
                      <Typography
                         variant="body2"
@@ -118,11 +129,15 @@ export function TableItem({ rows, onPreview }: ItemProps) {
                      >
                         <Typography
                            component="span"
-                           sx={{ color: "primary.main" }}
+                           sx={{ color: "primary.main", fontWeight: "600" }}
                         >
                            Fecha:
                         </Typography>{" "}
-                        {row.date?.toLocaleDateString("es-ES")}
+                        {card.fechaSolicitud
+                           ? new Date(card.fechaSolicitud).toLocaleDateString(
+                                "es-ES"
+                             )
+                           : "Fecha no disponible"}
                      </Typography>
                      <Typography
                         variant="body2"
@@ -134,11 +149,11 @@ export function TableItem({ rows, onPreview }: ItemProps) {
                      >
                         <Typography
                            component="span"
-                           sx={{ color: "primary.main" }}
+                           sx={{ color: "primary.main", fontWeight: "600" }}
                         >
                            Cantidad:
                         </Typography>
-                        {row.quantity}
+                        {card.cantidad}
                      </Typography>
                      <Typography
                         variant="body2"
@@ -152,14 +167,12 @@ export function TableItem({ rows, onPreview }: ItemProps) {
                            component="span"
                            sx={{
                               color: "primary.main",
-                              maxWidth: "60%",
+                              fontWeight: "600",
                            }}
                         >
                            Habilidades blandas:
                         </Typography>
-                        <Typography component="p" sx={{}}>
-                           {row.softSkills}
-                        </Typography>
+                        {card.habilidadesBlandas}
                      </Typography>
                      <Typography
                         variant="body2"
@@ -171,11 +184,11 @@ export function TableItem({ rows, onPreview }: ItemProps) {
                      >
                         <Typography
                            component="span"
-                           sx={{ color: "primary.main" }}
+                           sx={{ color: "primary.main", fontWeight: "600" }}
                         >
                            Conocimiento tecnico:
                         </Typography>
-                        {row.technicalKnowledge}
+                        {card.conocimientosTecnicos}
                      </Typography>
                      <Typography
                         variant="body2"
@@ -187,11 +200,11 @@ export function TableItem({ rows, onPreview }: ItemProps) {
                      >
                         <Typography
                            component="span"
-                           sx={{ color: "primary.main" }}
+                           sx={{ color: "primary.main", fontWeight: "600" }}
                         >
-                           Funciones:
+                           Observaciones:
                         </Typography>
-                        {row.functions}
+                        {card.observaciones}
                      </Typography>
                   </CardContent>
                </Card>

@@ -1,4 +1,4 @@
-import { RequestItems, Type, Status } from "../models/request-items.model";
+import { RequestItems, Type, Status } from "../interface/request-items.model";
 
 interface apiData {
    id: number;
