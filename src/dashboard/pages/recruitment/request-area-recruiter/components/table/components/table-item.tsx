@@ -119,8 +119,7 @@ export const TableItem = ({ sold, handleOpen }: ItemProps) => {
                   {/* descripcion de la "Funcion" */}
                   <Box>
                      <Typography color="#2E384D">
-                        Desarrollar interfaces de usuario, apoyar con el diseño
-                        UI, optimización de cargas
+                        {sold.observaciones}
                      </Typography>
                   </Box>
 
