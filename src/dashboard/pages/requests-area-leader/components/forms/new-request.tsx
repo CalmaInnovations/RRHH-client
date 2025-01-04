@@ -4,31 +4,15 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormValues, schema } from "./validations/schema-new-request";
 import { RHFSelect, RHFInput, RHFMultiline } from "./components/custom-inputs";
-import { CollaboratorPost } from "../../interface/request-items.model";
+import { Collaborator } from "../../interface/request-items.model";
 import { useAreas } from "../../hooks/useAreas";
 import { useState } from "react";
+import { RHFSelectModalidad } from "./components/custom-inputs/rhf-select-modalidad";
 
 interface PropsNextModal {
    handleNextModal: () => void;
-   handleData: (data: CollaboratorPost) => void;
+   handleData: (data: Collaborator) => void;
 }
-
-const dataPosition = [
-   {
-      id: 1,
-      nombre: "Reclutador",
-   },
-   {
-      id: 2,
-      nombre: "Instructor de Capacitación",
-   },
-   {
-      id: 3,
-      nombre: "Desarrollador de Software",
-   },
-];
-
-console.log(dataPosition);
 
 export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
    const {
@@ -36,24 +20,35 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
       handleSubmit,
       reset,
       formState: { errors },
-   } = useForm<FormValues>({ mode: "onSubmit", resolver: zodResolver(schema) });
+   } = useForm<FormValues>({
+      mode: "onSubmit",
+      resolver: zodResolver(schema),
+      defaultValues: {
+         puestoId: 2,
+         cantidad: 2,
+         habilidadesBlandas: "Logica de Programacion",
+         conocimientosTecnicos: "Javascript, React, Typescript",
+         tipoModalidad: "Voluntariado",
+         observaciones: "Manejo de Excel avanzado",
+      },
+   });
 
-   // const [area, setarea] = useState("")
-
-   const { areas, subAreas, Loading } = useAreas();
+   const { areas, subAreas, position } = useAreas();
    const [selectedArea, setSelectedArea] = useState<string | number>(0);
    const [selectSubArea, setselectSubArea] = useState<string | number>(0);
 
-   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-      const values: CollaboratorPost = {
-         colaboradorLiderId: data.colaboradorLiderId,
+   const onSubmit: SubmitHandler<FormValues> = (data) => {
+      console.log(data);
+      console.log("Formulario enviado");
+      const values: Collaborator = {
+         colaboradorLiderId: 1,
+         beneficios: "",
          puestoId: data.puestoId,
          cantidad: data.cantidad,
          habilidadesBlandas: data.habilidadesBlandas,
          conocimientosTecnicos: data.conocimientosTecnicos,
-         tipoModalidad: data.tipoModalidad,
          observaciones: data.observaciones,
-         beneficios: data.beneficios,
+         tipoModalidad: data.tipoModalidad,
       };
 
       handleData(values);
@@ -64,14 +59,9 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
       ({ areaId }) => areaId === Number(selectedArea)
    );
 
-  
-   const filteredPosition = dataPosition.filter(
-      ({ id }) => id === Number(selectSubArea)
+   const filteredPosition = position.filter(
+      ({ subAreaId }) => subAreaId === Number(selectSubArea)
    );
-
-   console.log("Sub Areas:", filteredSubAreas);
-   console.log("Filtered Positions:", filteredPosition);
-   
 
    const handleClear = () => {
       reset();
@@ -112,41 +102,41 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   disabled={!selectedArea}
                />
             </Grid>
-            {/* <Grid item xs={12} sm={6}>
-               <RHFSelect
-                  control={control}
-                  name="position"
-                  label="Nombre del puesto"
-                  placeholder="Desarrollador Front-End"
-                  error={errors.position}
-               />
-            </Grid> */}
 
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}>
                <RHFSelect
                   control={control}
-                  name="type"
+                  name="puestoId"
                   label="Tipo de puesto"
-                  options={subAreas}
+                  options={filteredPosition}
+                  disabled={!selectSubArea}
                />
             </Grid>
             <Grid item xs={12} sm={6}>
+               <RHFSelectModalidad
+                  control={control}
+                  name="tipoModalidad"
+                  label="tipo de Modalidad"
+                  options={filteredPosition}
+               />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
                <RHFInput
                   control={control}
-                  name="quantity"
+                  name="cantidad"
                   label="Cantidad"
                   placeholder="2"
                   error={errors.cantidad}
                   type="number"
-                  inputProps={{ min: 0 }}
+                  inputProps={{ min: 2, type: "number" }}
                />
             </Grid>
-
 
             <Grid item xs={12} sm={6}>
                <RHFInput
                   control={control}
-                  name="softSkills"
+                  name="habilidadesBlandas"
                   label="Habilidades blandas"
                   placeholder="Separar por comas (,)"
                   error={errors.habilidadesBlandas}
@@ -156,7 +146,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
             <Grid item xs={12} sm={6}>
                <RHFInput
                   control={control}
-                  name="technicalKnowledge"
+                  name="conocimientosTecnicos"
                   label="Conocimientos técnicos"
                   placeholder="Separar por comas (,)"
                   error={errors.conocimientosTecnicos}

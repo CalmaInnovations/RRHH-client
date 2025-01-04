@@ -5,10 +5,11 @@ import { SuccessfulSending } from "./components/forms/components/successful-send
 import { useState } from "react";
 import { Box, Button, CircularProgress } from "@mui/material";
 import { PreviewRequest } from "./components/forms/preview-request";
-import { CollaboratorGet } from "./interface/request-items.model";
-import { TableItem } from "./components/table/components/card-item";
+import { Collaborator } from "./interface/request-items.model";
+import { CardsItem } from "./components/table/components/card-item";
 
 import { useCollaborator } from "./hooks/useColaboradores";
+import { Paginations } from "./components/table/components/Paginations";
 
 export function Requests() {
    const [modalStep, setModalStep] = useState(0);
@@ -18,19 +19,29 @@ export function Requests() {
    };
    const handleCloseAllModals = () => setModalStep(0);
 
-   const [formData, setFormData] = useState<CollaboratorGet | null>(null);
-
+   const [formData, setFormData] = useState<Collaborator | null>(null);
    const [editId, setEditId] = useState<number | null>(null);
+   const { cards, updateCollaborator, loading, postCollaborator } =
+      useCollaborator();
 
-   const { cards, updateCollaborator, Loading } = useCollaborator();
+   const [dataQt, setdataQt] = useState(3);
+   const [currentPage, setcurrentPage] = useState(1);
 
-   const handleData = (data: CollaboratorGet) => {
+   const indexFin = currentPage * dataQt;
+   const indexIni = indexFin - dataQt;
+
+   const nData = cards.slice(indexIni, indexFin);
+   const nPages = Math.ceil(cards.length / dataQt);
+
+   const handleData = (data: Collaborator) => {
+      postCollaborator(data);
       updateCollaborator(data, editId);
       setEditId(null);
    };
 
-   const handlePreview = (card: CollaboratorGet) => {
+   const handlePreview = (card: Collaborator) => {
       setFormData(card);
+      console.log({ card });
       setEditId(card.id ?? null);
       setModalStep(3);
    };
@@ -48,7 +59,7 @@ export function Requests() {
             </Button>
          </Box>
 
-         {Loading && (
+         {loading && (
             <Box
                sx={{
                   display: "flex",
@@ -61,8 +72,8 @@ export function Requests() {
             </Box>
          )}
 
-         <TableItem cards={cards} onPreview={handlePreview} />
-
+         <CardsItem cards={nData} onPreview={handlePreview} />
+         <Paginations setcurrentPage={setcurrentPage} currentPage={currentPage} nPages={nPages}/>
          <TransitionsModal
             open={modalStep === 1}
             onClose={handleCloseAllModals}
