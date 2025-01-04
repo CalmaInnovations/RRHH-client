@@ -37,7 +37,7 @@ export function RHFSelect({
       <Controller
          name={name}
          control={control}
-         defaultValue=""
+         defaultValue={options[0]?.id || 0}
          render={({ field }) => (
             <FormControl fullWidth variant="outlined">
                <InputLabel shrink htmlFor={name}>

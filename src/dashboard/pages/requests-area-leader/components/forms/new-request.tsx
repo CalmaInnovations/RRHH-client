@@ -23,14 +23,14 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
    } = useForm<FormValues>({
       mode: "onSubmit",
       resolver: zodResolver(schema),
-      defaultValues: {
-         puestoId: 2,
-         cantidad: 2,
-         habilidadesBlandas: "Logica de Programacion",
-         conocimientosTecnicos: "Javascript, React, Typescript",
-         tipoModalidad: "Voluntariado",
-         observaciones: "Manejo de Excel avanzado",
-      },
+      // defaultValues: {
+      //    puestoId: 2,
+      //    cantidad: 2,
+      //    habilidadesBlandas: "Logica de Programacion",
+      //    conocimientosTecnicos: "Javascript, React, Typescript",
+      //    tipoModalidad: "Voluntariado",
+      //    observaciones: "Manejo de Excel avanzado",
+      // },
    });
 
    const { areas, subAreas, position } = useAreas();
@@ -38,8 +38,6 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
    const [selectSubArea, setselectSubArea] = useState<string | number>(0);
 
    const onSubmit: SubmitHandler<FormValues> = (data) => {
-      console.log(data);
-      console.log("Formulario enviado");
       const values: Collaborator = {
          colaboradorLiderId: 1,
          beneficios: "",
@@ -89,17 +87,19 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   label="Area"
                   options={areas}
                   handleChange={(value) => setSelectedArea(Number(value))}
+                  error={errors.area}
                />
             </Grid>
 
             <Grid item xs={12} sm={6}>
                <RHFSelect
                   control={control}
-                  name="subarea"
+                  name="subArea"
                   label="Sub Area"
                   options={filteredSubAreas}
                   handleChange={(value) => setselectSubArea(Number(value))}
                   disabled={!selectedArea}
+                  error={errors.subArea}
                />
             </Grid>
 
@@ -110,6 +110,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   label="Tipo de puesto"
                   options={filteredPosition}
                   disabled={!selectSubArea}
+                  error={errors.puestoId}
                />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -118,6 +119,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   name="tipoModalidad"
                   label="tipo de Modalidad"
                   options={filteredPosition}
+                  error={errors.tipoModalidad}
                />
             </Grid>
 
@@ -129,7 +131,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   placeholder="2"
                   error={errors.cantidad}
                   type="number"
-                  inputProps={{ min: 2, type: "number" }}
+                  inputProps={{ min: 0 }}
                />
             </Grid>
 

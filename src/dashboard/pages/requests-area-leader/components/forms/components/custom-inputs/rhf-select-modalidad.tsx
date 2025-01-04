@@ -40,7 +40,7 @@ import {
        <Controller
           name={name}
           control={control}
-          defaultValue={"Seleccionar"}
+          defaultValue={""}
           render={({ field }) => (
              <FormControl fullWidth variant="outlined">
                 <InputLabel shrink htmlFor={name}>
