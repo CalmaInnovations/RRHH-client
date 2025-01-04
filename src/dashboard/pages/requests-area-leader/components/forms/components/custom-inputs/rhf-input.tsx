@@ -10,6 +10,7 @@ interface Props {
    placeholder: string;
    type?: string;
    disabled?: boolean;
+   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 }
 
 export function RHFInput({
@@ -20,12 +21,13 @@ export function RHFInput({
    placeholder,
    type,
    disabled,
+   inputProps,
 }: Props) {
    return (
       <Controller
          name={name}
          control={control}
-         defaultValue={""}
+         defaultValue={type === "number" ? 0 : ""}
          render={({ field }) => (
             <FormControl fullWidth variant="outlined">
                <TextField
@@ -39,6 +41,7 @@ export function RHFInput({
                   InputLabelProps={{ shrink: true }}
                   type={type}
                   disabled={disabled}
+                  inputProps={inputProps}
                />
             </FormControl>
          )}

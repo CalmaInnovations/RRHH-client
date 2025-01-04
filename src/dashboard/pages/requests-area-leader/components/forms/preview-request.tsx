@@ -1,28 +1,34 @@
 import { Grid, Typography, Button } from "@mui/material";
 import { useState, useEffect } from "react";
-import { RequestItems } from "../../models/request-items.model";
+
 import { RHFInput, RHFMultiline, RHFSelect } from "./components/custom-inputs";
 import { FormValues, schema } from "./validations/schema-new-request";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Collaborator } from "../../interface/request-items.model";
+import { useAreas } from "../../hooks/useAreas";
+import { RHFSelectModalidad } from "./components/custom-inputs/rhf-select-modalidad";
 
 interface OnCloseProps {
    onClose: () => void;
-   handleData: (data: RequestItems) => void;
+   handleData: (data: Collaborator) => void;
 }
 
 export function PreviewRequest({
-   position,
-   quantity,
-   type,
-   softSkills,
-   technicalKnowledge,
-   functions,
+   puestoId,
+   cantidad,
+   tipoModalidad,
+   habilidadesBlandas,
+   conocimientosTecnicos,
+   observaciones,
    onClose,
    handleData,
-}: RequestItems & OnCloseProps) {
+}: Collaborator & OnCloseProps) {
    const [isEditable, setIsEditable] = useState(false);
    const [savedSuccessfully, setSavedSuccessfully] = useState(false);
+   const { areas, subAreas, position } = useAreas();
+   const [selectedArea, setSelectedArea] = useState<string | number>(0);
+   const [selectSubArea, setselectSubArea] = useState<string | number>(0);
 
    const {
       control,
@@ -33,31 +39,31 @@ export function PreviewRequest({
       mode: "all",
       resolver: zodResolver(schema),
       defaultValues: {
-         position,
-         quantity,
-         type,
-         softSkills,
-         technicalKnowledge,
-         functions,
+         puestoId,
+         cantidad,
+         tipoModalidad,
+         habilidadesBlandas,
+         conocimientosTecnicos,
+         observaciones,
       },
    });
 
    useEffect(() => {
       reset({
-         position,
-         quantity,
-         type,
-         softSkills,
-         technicalKnowledge,
-         functions,
+         puestoId,
+         cantidad,
+         tipoModalidad,
+         habilidadesBlandas,
+         conocimientosTecnicos,
+         observaciones,
       });
    }, [
-      position,
-      quantity,
-      type,
-      softSkills,
-      technicalKnowledge,
-      functions,
+      puestoId,
+      cantidad,
+      tipoModalidad,
+      habilidadesBlandas,
+      conocimientosTecnicos,
+      observaciones,
       reset,
    ]);
 
@@ -74,6 +80,14 @@ export function PreviewRequest({
       setIsEditable(!isEditable);
    };
 
+   const filteredSubAreas = subAreas.filter(
+      ({ areaId }) => areaId === Number(selectedArea)
+   );
+
+   const filteredPosition = position.filter(
+      ({ subAreaId }) => subAreaId === Number(selectSubArea)
+   );
+
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <Grid container spacing={3}>
@@ -87,78 +101,95 @@ export function PreviewRequest({
 
             <Grid item xs={12}>
                <Typography
+                  id="transition-modal-title"
                   variant="h5"
                   component="h2"
                   marginBottom={2}
                   fontWeight="bold"
                >
-                  Solicitud de colaborador
+                  Nueva Solicitud
                </Typography>
             </Grid>
 
             <Grid item xs={12} sm={6}>
-               <RHFInput
+               <RHFSelect
                   control={control}
-                  name="position"
-                  label="Nombre del puesto"
-                  placeholder="Desarrollador Front-End"
-                  error={errors.position}
-                  disabled={!isEditable}
-               />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-               <RHFInput
-                  control={control}
-                  name="quantity"
-                  label="Cantidad"
-                  placeholder="2"
-                  error={errors.quantity}
-                  type="number"
-                  disabled={!isEditable}
+                  name="area"
+                  label="Area"
+                  options={areas}
+                  handleChange={(value) => setSelectedArea(Number(value))}
+                  disabled
                />
             </Grid>
 
             <Grid item xs={12} sm={6}>
                <RHFSelect
                   control={control}
-                  name="type"
+                  name="subarea"
+                  label="Sub Area"
+                  options={filteredSubAreas}
+                  handleChange={(value) => setselectSubArea(Number(value))}
+                  disabled={!selectedArea}
+               />
+            </Grid>
+
+            <Grid item xs={12} sm={12}>
+               <RHFSelect
+                  control={control}
+                  name="puestoId"
                   label="Tipo de puesto"
-                  error={errors.type}
-                  disabled={!isEditable}
+                  options={filteredPosition}
+                  disabled={!selectSubArea}
+               />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+               <RHFSelectModalidad
+                  control={control}
+                  name="tipoModalidad"
+                  label="tipo de Modalidad"
+                  options={filteredPosition}
                />
             </Grid>
 
             <Grid item xs={12} sm={6}>
                <RHFInput
                   control={control}
-                  name="softSkills"
-                  label="Habilidades blandas"
-                  placeholder="Separar por comas (,)"
-                  error={errors.softSkills}
-                  disabled={!isEditable}
+                  name="cantidad"
+                  label="Cantidad"
+                  placeholder="2"
+                  error={errors.cantidad}
+                  type="number"
+                  inputProps={{ min: 2, type: "number" }}
                />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
                <RHFInput
                   control={control}
-                  name="technicalKnowledge"
+                  name="habilidadesBlandas"
+                  label="Habilidades blandas"
+                  placeholder="Separar por comas (,)"
+                  error={errors.habilidadesBlandas}
+               />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+               <RHFInput
+                  control={control}
+                  name="conocimientosTecnicos"
                   label="Conocimientos técnicos"
                   placeholder="Separar por comas (,)"
-                  error={errors.technicalKnowledge}
-                  disabled={!isEditable}
+                  error={errors.conocimientosTecnicos}
                />
             </Grid>
 
             <Grid item xs={12}>
                <RHFMultiline
                   control={control}
-                  name="functions"
-                  label="Funciones"
-                  placeholder="Funciones"
-                  error={errors.functions}
-                  disabled={!isEditable}
+                  name="observaciones"
+                  label="Observaciones"
+                  placeholder="Observaciones"
+                  error={errors.observaciones}
                />
             </Grid>
 

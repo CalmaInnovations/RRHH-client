@@ -1,18 +1,11 @@
 import { useEffect, useState } from "react";
 import {
-   Table,
-   TableBody,
-   TableCell,
-   TableContainer,
-   TableHead,
-   TableRow,
-   Paper,
    Pagination,
    Modal,
    Box,
    Typography,
-   TextField,
    Grid,
+   TextField,
    Button,
 } from "@mui/material";
 import { TableItem } from "./components/table-item";
@@ -21,21 +14,38 @@ import {
    getRecruitersAvailableService,
    updateRequestService,
 } from "../../services/request-service";
+
+import { getAllSolicitudService } from "../../services/solicitudes-services";
 import { Call, CallRes, RecruiterRes } from "../../interfaces/calls-interface";
+import { SolicitudesRes } from "../../interfaces/solicitud-interface";
 import { Spinner } from "../../../../../components/spinner/spinner";
+import { Tags } from "../../../../../components/Tag/components/Tags";
 
 // FIX: fix pagination
 // FIX: fix refactorization
 // FIX: separate logic
 
+interface PaginationParams {
+   pgNum: number;
+   pgSize: number;
+}
+
 export const RequestTable = () => {
+   const [solicitudes, setSolicitudes] = useState<SolicitudesRes>(
+      {} as SolicitudesRes
+   );
    const [calls, setCalls] = useState<CallRes>({} as CallRes);
    const [open, setOpen] = useState(false);
+
    const [isLoading, setIsLoading] = useState(false);
+
    const [selectedRequest, setSelectedRequest] = useState<Call>({} as Call);
    const [recruiters, setRecruiters] = useState<RecruiterRes>(
       {} as RecruiterRes
    );
+
+   const [page, setPage] = useState<number>(1);
+   const [totalPages, setTotalPages] = useState<number>(1);
 
    const stateRequest = [
       {
@@ -70,6 +80,25 @@ export const RequestTable = () => {
       try {
          const { data } = await getCallsService();
          setCalls(data);
+      } catch (error) {
+         console.log(error);
+      } finally {
+         setIsLoading(false);
+      }
+   };
+
+   //funcion para llamar a todas las solicitudes
+   const handleGetAllSolicitudService = async (page: number) => {
+      setIsLoading(true);
+      try {
+         const paginationParams: PaginationParams = {
+            pgNum: page,
+            pgSize: 1,
+         };
+
+         const { data } = await getAllSolicitudService(paginationParams);
+         setSolicitudes(data);
+         setTotalPages(data.pags);
       } catch (error) {
          console.log(error);
       } finally {
@@ -126,58 +155,51 @@ export const RequestTable = () => {
    useEffect(() => {
       handleGetRecruitersAvailableService();
       handleGetCallsService();
-   }, []);
+      handleGetAllSolicitudService(page);
+   }, [page]);
 
    return (
-      <TableContainer
-         component={Paper}
+      <Box
          sx={{
             padding: "2rem",
-            minWidth: "1400px",
+            ml: 6,
          }}
       >
          <Typography variant="h3" sx={{ marginBottom: "1rem" }} component="h1">
             Solicitudes
          </Typography>
 
+         {/* componente de tags  aqui*/}
+         <Tags />
+
          {isLoading ? (
-            <Spinner />
+            <Spinner className="mt-64" />
          ) : (
             <>
-               <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                  <TableHead>
-                     <TableRow>
-                        <TableCell align="center">Area</TableCell>
-                        <TableCell align="center">Reclutador Senior</TableCell>
-                        <TableCell align="center">Reclutador General</TableCell>
-                        <TableCell align="center">Subárea</TableCell>
-                        <TableCell align="center">Puesto</TableCell>
-                        <TableCell align="center">Tipo</TableCell>
-                        <TableCell align="center">Fecha</TableCell>
-                        <TableCell align="center">Cantidad</TableCell>
-                        <TableCell align="center">Restantes</TableCell>
-                        <TableCell align="center">Estado</TableCell>
-                        <TableCell align="center">Observaciones</TableCell>
-                     </TableRow>
-                  </TableHead>
-                  <TableBody>
-                     {calls.convocatorias?.map((call) => (
-                        <TableItem
-                           call={call}
-                           key={call.idConvocatoria}
-                           handleSelectedRequest={handleSelectedRequest}
-                        />
-                     ))}
-                  </TableBody>
-               </Table>
+               <Grid
+                  container
+                  spacing={3}
+                  // sx={{ justifyContent: "center" }}
+               >
+                  {solicitudes.solicitudes?.map((sold) => (
+                     <TableItem
+                        sold={sold}
+                        key={sold.id}
+                        handleOpen={handleOpen}
+                     />
+                  ))}
+               </Grid>
 
-               <Pagination count={calls.pags} />
+               <Pagination
+                  count={totalPages}
+                  page={page}
+                  onChange={(event, value) => {
+                     setPage(value);
+                  }}
+                  sx={{ mt: 4 }}
+               />
             </>
          )}
-
-         <Box sx={{ marginTop: 2 }}>
-         
-         </Box>
 
          <Modal
             open={open}
@@ -336,7 +358,6 @@ export const RequestTable = () => {
                         />
                      </Grid>
 
-                     {/* Change input date */}
                      <Grid
                         item
                         xs={6}
@@ -466,12 +487,12 @@ export const RequestTable = () => {
                      sx={{ color: "white" }}
                      onClick={() => handleUpdateInformation()}
                   >
-                     Guardar
+                     Editar
                   </Button>
                   <Button onClick={() => handleClose()}>Cancelar</Button>
                </Box>
             </Box>
          </Modal>
-      </TableContainer>
+      </Box>
    );
 };

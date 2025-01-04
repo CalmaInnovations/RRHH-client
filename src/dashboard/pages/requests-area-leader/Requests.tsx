@@ -1,12 +1,14 @@
-import RequestsTable from "./components/table/requests-table";
+import RequestsTable from "./components/table/status-table";
 import TransitionsModal from "./components/modal/modal";
 import { NewRequest } from "./components/forms/new-request";
 import { SuccessfulSending } from "./components/forms/components/successful-sending";
 import { useState } from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, CircularProgress } from "@mui/material";
 import { PreviewRequest } from "./components/forms/preview-request";
-import { RequestItems } from "./models/request-items.model";
-import { initialRows } from "./components/table/mocks/request-items";
+import { Collaborator } from "./interface/request-items.model";
+import { CardsItem } from "./components/table/components/card-item";
+import { useCollaborator } from "./hooks/useColaboradores";
+import { Paginations } from "./components/table/components/Paginations";
 
 export function Requests() {
    const [modalStep, setModalStep] = useState(0);
@@ -16,46 +18,65 @@ export function Requests() {
    };
    const handleCloseAllModals = () => setModalStep(0);
 
-   const [formData, setFormData] = useState<RequestItems | null>(null);
-   const [rows, setRows] = useState<RequestItems[]>(initialRows);
+   const [formData, setFormData] = useState<Collaborator | null>(null);
    const [editId, setEditId] = useState<number | null>(null);
+   const { cards, updateCollaborator, loading, postCollaborator } =
+      useCollaborator();
 
-   const handleData = (data: RequestItems) => {
-      if (editId) {
-         setRows((prevRows) =>
-            prevRows.map((row) =>
-               row.id === editId ? { ...row, ...data } : row
-            )
-         );
-      } else {
-         setRows((prevRows) => [
-            ...prevRows,
-            { ...data, id: Date.now(), status: "Pendiente" },
-         ]);
-      }
+   const [dataQt, setdataQt] = useState(3);
+   const [currentPage, setcurrentPage] = useState(1);
+
+   const indexFin = currentPage * dataQt;
+   const indexIni = indexFin - dataQt;
+
+   const nData = cards.slice(indexIni, indexFin);
+   const nPages = Math.ceil(cards.length / dataQt);
+
+   const handleData = (data: Collaborator) => {
+      postCollaborator(data);
+      updateCollaborator(data, editId);
       setEditId(null);
    };
 
-   const handlePreview = (row: RequestItems) => {
-      setFormData(row);
-      setEditId(row.id ?? null);
+   const handlePreview = (card: Collaborator) => {
+      setFormData(card);
+      console.log({ card });
+      setEditId(card.id ?? null);
       setModalStep(3);
    };
 
    return (
       <>
-         <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+         <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
+            <RequestsTable />
             <Button
                variant="contained"
                onClick={() => setModalStep(1)}
-               sx={{ color: "white" }}
+               sx={{ color: "white", margin: "10px" }}
             >
                + Nueva
             </Button>
          </Box>
 
-         <RequestsTable rows={rows} onPreview={handlePreview} />
+         {loading && (
+            <Box
+               sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "400px",
+               }}
+            >
+               <CircularProgress size={"300px"} />
+            </Box>
+         )}
 
+         <CardsItem cards={nData} onPreview={handlePreview} />
+         <Paginations
+            setcurrentPage={setcurrentPage}
+            currentPage={currentPage}
+            nPages={nPages}
+         />
          <TransitionsModal
             open={modalStep === 1}
             onClose={handleCloseAllModals}

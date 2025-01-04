@@ -13,4 +13,7 @@ export const purpleTheme = createTheme({
             main: red.A400,
         },
     },
+    typography: {
+      fontFamily: '"Poppins", sans-serif', 
+    },
 });

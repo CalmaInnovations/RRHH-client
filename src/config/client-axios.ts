@@ -3,7 +3,7 @@ import { environment } from './environment';
 
 export const clientAxios = axios.create({
    headers: {
-      "Content-Type": "application/json", // Tipo de contenido predeterminado
+      "content-type": "application/json", // Tipo de contenido predeterminado
     },
 	baseURL: `${environment.API_MASTER}`,
 });

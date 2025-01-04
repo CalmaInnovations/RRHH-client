@@ -24,26 +24,30 @@ import OutputIcon from "@mui/icons-material/Output";
 import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
-export const SideBar = ({ drawerWidth = 260 }) => {
-   const [open, setOpen] = useState(true);
+interface SideBarProps {
+   openDrawer: boolean;
+   setOpenDrawer: React.Dispatch<React.SetStateAction<boolean>>;
+   drawerWidth?: number;  // Prop opcional
+}
+export const SideBar: React.FC<SideBarProps> = ({ openDrawer, setOpenDrawer,drawerWidth=240 }) => {
+   const [open, setOpen] = useState(false);
 
-   const [openDrawer, setOpenDrawer] = useState(true);
    const [activeMenu, setActiveMenu] = useState("");
-
+   
    const location = useLocation();
 
    const handleClick = () => {
       setOpen(!open);
-      if (!openDrawer) setOpenDrawer(!openDrawer);
+      if (!openDrawer) setOpenDrawer(!openDrawer); // data
    };
 
    const handleClickDrawer = () => {
-      setOpenDrawer(!openDrawer);
+      setOpenDrawer(!openDrawer); // drawer
       if (open) setOpen(!open);
    };
 
    const handleMenuClick = (menu: string) => {
-      setActiveMenu(menu);
+      setActiveMenu(menu); // menus
    };
 
    useEffect(() => {
@@ -134,7 +138,7 @@ export const SideBar = ({ drawerWidth = 260 }) => {
                      aria-labelledby="nested-list-subheader"
                   >
                      {/* menu */}
-                     <NavLink
+                     {/* <NavLink
                         to="/"
                         style={{
                            textDecoration: "none",
@@ -179,19 +183,26 @@ export const SideBar = ({ drawerWidth = 260 }) => {
                               }}
                            />
                         </ListItemButton>
-                     </NavLink>
+                     </NavLink> */}
 
                      {/* menu y submenus*/}
-                     <Box>
-                        <ListItemButton
-                           onClick={handleClick}
-                           sx={{ pl: 3, color: "#CBD5E1" }}
-                        >
-                           <PersonSearch sx={{ marginRight: 1 }} />
+                     <Box
+                        sx={{
+                           backgroundColor: open ? "#273044" : "transparent",
+                        }}
+                     >
+                        <ListItemButton onClick={handleClick} sx={{ pl: 3 }}>
+                           <PersonSearch
+                              sx={{
+                                 marginRight: 1,
+                                 color: open ? "#5BC1E6" : "#CBD5E1",
+                              }}
+                           />
                            <ListItemText
                               primary="Reclutamiento"
                               primaryTypographyProps={{
                                  style: {
+                                    color: "#CBD5E1",
                                     fontSize: "14px",
                                     visibility: openDrawer
                                        ? "visible"

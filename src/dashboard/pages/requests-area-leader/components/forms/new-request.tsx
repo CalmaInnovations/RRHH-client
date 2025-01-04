@@ -4,29 +4,67 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormValues, schema } from "./validations/schema-new-request";
 import { RHFSelect, RHFInput, RHFMultiline } from "./components/custom-inputs";
-import { RequestItems } from "../../models/request-items.model";
+import { Collaborator } from "../../interface/request-items.model";
+import { useAreas } from "../../hooks/useAreas";
+import { useState } from "react";
+import { RHFSelectModalidad } from "./components/custom-inputs/rhf-select-modalidad";
 
 interface PropsNextModal {
    handleNextModal: () => void;
-   handleData: (data: RequestItems) => void;
+   handleData: (data: Collaborator) => void;
 }
 
 export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
    const {
       control,
       handleSubmit,
+      reset,
       formState: { errors },
-   } = useForm<FormValues>({ mode: "onSubmit", resolver: zodResolver(schema) });
+   } = useForm<FormValues>({
+      mode: "onSubmit",
+      resolver: zodResolver(schema),
+      defaultValues: {
+         puestoId: 2,
+         cantidad: 2,
+         habilidadesBlandas: "Logica de Programacion",
+         conocimientosTecnicos: "Javascript, React, Typescript",
+         tipoModalidad: "Voluntariado",
+         observaciones: "Manejo de Excel avanzado",
+      },
+   });
+
+   const { areas, subAreas, position } = useAreas();
+   const [selectedArea, setSelectedArea] = useState<string | number>(0);
+   const [selectSubArea, setselectSubArea] = useState<string | number>(0);
 
    const onSubmit: SubmitHandler<FormValues> = (data) => {
-      const newData: RequestItems = {
-         ...data,
-         id: Date.now(),
-         date: new Date(),
-         status: "Pendiente",
+      console.log(data);
+      console.log("Formulario enviado");
+      const values: Collaborator = {
+         colaboradorLiderId: 1,
+         beneficios: "",
+         puestoId: data.puestoId,
+         cantidad: data.cantidad,
+         habilidadesBlandas: data.habilidadesBlandas,
+         conocimientosTecnicos: data.conocimientosTecnicos,
+         observaciones: data.observaciones,
+         tipoModalidad: data.tipoModalidad,
       };
-      handleData(newData);
+
+      handleData(values);
       handleNextModal();
+   };
+
+   const filteredSubAreas = subAreas.filter(
+      ({ areaId }) => areaId === Number(selectedArea)
+   );
+
+   const filteredPosition = position.filter(
+      ({ subAreaId }) => subAreaId === Number(selectSubArea)
+   );
+
+   const handleClear = () => {
+      reset();
    };
 
    return (
@@ -45,62 +83,83 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
             </Grid>
 
             <Grid item xs={12} sm={6}>
-               <RHFInput
+               <RHFSelect
                   control={control}
-                  name="position"
-                  label="Nombre del puesto"
-                  placeholder="Desarrollador Front-End"
-                  error={errors.position}
-               />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-               <RHFInput
-                  control={control}
-                  name="quantity"
-                  label="Cantidad"
-                  placeholder="2"
-                  error={errors.quantity}
-                  type="number"
+                  name="area"
+                  label="Area"
+                  options={areas}
+                  handleChange={(value) => setSelectedArea(Number(value))}
                />
             </Grid>
 
             <Grid item xs={12} sm={6}>
                <RHFSelect
                   control={control}
-                  name="type"
+                  name="subarea"
+                  label="Sub Area"
+                  options={filteredSubAreas}
+                  handleChange={(value) => setselectSubArea(Number(value))}
+                  disabled={!selectedArea}
+               />
+            </Grid>
+
+            <Grid item xs={12} sm={12}>
+               <RHFSelect
+                  control={control}
+                  name="puestoId"
                   label="Tipo de puesto"
-                  error={errors.type}
+                  options={filteredPosition}
+                  disabled={!selectSubArea}
+               />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+               <RHFSelectModalidad
+                  control={control}
+                  name="tipoModalidad"
+                  label="tipo de Modalidad"
+                  options={filteredPosition}
                />
             </Grid>
 
             <Grid item xs={12} sm={6}>
                <RHFInput
                   control={control}
-                  name="softSkills"
-                  label="Habilidades blandas"
-                  placeholder="Separar por comas (,)"
-                  error={errors.softSkills}
+                  name="cantidad"
+                  label="Cantidad"
+                  placeholder="2"
+                  error={errors.cantidad}
+                  type="number"
+                  inputProps={{ min: 2, type: "number" }}
                />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
                <RHFInput
                   control={control}
-                  name="technicalKnowledge"
+                  name="habilidadesBlandas"
+                  label="Habilidades blandas"
+                  placeholder="Separar por comas (,)"
+                  error={errors.habilidadesBlandas}
+               />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+               <RHFInput
+                  control={control}
+                  name="conocimientosTecnicos"
                   label="Conocimientos técnicos"
                   placeholder="Separar por comas (,)"
-                  error={errors.technicalKnowledge}
+                  error={errors.conocimientosTecnicos}
                />
             </Grid>
 
             <Grid item xs={12}>
                <RHFMultiline
                   control={control}
-                  name="functions"
-                  label="Funciones"
-                  placeholder="Funciones"
-                  error={errors.functions}
+                  name="observaciones"
+                  label="Observaciones"
+                  placeholder="Observaciones"
+                  error={errors.observaciones}
                />
             </Grid>
 
@@ -113,7 +172,11 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   >
                      Solicitar
                   </Button>
-                  <Button sx={{ paddingInline: "15px" }} variant="text">
+                  <Button
+                     sx={{ paddingInline: "15px" }}
+                     variant="text"
+                     onClick={handleClear}
+                  >
                      Limpiar
                   </Button>
                </footer>

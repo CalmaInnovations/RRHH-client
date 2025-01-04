@@ -1,14 +1,28 @@
 import { z } from "zod";
 
 export const schema = z.object({
-   position: z.string().min(1, "El puesto es obligatorio"),
-   quantity: z.coerce.number().int().gte(0).lte(40),
-   type: z.enum(["Practicante", "Voluntario"]),
-   softSkills: z.string().min(1, "Las habilidades blandas son obligatorias"),
-   technicalKnowledge: z
+   colaboradorLiderId: z.optional(
+      z
+         .number()
+         .min(1, { message: "El ID del líder debe ser un número positivo" })
+   ),
+   puestoId: z
+      .number()
+      .min(1, { message: "El ID del puesto debe ser un número positivo" }),
+   cantidad: z.coerce.number(),
+   habilidadesBlandas: z
       .string()
-      .min(1, "Los conocimientos técnicos son obligatorios"),
-   functions: z.string().min(1, "Las funciones son obligatorias"),
+      .min(1, { message: "Las habilidades blandas son obligatorias" }),
+   conocimientosTecnicos: z
+      .string()
+      .min(1, { message: "Los conocimientos técnicos son obligatorios" }),
+   observaciones: z
+      .string()
+      .min(1, { message: "Las observaciones son obligatorias" }),
+   tipoModalidad: z
+      .string()
+      .min(1, { message: "El tipo de modalidad es obligatorio" }),
+   beneficios: z.optional(z.string()),
 });
 
 export type FormValues = z.infer<typeof schema>;
