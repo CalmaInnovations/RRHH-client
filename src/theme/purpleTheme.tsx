@@ -14,6 +14,6 @@ export const purpleTheme = createTheme({
         },
     },
     typography: {
-      fontFamily: '"Poppins", sans-serif', // Aquí se aplica la fuente Poppins
+      fontFamily: '"Poppins", sans-serif', 
     },
 });
