@@ -7,7 +7,6 @@ import { Box, Button, CircularProgress } from "@mui/material";
 import { PreviewRequest } from "./components/forms/preview-request";
 import { Collaborator } from "./interface/request-items.model";
 import { CardsItem } from "./components/table/components/card-item";
-
 import { useCollaborator } from "./hooks/useColaboradores";
 import { Paginations } from "./components/table/components/Paginations";
 
@@ -73,7 +72,11 @@ export function Requests() {
          )}
 
          <CardsItem cards={nData} onPreview={handlePreview} />
-         <Paginations setcurrentPage={setcurrentPage} currentPage={currentPage} nPages={nPages}/>
+         <Paginations
+            setcurrentPage={setcurrentPage}
+            currentPage={currentPage}
+            nPages={nPages}
+         />
          <TransitionsModal
             open={modalStep === 1}
             onClose={handleCloseAllModals}
