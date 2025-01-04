@@ -19,7 +19,6 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 // import DeleteIcon from '@mui/icons-material/Delete';
 import React from "react";
 
-
 interface ItemProps {
    sold: Solicitudes;
    handleOpen: () => void;
@@ -46,10 +45,11 @@ export const TableItem = ({ sold, handleOpen }: ItemProps) => {
                   borderRadius: 2,
                   boxShadow: 3,
                   p: 2,
+                  height: 600,
                   "&:hover": { boxShadow: 6 },
                }}
             >
-               <CardContent>
+               <CardContent sx={{height:520}}>
                   {/* contenido del titulo  */}
                   <Box
                      sx={{
@@ -60,7 +60,12 @@ export const TableItem = ({ sold, handleOpen }: ItemProps) => {
                      }}
                   >
                      <Box>
-                        <Typography variant="h5" fontWeight={500}>
+                        <Typography
+                           variant="h5"
+                           noWrap
+                           fontWeight={500}
+                           sx={{ maxWidth: 300 }}
+                        >
                            {sold.puesto}
                         </Typography>
                         <Typography
@@ -95,12 +100,11 @@ export const TableItem = ({ sold, handleOpen }: ItemProps) => {
                         >
                            <MenuItem onClick={handleClose}>
                               <ListItemIcon>
-                                 <BorderColorIcon  sx={{fontSize:"18px"}}/>
+                                 <BorderColorIcon sx={{ fontSize: "18px" }} />
                               </ListItemIcon>
                               <ListItemText>Editar</ListItemText>
-
                            </MenuItem>
-{/*
+                           {/*
                            <MenuItem onClick={handleClose}>
                               <ListItemIcon>
                                  <DeleteIcon  sx={{fontSize:"18px"}}/>
@@ -115,8 +119,7 @@ export const TableItem = ({ sold, handleOpen }: ItemProps) => {
                   {/* descripcion de la "Funcion" */}
                   <Box>
                      <Typography color="#2E384D">
-                        Desarrollar interfaces de usuario, apoyar con el diseño
-                        UI, optimización de cargas
+                        {sold.observaciones}
                      </Typography>
                   </Box>
 
@@ -287,15 +290,23 @@ export const TableItem = ({ sold, handleOpen }: ItemProps) => {
                            </Typography>
                         </Box>
                      </Box>
-                     <Button
-                        variant="contained"
-                        sx={{ color: "white",backgroundColor:"#5BC1E6",mt:2}}
-                        onClick={() => handleOpen()}
-                     >
-                        Convertir solicitud
-                     </Button>
                   </Box>
+
+
                </CardContent>
+               <Button
+                     fullWidth
+                     variant="contained"
+                     sx={{
+                        color: "white",
+                        position:"relative",
+                        bottom:0,
+                        backgroundColor: "#5BC1E6",
+                     }}
+                     onClick={() => handleOpen()}
+                  >
+                     Convertir solicitud
+                  </Button>
             </Card>
          </Grid>
       </>

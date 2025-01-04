@@ -22,12 +22,15 @@ import { Spinner } from "../../../../../components/spinner/spinner";
 
 import { Tags } from "../../../../../components/Tag/components/Tags";
 
-// import { DragAndDrop } from "../../../call-board/components/drag-and-drop";
-
 
 // FIX: fix pagination
 // FIX: fix refactorization
 // FIX: separate logic
+
+interface PaginationParams {
+   pgNum: number;
+   pgSize: number;
+}
 
 export const RequestTable = () => {
    const [solicitudes, setSolicitudes] = useState<SolicitudesRes>(
@@ -35,11 +38,16 @@ export const RequestTable = () => {
    );
    const [calls, setCalls] = useState<CallRes>({} as CallRes);
    const [open, setOpen] = useState(false);
+
    const [isLoading, setIsLoading] = useState(false);
+
    const [selectedRequest, setSelectedRequest] = useState<Call>({} as Call);
    const [recruiters, setRecruiters] = useState<RecruiterRes>(
       {} as RecruiterRes
    );
+
+   const [page, setPage] = useState<number>(1);
+   const [totalPages, setTotalPages] = useState<number>(1);
 
    const stateRequest = [
       {
@@ -82,11 +90,17 @@ export const RequestTable = () => {
    };
 
    //funcion para llamar a todas las solicitudes
-   const handleGetAllSolicitudService = async () => {
+   const handleGetAllSolicitudService = async (page: number) => {
       setIsLoading(true);
       try {
-         const { data } = await getAllSolicitudService();
+         const paginationParams: PaginationParams = {
+            pgNum: page,
+            pgSize: 1,
+         };
+
+         const { data } = await getAllSolicitudService(paginationParams);
          setSolicitudes(data);
+         setTotalPages(data.pags);
       } catch (error) {
          console.log(error);
       } finally {
@@ -143,8 +157,8 @@ export const RequestTable = () => {
    useEffect(() => {
       handleGetRecruitersAvailableService();
       handleGetCallsService();
-      handleGetAllSolicitudService();
-   }, []);
+      handleGetAllSolicitudService(page);
+   }, [page]);
 
    return (
       <Box
@@ -178,18 +192,16 @@ export const RequestTable = () => {
                   ))}
                </Grid>
 
-               <Pagination count={solicitudes.pags} sx={{ mt: 4 }} />
+               <Pagination
+                  count={totalPages}
+                  page={page}
+                  onChange={(event, value) => {
+                     setPage(value);
+                  }}
+                  sx={{ mt: 4 }}
+               />
             </>
          )}
-
-
-         <Box sx={{ marginTop: 2 }}>
-
-         </Box>
-
-         {/* <Box sx={{ marginTop: 2 }}>
-            <DragAndDrop />
-         </Box> */}
 
 
          <Modal

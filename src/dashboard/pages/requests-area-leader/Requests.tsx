@@ -3,11 +3,12 @@ import TransitionsModal from "./components/modal/modal";
 import { NewRequest } from "./components/forms/new-request";
 import { SuccessfulSending } from "./components/forms/components/successful-sending";
 import { useState } from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, CircularProgress } from "@mui/material";
 import { PreviewRequest } from "./components/forms/preview-request";
-import { RequestItems } from "./models/request-items.model";
-import { initialRows } from "./components/table/mocks/request-items";
+import { CollaboratorGet } from "./interface/request-items.model";
 import { TableItem } from "./components/table/components/card-item";
+
+import { useCollaborator } from "./hooks/useColaboradores";
 
 export function Requests() {
    const [modalStep, setModalStep] = useState(0);
@@ -17,36 +18,27 @@ export function Requests() {
    };
    const handleCloseAllModals = () => setModalStep(0);
 
-   const [formData, setFormData] = useState<RequestItems | null>(null);
-   const [rows, setRows] = useState<RequestItems[]>(initialRows);
+   const [formData, setFormData] = useState<CollaboratorGet | null>(null);
+
    const [editId, setEditId] = useState<number | null>(null);
 
-   const handleData = (data: RequestItems) => {
-      if (editId) {
-         setRows((prevRows) =>
-            prevRows.map((row) =>
-               row.id === editId ? { ...row, ...data } : row
-            )
-         );
-      } else {
-         setRows((prevRows) => [
-            ...prevRows,
-            { ...data, id: Date.now(), status: "Pendiente" },
-         ]);
-      }
+   const { cards, updateCollaborator, Loading } = useCollaborator();
+
+   const handleData = (data: CollaboratorGet) => {
+      updateCollaborator(data, editId);
       setEditId(null);
    };
 
-   const handlePreview = (row: RequestItems) => {
-      setFormData(row);
-      setEditId(row.id ?? null);
+   const handlePreview = (card: CollaboratorGet) => {
+      setFormData(card);
+      setEditId(card.id ?? null);
       setModalStep(3);
    };
 
    return (
       <>
          <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-            <RequestsTable rows={rows} onPreview={handlePreview} />
+            <RequestsTable />
             <Button
                variant="contained"
                onClick={() => setModalStep(1)}
@@ -56,7 +48,20 @@ export function Requests() {
             </Button>
          </Box>
 
-         <TableItem rows={rows} onPreview={handlePreview}/>
+         {Loading && (
+            <Box
+               sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "400px",
+               }}
+            >
+               <CircularProgress size={"300px"} />
+            </Box>
+         )}
+
+         <TableItem cards={cards} onPreview={handlePreview} />
 
          <TransitionsModal
             open={modalStep === 1}
