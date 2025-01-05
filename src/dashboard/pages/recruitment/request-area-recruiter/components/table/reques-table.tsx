@@ -20,6 +20,12 @@ import { Call, CallRes, RecruiterRes } from "../../interfaces/calls-interface";
 import { SolicitudesRes } from "../../interfaces/solicitud-interface";
 import { Spinner } from "../../../../../components/spinner/spinner";
 import { Tags } from "../../../../../components/Tag/components/Tags";
+import { useGetSolicitudesQuery } from "../../../../../../redux/services/request/request-api";
+import {
+   useAppDispatch,
+   useAppSelector,
+} from "../../../../../../hooks/use-redux";
+import { setIsLoading } from "../../../../../../redux/slices/app-slice/app-slice";
 
 // FIX: fix pagination
 // FIX: fix refactorization
@@ -37,7 +43,8 @@ export const RequestTable = () => {
    const [calls, setCalls] = useState<CallRes>({} as CallRes);
    const [open, setOpen] = useState(false);
 
-   const [isLoading, setIsLoading] = useState(false);
+   const { loading } = useAppSelector((state) => state.app);
+   const dispatch = useAppDispatch();
 
    const [selectedRequest, setSelectedRequest] = useState<Call>({} as Call);
    const [recruiters, setRecruiters] = useState<RecruiterRes>(
@@ -46,6 +53,14 @@ export const RequestTable = () => {
 
    const [page, setPage] = useState<number>(1);
    const [totalPages, setTotalPages] = useState<number>(1);
+
+   const paginationParams: PaginationParams = {
+      pgNum: page,
+      pgSize: 3,
+   };
+
+   const { data, isLoading: isLoadingGetSolicitudes } =
+      useGetSolicitudesQuery(paginationParams);
 
    const stateRequest = [
       {
@@ -76,20 +91,21 @@ export const RequestTable = () => {
    };
 
    const handleGetCallsService = async () => {
-      setIsLoading(true);
+      dispatch(setIsLoading(true));
       try {
          const { data } = await getCallsService();
          setCalls(data);
       } catch (error) {
          console.log(error);
       } finally {
-         setIsLoading(false);
+         dispatch(setIsLoading(false));
       }
    };
 
    //funcion para llamar a todas las solicitudes
    const handleGetAllSolicitudService = async (page: number) => {
-      setIsLoading(true);
+      dispatch(setIsLoading(true));
+
       try {
          const paginationParams: PaginationParams = {
             pgNum: page,
@@ -97,12 +113,13 @@ export const RequestTable = () => {
          };
 
          const { data } = await getAllSolicitudService(paginationParams);
+
          setSolicitudes(data);
          setTotalPages(data.pags);
       } catch (error) {
          console.log(error);
       } finally {
-         setIsLoading(false);
+         dispatch(setIsLoading(false));
       }
    };
 
@@ -155,7 +172,7 @@ export const RequestTable = () => {
    useEffect(() => {
       handleGetRecruitersAvailableService();
       handleGetCallsService();
-      handleGetAllSolicitudService(page);
+      // handleGetAllSolicitudService(page);
    }, [page]);
 
    return (
@@ -172,7 +189,7 @@ export const RequestTable = () => {
          {/* componente de tags  aqui*/}
          <Tags />
 
-         {isLoading ? (
+         {isLoadingGetSolicitudes ? (
             <Spinner className="mt-64" />
          ) : (
             <>
@@ -181,7 +198,7 @@ export const RequestTable = () => {
                   spacing={3}
                   // sx={{ justifyContent: "center" }}
                >
-                  {solicitudes.solicitudes?.map((sold) => (
+                  {data?.solicitudes?.map((sold) => (
                      <TableItem
                         sold={sold}
                         key={sold.id}

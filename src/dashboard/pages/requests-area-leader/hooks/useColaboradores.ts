@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Collaborator } from "../interface/request-items.model";
 import {
-   createColaboradorService,
    getCollaborator,
 } from "../components/table/service/request-service";
+import { useCreateColaboradorServiceMutation } from "../../../../redux/services/request/request-api";
 
 export const useCollaborator = () => {
    const [cards, setCards] = useState<Collaborator[]>([]);
+   const [createColaborador] = useCreateColaboradorServiceMutation();
    const [loading, setLoading] = useState(false);
 
    useEffect(() => {
@@ -40,7 +41,7 @@ export const useCollaborator = () => {
    const postCollaborator = async (values: Collaborator) => {
       try {
          setLoading(true);
-         await createColaboradorService(values);
+         await createColaborador(values);
       } catch (error) {
          console.error("Error al crear un colaborador:", error);
       } finally {
