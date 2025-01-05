@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 
 import {
-   Dashboard,
+   // Dashboard,
    KeyboardArrowDown,
    KeyboardArrowRight,
    PersonSearch,
@@ -28,18 +28,23 @@ interface SideBarProps {
    openDrawer: boolean;
    setOpenDrawer: React.Dispatch<React.SetStateAction<boolean>>;
    drawerWidth?: number;  // Prop opcional
+   handleLogout: () => void
 }
-export const SideBar: React.FC<SideBarProps> = ({ openDrawer, setOpenDrawer,drawerWidth=240 }) => {
+export const SideBar: React.FC<SideBarProps> = ({ openDrawer, setOpenDrawer,drawerWidth=240, handleLogout }: SideBarProps) => {
    const [open, setOpen] = useState(false);
 
    const [activeMenu, setActiveMenu] = useState("");
-   
+
    const location = useLocation();
 
    const handleClick = () => {
       setOpen(!open);
       if (!openDrawer) setOpenDrawer(!openDrawer); // data
    };
+
+   const handleLogoutSide = () => {
+      handleLogout();
+  };
 
    const handleClickDrawer = () => {
       setOpenDrawer(!openDrawer); // drawer
@@ -430,6 +435,7 @@ export const SideBar: React.FC<SideBarProps> = ({ openDrawer, setOpenDrawer,draw
                               color: "#FFFFFF",
                            },
                         }}
+                        onClick={handleLogoutSide}
                      >
                         <OutputIcon
                            sx={{
