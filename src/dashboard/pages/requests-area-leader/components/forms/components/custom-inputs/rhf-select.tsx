@@ -37,7 +37,7 @@ export function RHFSelect({
       <Controller
          name={name}
          control={control}
-         defaultValue={"Seleccionar"}
+         defaultValue={options[0]?.id || 0}
          render={({ field }) => (
             <FormControl fullWidth variant="outlined">
                <InputLabel shrink htmlFor={name}>
@@ -48,16 +48,13 @@ export function RHFSelect({
                   label={label}
                   {...field}
                   disabled={disabled}
-                  defaultValue={[""]}
+                  value={field.value}
                   error={!!error}
                   onChange={(event) => {
-                     field.onChange(event); 
-                     handleChange?.(event.target.value); 
+                     field.onChange(event);
+                     handleChange?.(event.target.value);
                   }}
                >
-                  <MenuItem value="Seleccionar" disabled>
-                     Seleccionar
-                  </MenuItem>
                   {options.map(({ id, nombre }) => (
                      <MenuItem key={id} value={id}>
                         {nombre}

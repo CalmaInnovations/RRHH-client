@@ -9,7 +9,6 @@ export interface CollaboratorPost {
    conocimientosTecnicos: string;
    tipoModalidad: string;
    observaciones: string;
-   beneficios: string;
 }
 
 export interface CollaboratorGet {
@@ -23,6 +22,23 @@ export interface CollaboratorGet {
    fechaSolicitud?: string;
    fechaActualizacion?: string;
    observaciones?: string;
+   estado?: string;
+}
+
+export interface Collaborator {
+   colaboradorLiderId?: number;
+   puestoId?: number;
+   id?: number;
+   colaborador?: string;
+   puesto?: string;
+   cantidad?: number;
+   habilidadesBlandas?: string;
+   conocimientosTecnicos?: string;
+   tipoModalidad?: string;
+   fechaSolicitud?: string;
+   fechaActualizacion?: string;
+   observaciones?: string;
+   beneficios?: string,
    estado?: string;
 }
 
