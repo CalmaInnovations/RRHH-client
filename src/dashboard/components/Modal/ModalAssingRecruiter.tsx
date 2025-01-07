@@ -16,7 +16,7 @@ interface ModalAssingRecruiterProps {
    handleClose: () => void;
 }
 
-const ModalAssingRecruiter: React.FC<ModalAssingRecruiterProps> = ({
+export const ModalAssingRecruiter: React.FC<ModalAssingRecruiterProps> = ({
    open,
    handleClose,
 }) => {
@@ -106,4 +106,4 @@ const ModalAssingRecruiter: React.FC<ModalAssingRecruiterProps> = ({
    );
 };
 
-export default ModalAssingRecruiter;
+

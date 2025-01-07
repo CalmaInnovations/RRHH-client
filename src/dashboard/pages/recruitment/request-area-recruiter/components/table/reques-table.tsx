@@ -9,7 +9,7 @@ import { useGetSolicitudesQuery } from "../../../../../../redux/services/request
 //    useAppSelector,
 // } from "../../../../../../hooks/use-redux";
 // import { setIsLoading } from "../../../../../../redux/slices/app-slice/app-slice";
-import ModalAssingRecruiter from "../../../../../components/Modal/ModalAssingRecruiter";
+import { ModalAssingRecruiter } from "../../../../../components/Modal";
 
 
 interface PaginationParams {
