@@ -10,14 +10,14 @@ import {
    ListItemIcon,
    ListItemText,
 } from "@mui/material";
-import { Solicitudes } from "../../../interfaces/solicitud-interface";
+
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { format } from "date-fns";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
-// import DeleteIcon from '@mui/icons-material/Delete';
 import React from "react";
+import { Solicitudes } from "../../../../../../../redux/interfaces/Request/resquest-interfaces";
 
 interface ItemProps {
    sold: Solicitudes;
@@ -25,7 +25,7 @@ interface ItemProps {
 }
 
 export const TableItem = ({ sold, handleOpen }: ItemProps) => {
-   const formatDate = format(new Date(sold.fechaSolicitud), "dd/MM/yyyy");
+   const formatDate = format(new Date(sold?.fechaSolicitud), "dd/MM/yyyy");
 
    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
    const open = Boolean(anchorEl);
@@ -66,7 +66,7 @@ export const TableItem = ({ sold, handleOpen }: ItemProps) => {
                            fontWeight={500}
                            sx={{ maxWidth: 300 }}
                         >
-                           {sold.puesto}
+                           {sold?.puesto}
                         </Typography>
                         <Typography
                            fontSize={15}
@@ -119,7 +119,7 @@ export const TableItem = ({ sold, handleOpen }: ItemProps) => {
                   {/* descripcion de la "Funcion" */}
                   <Box>
                      <Typography color="#2E384D">
-                        {sold.observaciones}
+                        {sold?.observaciones}
                      </Typography>
                   </Box>
 
@@ -166,7 +166,7 @@ export const TableItem = ({ sold, handleOpen }: ItemProps) => {
                               Cantidad:
                            </Typography>
                            <Typography color="#9EA5B0">
-                              {sold.cantidad}
+                              {sold?.cantidad}
                            </Typography>
                         </Box>
                      </Box>
@@ -245,7 +245,7 @@ export const TableItem = ({ sold, handleOpen }: ItemProps) => {
                               Habilidades blandas:
                            </Typography>
                            <Typography color="#9EA5B0">
-                              {sold.habilidadesBlandas}
+                              {sold?.habilidadesBlandas}
                            </Typography>
                         </Box>
                      </Box>
@@ -286,7 +286,7 @@ export const TableItem = ({ sold, handleOpen }: ItemProps) => {
                               Habilidades técnicas:
                            </Typography>
                            <Typography color="#9EA5B0">
-                              {sold.conocimientosTecnicos}
+                              {sold?.conocimientosTecnicos}
                            </Typography>
                         </Box>
                      </Box>
