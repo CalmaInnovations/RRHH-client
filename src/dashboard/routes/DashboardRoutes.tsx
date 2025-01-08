@@ -9,10 +9,13 @@ import {
    CallBoard,
 } from "../pages";
 
+interface DashboardRoutesProps {
+   isAuthenticated?: boolean;
+}
 
-export const DashboardRoutes = () => {
+export const DashboardRoutes = ({isAuthenticated= true}:DashboardRoutesProps) => {
    return (
-      <DashboardLayout>
+      <DashboardLayout isAuthenticated={isAuthenticated}>
          <Routes>
             <Route path="/" element={<DashboardPage />} />
 
