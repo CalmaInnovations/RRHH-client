@@ -9,13 +9,10 @@ import {
    CallBoard,
 } from "../pages";
 
-interface DashboardRoutesProps {
-   handleLogout: () => void;
-}
 
-export const DashboardRoutes = ({ handleLogout }: DashboardRoutesProps) => {
+export const DashboardRoutes = () => {
    return (
-      <DashboardLayout handleLogout={handleLogout}>
+      <DashboardLayout>
          <Routes>
             <Route path="/" element={<DashboardPage />} />
 
