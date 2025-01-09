@@ -19,7 +19,9 @@ import { getAllSolicitudService } from "../../services/solicitudes-services";
 import { Call, CallRes, RecruiterRes } from "../../interfaces/calls-interface";
 import { SolicitudesRes } from "../../interfaces/solicitud-interface";
 import { Spinner } from "../../../../../components/spinner/spinner";
+
 import { Tags } from "../../../../../components/Tag/components/Tags";
+
 
 // FIX: fix pagination
 // FIX: fix refactorization
@@ -200,6 +202,7 @@ export const RequestTable = () => {
                />
             </>
          )}
+
 
          <Modal
             open={open}
