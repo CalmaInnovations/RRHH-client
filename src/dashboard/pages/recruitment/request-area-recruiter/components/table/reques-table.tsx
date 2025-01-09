@@ -1,23 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-   Pagination,
-   Modal,
-   Box,
-   Typography,
-   Grid,
-   TextField,
-   Button,
-} from "@mui/material";
+import { Pagination, Box, Typography, Grid } from "@mui/material";
 import { TableItem } from "./components/table-item";
-import {
-   getCallsService,
-   getRecruitersAvailableService,
-   updateRequestService,
-} from "../../services/request-service";
-
-import { getAllSolicitudService } from "../../services/solicitudes-services";
-import { Call, CallRes, RecruiterRes } from "../../interfaces/calls-interface";
-import { SolicitudesRes } from "../../interfaces/solicitud-interface";
 import { Spinner } from "../../../../../components/spinner/spinner";
 import { Tags } from "../../../../../components/Tag/components/Tags";
 import { useGetSolicitudesQuery } from "../../../../../../redux/services/request/request-api";
@@ -37,143 +20,32 @@ interface PaginationParams {
 }
 
 export const RequestTable = () => {
-   const [solicitudes, setSolicitudes] = useState<SolicitudesRes>(
-      {} as SolicitudesRes
-   );
-   const [calls, setCalls] = useState<CallRes>({} as CallRes);
-   const [open, setOpen] = useState(false);
-
-   const { loading } = useAppSelector((state) => state.app);
-   const dispatch = useAppDispatch();
-
-   const [selectedRequest, setSelectedRequest] = useState<Call>({} as Call);
-   const [recruiters, setRecruiters] = useState<RecruiterRes>(
-      {} as RecruiterRes
-   );
+   const [openModal, setOpenModal] = useState<boolean>(false);
 
    const [page, setPage] = useState<number>(1);
    const [totalPages, setTotalPages] = useState<number>(1);
 
    const paginationParams: PaginationParams = {
       pgNum: page,
-      pgSize: 3,
+      pgSize: 2,
    };
 
    const { data, isLoading: isLoadingGetSolicitudes } =
       useGetSolicitudesQuery(paginationParams);
 
-   const stateRequest = [
-      {
-         id: 1,
-         name: "Completado",
-      },
-      {
-         id: 2,
-         name: "Pendiente",
-      },
-      {
-         id: 3,
-         name: "Finalizado",
-      },
-   ];
-
-   const handleOpen = () => setOpen(true);
-   const handleClose = () => setOpen(false);
-
-   const handleChange = (
-      event: React.ChangeEvent<HTMLSelectElement>,
-      type: string
-   ) => {
-      setSelectedRequest({
-         ...selectedRequest,
-         [type]: event.target.value,
-      });
+   const handleOpenModal = () => {
+      setOpenModal(true);
    };
 
-   const handleGetCallsService = async () => {
-      dispatch(setIsLoading(true));
-      try {
-         const { data } = await getCallsService();
-         setCalls(data);
-      } catch (error) {
-         console.log(error);
-      } finally {
-         dispatch(setIsLoading(false));
-      }
-   };
-
-   //funcion para llamar a todas las solicitudes
-   const handleGetAllSolicitudService = async (page: number) => {
-      dispatch(setIsLoading(true));
-
-      try {
-         const paginationParams: PaginationParams = {
-            pgNum: page,
-            pgSize: 1,
-         };
-
-         const { data } = await getAllSolicitudService(paginationParams);
-
-         setSolicitudes(data);
-         setTotalPages(data.pags);
-      } catch (error) {
-         console.log(error);
-      } finally {
-         dispatch(setIsLoading(false));
-      }
-   };
-
-   const handleGetRecruitersAvailableService = async () => {
-      const { data } = await getRecruitersAvailableService();
-      setRecruiters(data);
-   };
-
-   const handleUpdateInformation = async () => {
-      const updateValues = {
-         observaciones: selectedRequest.observaciones,
-         beneficios: "",
-         reclutadorSeniorId: +selectedRequest.reclutadorSenior,
-         reclutadorGeneralId: +selectedRequest.reclutadorGeneral,
-         estado: capitalizeFirstLetter(selectedRequest.estadoSolicitud!),
-         fechaPublicacion: selectedRequest.fechaPublicacion,
-      };
-
-      const data = await updateRequestService(
-         selectedRequest.idConvocatoria,
-         updateValues
-      );
-
-      console.log(data);
-   };
-
-   const handleSelectedRequest = (call: Call) => {
-      handleOpen();
-      const updateRecruiterSenior = recruiters.reclutadoresSenior.find(
-         (recruiter) =>
-            recruiter.nombre.includes(call.reclutadorSenior.toString())
-      )?.id;
-      const updateRecruiterGeneral = recruiters.reclutadoresGeneral.find(
-         (recruiter) =>
-            recruiter.nombre.includes(call.reclutadorGeneral.toString())
-      )?.id;
-
-      setSelectedRequest({
-         ...call,
-         reclutadorSenior: updateRecruiterSenior!,
-         reclutadorGeneral: updateRecruiterGeneral!,
-      });
-   };
-
-   const capitalizeFirstLetter = (value: string) => {
-      if (!value) return ""; // Manejar caso de cadena vacía
-      return value.charAt(0).toUpperCase() + value.slice(1);
+   const handleCloseModal = () => {
+      setOpenModal(false);
    };
 
    useEffect(() => {
-      handleGetRecruitersAvailableService();
-      handleGetCallsService();
-      // handleGetAllSolicitudService(page);
-   }, [page]);
+      if (data?.pags) {
+         setTotalPages(data?.pags);
+      }
+   }, [data]);
 
    return (
       <Box
@@ -193,16 +65,12 @@ export const RequestTable = () => {
             <Spinner className="mt-64" />
          ) : (
             <>
-               <Grid
-                  container
-                  spacing={3}
-                  // sx={{ justifyContent: "center" }}
-               >
+               <Grid container spacing={3}>
                   {data?.solicitudes?.map((sold) => (
                      <TableItem
                         sold={sold}
-                        key={sold.id}
-                        handleOpen={handleOpen}
+                        key={sold?.id}
+                        handleOpen={handleOpenModal}
                      />
                   ))}
                </Grid>

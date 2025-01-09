@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { environment } from '../../../config/environment';
-import { SolicitudesRes } from '../../../dashboard/pages/recruitment/request-area-recruiter/interfaces/solicitud-interface';
 import { Collaborator } from '../../../dashboard/pages/requests-area-leader/interface/request-items.model';
+import { SolicitudesRes } from '../../interfaces/Request/resquest-interfaces';
 
 interface PaginationParams {
    pgNum: number;
@@ -24,7 +24,7 @@ export const requestApi = createApi({
       createColaboradorService: builder.mutation<{message: string}, Collaborator>({
          query: (collaborator: Collaborator) => {
             return {
-               url: `/api/SolicitudColaborador`,
+               url: `api/SolicitudColaborador`,
                method: "POST",
                body: collaborator
             }
