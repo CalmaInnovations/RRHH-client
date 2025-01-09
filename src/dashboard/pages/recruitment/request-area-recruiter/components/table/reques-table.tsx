@@ -19,7 +19,6 @@ import { getAllSolicitudService } from "../../services/solicitudes-services";
 import { Call, CallRes, RecruiterRes } from "../../interfaces/calls-interface";
 import { SolicitudesRes } from "../../interfaces/solicitud-interface";
 import { Spinner } from "../../../../../components/spinner/spinner";
-
 import { Tags } from "../../../../../components/Tag/components/Tags";
 import { useGetSolicitudesQuery } from "../../../../../../redux/services/request/request-api";
 import {
@@ -27,7 +26,6 @@ import {
    useAppSelector,
 } from "../../../../../../hooks/use-redux";
 import { setIsLoading } from "../../../../../../redux/slices/app-slice/app-slice";
-
 
 // FIX: fix pagination
 // FIX: fix refactorization
@@ -219,7 +217,6 @@ export const RequestTable = () => {
                />
             </>
          )}
-
 
          <Modal
             open={open}
