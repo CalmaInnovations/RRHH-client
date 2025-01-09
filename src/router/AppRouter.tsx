@@ -2,7 +2,9 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { AuthRoutes } from "../auth/routes/AuthRoutes";
 import { DashboardRoutes } from "../dashboard/routes/DashboardRoutes";
 import { useEffect, useState } from "react";
+import { DashboardLayout } from "../dashboard/layout/DashboardLayout";
 import { Requests } from "../dashboard/pages";
+
 
 export const AppRouter = () => {
 
@@ -19,22 +21,28 @@ export const AppRouter = () => {
       setIsAuthenticated(true);
    };
 
-   const handleLogout = () => {
-      localStorage.removeItem("isAuthenticated");
-      setIsAuthenticated(false);
-   };
+   // const handleLogout = () => {
+   //    localStorage.removeItem("isAuthenticated");
+   // };
 
     return (
         <Routes>
             {/* LOGIN Y REGISTRO */}
             <Route path="/auth/*" element={<AuthRoutes handleLogin={handleLogin}/>} />
 
-            <Route path="/requests" element={<Requests />} /> {/*esta ruta sera publica hasta el momento */}
+            <Route
+            path="/requests"
+            element={
+               <DashboardLayout isAuthenticated={isAuthenticated}>
+                  <Requests />
+               </DashboardLayout>
+            }
+         />
 
             {/* DASHBOARD APP */}
             <Route path="/*" element={
                isAuthenticated ? (
-                  <DashboardRoutes handleLogout={handleLogout} />
+                  <DashboardRoutes />
                ) : (
                   <Navigate to="/auth/login" replace />
                )

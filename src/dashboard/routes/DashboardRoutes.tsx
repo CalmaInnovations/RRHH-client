@@ -10,12 +10,12 @@ import {
 } from "../pages";
 
 interface DashboardRoutesProps {
-   handleLogout: () => void;
+   isAuthenticated?: boolean;
 }
 
-export const DashboardRoutes = ({ handleLogout }: DashboardRoutesProps) => {
+export const DashboardRoutes = ({isAuthenticated= true}:DashboardRoutesProps) => {
    return (
-      <DashboardLayout handleLogout={handleLogout}>
+      <DashboardLayout isAuthenticated={isAuthenticated}>
          <Routes>
             <Route path="/" element={<DashboardPage />} />
 

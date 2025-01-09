@@ -1,21 +1,21 @@
 import { Box, Toolbar } from "@mui/material";
-import { NavBar, SideBar ,SideBarResponsive} from "../components";
+import { NavBar, SideBar, SideBarResponsive } from "../components";
 import { ReactNode, useEffect, useState } from "react";
 
 interface PropChildren {
    children: ReactNode;
-   handleLogout: () => void;
+   isAuthenticated?: boolean;
 }
 
-const drawerWidth = 260;// variables outside
+const drawerWidth = 260; // variables outside
 
-
-export const DashboardLayout = ({ children,handleLogout  }: PropChildren) => {
+export const DashboardLayout = ({
+   children,
+   isAuthenticated = true,
+}: PropChildren) => {
    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
    const [mobileOpen, setMobileOpen] = useState(false); // hooks within
    const [openDrawer, setOpenDrawer] = useState(true); // sidebar drawer state
-
-
 
    const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
@@ -33,14 +33,35 @@ export const DashboardLayout = ({ children,handleLogout  }: PropChildren) => {
       };
    }, []);
    return (
-      <Box sx={{ display: "flex", minHeight: "100vh", backgroundColor: "#F5F7FF" }}>
+      <Box
+         sx={{
+            display: "flex",
+            minHeight: "100vh",
+            backgroundColor: "#F5F7FF",
+         }}
+      >
          {/* NavBar */}
-         <NavBar drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} openDrawer={openDrawer}/>
+         <NavBar
+            drawerWidth={drawerWidth}
+            handleDrawerToggle={handleDrawerToggle}
+            openDrawer={openDrawer}
+         />
          {/* Sidebar */}
-         {windowWidth > 500 && <SideBar drawerWidth={drawerWidth} openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} handleLogout={handleLogout}/>}
-         {windowWidth < 500 && <SideBarResponsive mobileOpen={mobileOpen}
-            handleDrawerClose={handleDrawerToggle}
-            drawerWidth={240}/>}
+         {windowWidth > 500 && (
+            <SideBar
+               drawerWidth={drawerWidth}
+               openDrawer={openDrawer}
+               setOpenDrawer={setOpenDrawer}
+               isAuthenticated={isAuthenticated}
+            />
+         )}
+         {windowWidth < 500 && (
+            <SideBarResponsive
+               mobileOpen={mobileOpen}
+               handleDrawerClose={handleDrawerToggle}
+               drawerWidth={240}
+            />
+         )}
 
          <Box
             component="main"
