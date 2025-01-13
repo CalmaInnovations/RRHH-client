@@ -22,17 +22,22 @@ import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArro
 import SettingsIcon from "@mui/icons-material/Settings";
 import OutputIcon from "@mui/icons-material/Output";
 import { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 interface SideBarProps {
    openDrawer: boolean;
    setOpenDrawer: React.Dispatch<React.SetStateAction<boolean>>;
-   drawerWidth?: number;  // Prop opcional
-   handleLogout: () => void
+   drawerWidth?: number; // Prop opcional
+   isAuthenticated?: boolean;
 }
-export const SideBar: React.FC<SideBarProps> = ({ openDrawer, setOpenDrawer,drawerWidth=240, handleLogout }: SideBarProps) => {
+export const SideBar: React.FC<SideBarProps> = ({
+   openDrawer,
+   setOpenDrawer,
+   drawerWidth = 240,
+   isAuthenticated = true,
+}: SideBarProps) => {
    const [open, setOpen] = useState(false);
-
+const navigate = useNavigate();
    const [activeMenu, setActiveMenu] = useState("");
 
    const location = useLocation();
@@ -42,9 +47,6 @@ export const SideBar: React.FC<SideBarProps> = ({ openDrawer, setOpenDrawer,draw
       if (!openDrawer) setOpenDrawer(!openDrawer); // data
    };
 
-   const handleLogoutSide = () => {
-      handleLogout();
-  };
 
    const handleClickDrawer = () => {
       setOpenDrawer(!openDrawer); // drawer
@@ -53,6 +55,11 @@ export const SideBar: React.FC<SideBarProps> = ({ openDrawer, setOpenDrawer,draw
 
    const handleMenuClick = (menu: string) => {
       setActiveMenu(menu); // menus
+   };
+
+      const handleLogout = () => {
+      localStorage.removeItem("isAuthenticated");
+      navigate("/auth/login");
    };
 
    useEffect(() => {
@@ -191,134 +198,137 @@ export const SideBar: React.FC<SideBarProps> = ({ openDrawer, setOpenDrawer,draw
                      </NavLink> */}
 
                      {/* menu y submenus*/}
-                     <Box
-                        sx={{
-                           backgroundColor: open ? "#273044" : "transparent",
-                        }}
-                     >
-                        <ListItemButton onClick={handleClick} sx={{ pl: 3 }}>
-                           <PersonSearch
-                              sx={{
-                                 marginRight: 1,
-                                 color: open ? "#5BC1E6" : "#CBD5E1",
-                              }}
-                           />
-                           <ListItemText
-                              primary="Reclutamiento"
-                              primaryTypographyProps={{
-                                 style: {
-                                    color: "#CBD5E1",
-                                    fontSize: "14px",
-                                    visibility: openDrawer
-                                       ? "visible"
-                                       : "hidden",
-                                 },
-                              }}
-                           />
-                           {open ? (
-                              <KeyboardArrowDown
-                                 style={{
-                                    color: "#CBD5E1",
-                                    visibility: openDrawer
-                                       ? "visible"
-                                       : "hidden",
-                                 }}
-                              />
-                           ) : (
-                              <KeyboardArrowRight
-                                 style={{
-                                    color: "#CBD5E1",
-                                    visibility: openDrawer
-                                       ? "visible"
-                                       : "hidden",
-                                 }}
-                              />
-                           )}
-                        </ListItemButton>
-                        <Collapse in={open} timeout="auto" unmountOnExit>
-                           <List component="div" disablePadding>
-                              <NavLink
-                                 to="/recruitment/requests-recruiter"
-                                 style={{
-                                    textDecoration: "none",
-                                    color: "inherit",
-                                 }}
-                              >
-                                 <ListItemButton
-                                    onClick={() =>
-                                       handleMenuClick("solicitudes")
-                                    }
-                                    sx={{
-                                       pl: 7,
-                                       color:
-                                          activeMenu === "solicitudes"
-                                             ? "#FFFFFF"
-                                             : "#CBD5E1",
-                                       backgroundColor:
-                                          activeMenu === "solicitudes"
-                                             ? "#3C4A63"
-                                             : "transparent",
-                                       "&:hover": {
-                                          color: "#FFFFFF",
-                                       },
-                                    }}
-                                 >
-                                    <span style={{ marginRight: "10px" }}>
-                                       -
-                                    </span>
-                                    <ListItemText
-                                       primary="Solicitudes"
-                                       primaryTypographyProps={{
-                                          style: {
-                                             fontSize: "14px",
-                                          },
-                                       }}
-                                    />
-                                 </ListItemButton>
-                              </NavLink>
 
-                              <NavLink
-                                 to="/recruitment/call"
-                                 style={{
-                                    textDecoration: "none",
-                                    color: "inherit",
+                     {isAuthenticated && (
+                        <Box
+                           sx={{
+                              backgroundColor: open ? "#273044" : "transparent",
+                           }}
+                        >
+                           <ListItemButton onClick={handleClick} sx={{ pl: 3 }}>
+                              <PersonSearch
+                                 sx={{
+                                    marginRight: 1,
+                                    color: open ? "#5BC1E6" : "#CBD5E1",
                                  }}
-                              >
-                                 <ListItemButton
-                                    onClick={() =>
-                                       handleMenuClick("convocatorias")
-                                    }
-                                    sx={{
-                                       pl: 7,
-                                       color:
-                                          activeMenu === "convocatorias"
-                                             ? "#FFFFFF"
-                                             : "#CBD5E1",
-                                       backgroundColor:
-                                          activeMenu === "convocatorias"
-                                             ? "#3C4A63"
-                                             : "transparent",
-                                       "&:hover": {
-                                          color: "#FFFFFF",
-                                       },
+                              />
+                              <ListItemText
+                                 primary="Reclutamiento"
+                                 primaryTypographyProps={{
+                                    style: {
+                                       color: "#CBD5E1",
+                                       fontSize: "14px",
+                                       visibility: openDrawer
+                                          ? "visible"
+                                          : "hidden",
+                                    },
+                                 }}
+                              />
+                              {open ? (
+                                 <KeyboardArrowDown
+                                    style={{
+                                       color: "#CBD5E1",
+                                       visibility: openDrawer
+                                          ? "visible"
+                                          : "hidden",
+                                    }}
+                                 />
+                              ) : (
+                                 <KeyboardArrowRight
+                                    style={{
+                                       color: "#CBD5E1",
+                                       visibility: openDrawer
+                                          ? "visible"
+                                          : "hidden",
+                                    }}
+                                 />
+                              )}
+                           </ListItemButton>
+                           <Collapse in={open} timeout="auto" unmountOnExit>
+                              <List component="div" disablePadding>
+                                 <NavLink
+                                    to="/recruitment/requests-recruiter"
+                                    style={{
+                                       textDecoration: "none",
+                                       color: "inherit",
                                     }}
                                  >
-                                    <span style={{ marginRight: "10px" }}>
-                                       -
-                                    </span>
-                                    <ListItemText
-                                       primary="Convocatorias"
-                                       primaryTypographyProps={{
-                                          style: {
-                                             fontSize: "14px",
+                                    <ListItemButton
+                                       onClick={() =>
+                                          handleMenuClick("solicitudes")
+                                       }
+                                       sx={{
+                                          pl: 7,
+                                          color:
+                                             activeMenu === "solicitudes"
+                                                ? "#FFFFFF"
+                                                : "#CBD5E1",
+                                          backgroundColor:
+                                             activeMenu === "solicitudes"
+                                                ? "#3C4A63"
+                                                : "transparent",
+                                          "&:hover": {
+                                             color: "#FFFFFF",
                                           },
                                        }}
-                                    />
-                                 </ListItemButton>
-                              </NavLink>
-                           </List>
-                        </Collapse>
-                     </Box>
+                                    >
+                                       <span style={{ marginRight: "10px" }}>
+                                          -
+                                       </span>
+                                       <ListItemText
+                                          primary="Solicitudes"
+                                          primaryTypographyProps={{
+                                             style: {
+                                                fontSize: "14px",
+                                             },
+                                          }}
+                                       />
+                                    </ListItemButton>
+                                 </NavLink>
+
+                                 <NavLink
+                                    to="/recruitment/call"
+                                    style={{
+                                       textDecoration: "none",
+                                       color: "inherit",
+                                    }}
+                                 >
+                                    <ListItemButton
+                                       onClick={() =>
+                                          handleMenuClick("convocatorias")
+                                       }
+                                       sx={{
+                                          pl: 7,
+                                          color:
+                                             activeMenu === "convocatorias"
+                                                ? "#FFFFFF"
+                                                : "#CBD5E1",
+                                          backgroundColor:
+                                             activeMenu === "convocatorias"
+                                                ? "#3C4A63"
+                                                : "transparent",
+                                          "&:hover": {
+                                             color: "#FFFFFF",
+                                          },
+                                       }}
+                                    >
+                                       <span style={{ marginRight: "10px" }}>
+                                          -
+                                       </span>
+                                       <ListItemText
+                                          primary="Convocatorias"
+                                          primaryTypographyProps={{
+                                             style: {
+                                                fontSize: "14px",
+                                             },
+                                          }}
+                                       />
+                                    </ListItemButton>
+                                 </NavLink>
+                              </List>
+                           </Collapse>
+                        </Box>
+                     )}
 
                      {/* menu */}
                      <NavLink
@@ -371,45 +381,81 @@ export const SideBar: React.FC<SideBarProps> = ({ openDrawer, setOpenDrawer,draw
                </Box>
 
                {/* opciones de "configuracion y cerrar sesion"*/}
-               <Box>
-                  <List
-                     sx={{
-                        width: "100%",
-                        maxWidth: 300,
-                        backgroundColor: "#2E384D",
-                     }}
-                     component="nav"
-                     aria-labelledby="nested-list-subheader"
-                  >
-                     <NavLink
-                        to="/"
-                        style={{
-                           textDecoration: "none",
-                           color: "inherit",
+               {isAuthenticated && (
+                  <Box>
+                     <List
+                        sx={{
+                           width: "100%",
+                           maxWidth: 300,
+                           backgroundColor: "#2E384D",
                         }}
+                        component="nav"
+                        aria-labelledby="nested-list-subheader"
                      >
+                        <NavLink
+                           to="/"
+                           style={{
+                              textDecoration: "none",
+                              color: "inherit",
+                           }}
+                        >
+                           <ListItemButton
+                              sx={{
+                                 width: openDrawer ? "94%" : "80%",
+                                 borderRadius: 2,
+                                 pl: openDrawer ? 1.5 : 1.7,
+                                 ml: 1,
+                                 mb: 1.5,
+                                 color: "#FFFFFF",
+                                 backgroundColor: "#3C4A63",
+                                 "&:hover": {
+                                    color: "#FFFFFF",
+                                 },
+                              }}
+                           >
+                              <SettingsIcon
+                                 sx={{
+                                    marginRight: 1,
+                                    color: "#5BC1E6",
+                                 }}
+                              />
+                              <ListItemText
+                                 primary="Configuracion"
+                                 primaryTypographyProps={{
+                                    style: {
+                                       fontSize: "14px",
+                                       visibility: openDrawer
+                                          ? "visible"
+                                          : "hidden",
+                                    },
+                                 }}
+                              />
+                           </ListItemButton>
+                        </NavLink>
+
                         <ListItemButton
                            sx={{
                               width: openDrawer ? "94%" : "80%",
+                              height: openDrawer ? "2.7rem" : "2.8rem",
                               borderRadius: 2,
                               pl: openDrawer ? 1.5 : 1.7,
                               ml: 1,
-                              mb: 1.5,
                               color: "#FFFFFF",
                               backgroundColor: "#3C4A63",
                               "&:hover": {
                                  color: "#FFFFFF",
                               },
                            }}
+                           onClick={handleLogout}
                         >
-                           <SettingsIcon
+                           <OutputIcon
                               sx={{
                                  marginRight: 1,
                                  color: "#5BC1E6",
                               }}
                            />
                            <ListItemText
-                              primary="Configuracion"
+                              primary="Cerrar sesión"
                               primaryTypographyProps={{
                                  style: {
                                     fontSize: "14px",
@@ -420,41 +466,9 @@ export const SideBar: React.FC<SideBarProps> = ({ openDrawer, setOpenDrawer,draw
                               }}
                            />
                         </ListItemButton>
-                     </NavLink>
-
-                     <ListItemButton
-                        sx={{
-                           width: openDrawer ? "94%" : "80%",
-                           height: openDrawer ? "2.7rem" : "2.8rem",
-                           borderRadius: 2,
-                           pl: openDrawer ? 1.5 : 1.7,
-                           ml: 1,
-                           color: "#FFFFFF",
-                           backgroundColor: "#3C4A63",
-                           "&:hover": {
-                              color: "#FFFFFF",
-                           },
-                        }}
-                        onClick={handleLogoutSide}
-                     >
-                        <OutputIcon
-                           sx={{
-                              marginRight: 1,
-                              color: "#5BC1E6",
-                           }}
-                        />
-                        <ListItemText
-                           primary="Cerrar sesión"
-                           primaryTypographyProps={{
-                              style: {
-                                 fontSize: "14px",
-                                 visibility: openDrawer ? "visible" : "hidden",
-                              },
-                           }}
-                        />
-                     </ListItemButton>
-                  </List>
-               </Box>
+                     </List>
+                  </Box>
+               )}
             </List>
          </Drawer>
       </Box>
