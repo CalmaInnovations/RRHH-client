@@ -1,16 +1,16 @@
 import { z } from "zod";
 
 export const schema = z.object({
-   area: z.optional(z.number().min(1, { message: "Debe seleccionar un area" })),
-   subArea: z.optional(
-      z.number().min(1, { message: "Debe seleccionar una sub area" })
-   ),
-   colaboradorLiderId: z.optional(
-      z
-         .number()
-         .min(1, { message: "El ID del líder debe ser un número positivo" })
-   ),
-   puestoId: z.number().min(1, { message: "Debe seleecionar un puesto" }),
+   // area: z.optional(z.number().min(1, { message: "Debe seleccionar un area" })),
+   // subArea: z.optional(
+   //    z.number().min(1, { message: "Debe seleccionar una sub area" })
+   // ),
+   // colaboradorLiderId: z.optional(
+   //    z
+   //       .number()
+   //       .min(1, { message: "El ID del líder debe ser un número positivo" })
+   // ),
+   // puestoId: z.number().min(1, { message: "Debe seleecionar un puesto" }),
    cantidad: z.coerce
       .number()
       .min(1, { message: "Cantidad debe ser mayor a 0" }),

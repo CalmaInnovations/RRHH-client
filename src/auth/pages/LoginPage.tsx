@@ -8,7 +8,6 @@ interface LoginPageProps {
    handleLogin: () => void;
 }
 
-
 export const LoginPage: React.FC<LoginPageProps> = ({ handleLogin }) => {
    const navigate = useNavigate();
    const [email, setEmail] = useState("");
@@ -17,7 +16,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ handleLogin }) => {
    const handleLoginClick = () => {
       if (email === "demo@ejemplo.com" && password === "demo123") {
          handleLogin();
-         navigate("/recruitment/requests-recruiter", { replace: true });
+         // navigate("/recruitment/requests-recruiter", { replace: true });
       } else if (email !== "" && password !== "") {
          alert(
             "Credenciales incorrectas. Prueba con demo@ejemplo.com y demo123"

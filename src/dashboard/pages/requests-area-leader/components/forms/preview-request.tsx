@@ -1,32 +1,33 @@
-import { Grid, Typography, Button } from "@mui/material";
 import { useState, useEffect } from "react";
-
-import { RHFInput, RHFMultiline, RHFSelect } from "./components/custom-inputs";
-import { FormValues, schema } from "./validations/schema-new-request";
+import { Grid, Typography, Button, Alert } from "@mui/material";
+import { RHFInput, RHFSelect } from "./components/custom-inputs";
+import { FormValues } from "./validations/schema-new-request";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Collaborator } from "../../interface/request-items.model";
 import { useAreas } from "../../hooks/useAreas";
 import { RHFSelectModalidad } from "./components/custom-inputs/rhf-select-modalidad";
+import { useEditRequestMutation } from "@/redux/services/request/request-api";
+import { schema } from "./validations/schema-edit-request";
+import { useAlert } from "@/hooks/use-alert";
 
 interface OnCloseProps {
    onClose: () => void;
-   handleData: (data: Collaborator) => void;
+   setCards: React.Dispatch<React.SetStateAction<Collaborator[]>>;
 }
 
 export function PreviewRequest({
-   puestoId,
+   id,
    cantidad,
    tipoModalidad,
    habilidadesBlandas,
    conocimientosTecnicos,
-   observaciones,
    onClose,
-   handleData,
+   setCards,
 }: Collaborator & OnCloseProps) {
-   const [isEditable, setIsEditable] = useState(false);
-   const [savedSuccessfully, setSavedSuccessfully] = useState(false);
    const { areas, subAreas, position } = useAreas();
+   const { alert, showAlert } = useAlert();
+   const [editRequest] = useEditRequestMutation();
    const [selectedArea, setSelectedArea] = useState<string | number>(0);
    const [selectSubArea, setselectSubArea] = useState<string | number>(0);
 
@@ -39,45 +40,50 @@ export function PreviewRequest({
       mode: "all",
       resolver: zodResolver(schema),
       defaultValues: {
-         puestoId,
+         // puestoId,
          cantidad,
          tipoModalidad,
          habilidadesBlandas,
          conocimientosTecnicos,
-         observaciones,
       },
    });
 
    useEffect(() => {
       reset({
-         puestoId,
+         // puestoId,
          cantidad,
          tipoModalidad,
          habilidadesBlandas,
          conocimientosTecnicos,
-         observaciones,
       });
    }, [
-      puestoId,
       cantidad,
       tipoModalidad,
       habilidadesBlandas,
       conocimientosTecnicos,
-      observaciones,
       reset,
    ]);
 
-   const onSubmit: SubmitHandler<FormValues> = (data) => {
-      handleData(data);
-      setSavedSuccessfully(true);
-      setTimeout(() => setSavedSuccessfully(false), 2000);
-   };
+   const handleEdit: SubmitHandler<FormValues> = async (values) => {
+      const { data } = await editRequest({
+         id_request: +id!,
+         values: {
+            cantidad: values.cantidad,
+            habilidadesBlandas: values.habilidadesBlandas,
+            conocimientosTecnicos: values.conocimientosTecnicos,
+         },
+      });
 
-   const handleEdit = () => {
-      if (isEditable) {
-         handleSubmit(onSubmit)();
+      if (!data) {
+         showAlert("error", "Ocurrio un error");
+         return;
       }
-      setIsEditable(!isEditable);
+
+      showAlert("success", data.message);
+
+      setCards((prev) =>
+         prev.map((card) => (card.id === id ? { ...card, ...values } : card))
+      );
    };
 
    const filteredSubAreas = subAreas.filter(
@@ -88,17 +94,11 @@ export function PreviewRequest({
       ({ subAreaId }) => subAreaId === Number(selectSubArea)
    );
 
-   return (
-      <form onSubmit={handleSubmit(onSubmit)}>
-         <Grid container spacing={3}>
-            {savedSuccessfully && (
-               <Grid item xs={12}>
-                  <Typography variant="body1" color="green" align="center">
-                     Guardado exitoso
-                  </Typography>
-               </Grid>
-            )}
+   const { message, type } = alert;
 
+   return (
+      <form onSubmit={handleSubmit(handleEdit)}>
+         <Grid container spacing={3}>
             <Grid item xs={12}>
                <Typography
                   id="transition-modal-title"
@@ -107,7 +107,7 @@ export function PreviewRequest({
                   marginBottom={2}
                   fontWeight="bold"
                >
-                  Nueva Solicitud
+                  Editar Solicitud
                </Typography>
             </Grid>
 
@@ -159,7 +159,7 @@ export function PreviewRequest({
                   placeholder="2"
                   error={errors.cantidad}
                   type="number"
-                  inputProps={{ min: 2, type: "number" }}
+                  inputProps={{ min: 1, type: "number" }}
                />
             </Grid>
 
@@ -183,24 +183,24 @@ export function PreviewRequest({
                />
             </Grid>
 
-            <Grid item xs={12}>
-               <RHFMultiline
-                  control={control}
-                  name="observaciones"
-                  label="Observaciones"
-                  placeholder="Observaciones"
-                  error={errors.observaciones}
-               />
-            </Grid>
+            {message && (
+               <Grid item xs={12} sx={{ display: "flex", gap: 2 }}>
+                  <Alert variant="filled" color={type} sx={{ width: "100%" }}>
+                     {typeof message === "string" && message.trim()
+                        ? message
+                        : "Mensaje no disponible"}
+                  </Alert>
+               </Grid>
+            )}
 
             <Grid item xs={12}>
                <footer>
                   <Button
-                     onClick={handleEdit}
+                     type="submit"
                      variant="contained"
                      sx={{ color: "white", paddingInline: "15px" }}
                   >
-                     {isEditable ? "Guardar" : "Editar"}
+                     Editar
                   </Button>
                   <Button
                      sx={{ paddingInline: "15px" }}

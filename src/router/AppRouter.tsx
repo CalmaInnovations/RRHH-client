@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { Requests } from "../dashboard/pages";
 
 export const AppRouter = () => {
-
    const [isAuthenticated, setIsAuthenticated] = useState(false);
    const location = useLocation();
 
@@ -24,22 +23,27 @@ export const AppRouter = () => {
       setIsAuthenticated(false);
    };
 
-    return (
-        <Routes>
-            {/* LOGIN Y REGISTRO */}
-            <Route path="/auth/*" element={<AuthRoutes handleLogin={handleLogin}/>} />
-
-            <Route path="/requests" element={<Requests />} /> {/*esta ruta sera publica hasta el momento */}
-
-            {/* DASHBOARD APP */}
-            <Route path="/*" element={
+   return (
+      <Routes>
+         {/* LOGIN Y REGISTRO */}
+         <Route
+            path="/auth/*"
+            element={<AuthRoutes handleLogin={handleLogin} />}
+         />
+         <Route path="/requests" element={<Requests />} />{" "}
+         {/*esta ruta sera publica hasta el momento */}
+         {/* DASHBOARD APP */}
+         <Route
+            path="/*"
+            element={
                isAuthenticated ? (
                   <DashboardRoutes handleLogout={handleLogout} />
                ) : (
                   <Navigate to="/auth/login" replace />
                )
-            } />
-            <Route />
-        </Routes>
-    );
+            }
+         />
+         <Route />
+      </Routes>
+   );
 };

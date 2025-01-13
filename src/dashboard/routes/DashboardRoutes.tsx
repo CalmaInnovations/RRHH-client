@@ -38,7 +38,7 @@ export const DashboardRoutes = ({ handleLogout }: DashboardRoutesProps) => {
                />
             </Route>
 
-            <Route path="/*" element={<Navigate to="/" />} />
+            {/* <Route path="/*" element={<Navigate to="/" />} /> */}
          </Routes>
       </DashboardLayout>
    );

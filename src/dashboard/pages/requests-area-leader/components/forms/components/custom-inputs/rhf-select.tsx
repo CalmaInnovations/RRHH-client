@@ -10,7 +10,6 @@ import { Control, Controller, FieldError } from "react-hook-form";
 interface option {
    id?: number;
    nombre?: string;
-   puesto?: string;
 }
 
 interface Props {
@@ -37,7 +36,7 @@ export function RHFSelect({
       <Controller
          name={name}
          control={control}
-         defaultValue={options[0]?.id || 0}
+         defaultValue={options.length > 0 ? options[0]?.id ?? "" : ""}
          render={({ field }) => (
             <FormControl fullWidth variant="outlined">
                <InputLabel shrink htmlFor={name}>
@@ -48,18 +47,26 @@ export function RHFSelect({
                   label={label}
                   {...field}
                   disabled={disabled}
-                  value={field.value}
+                  value={
+                     options.some((option) => option.id === field.value)
+                        ? field.value
+                        : ""
+                  }
                   error={!!error}
                   onChange={(event) => {
                      field.onChange(event);
                      handleChange?.(event.target.value);
                   }}
                >
-                  {options.map(({ id, nombre }) => (
-                     <MenuItem key={id} value={id}>
-                        {nombre}
-                     </MenuItem>
-                  ))}
+                  {options.length > 0 ? (
+                     options.map(({ id, nombre }) => (
+                        <MenuItem key={id} value={id}>
+                           {nombre}
+                        </MenuItem>
+                     ))
+                  ) : (
+                     <MenuItem value="">Sin opciones disponibles</MenuItem>
+                  )}
                </Select>
                <FormHelperText sx={{ color: "red" }}>
                   {error?.message}

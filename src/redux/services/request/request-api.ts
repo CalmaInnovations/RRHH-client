@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { environment } from '../../../config/environment';
 import { Collaborator } from '../../../dashboard/pages/requests-area-leader/interface/request-items.model';
-import { SolicitudesRes } from '../../interfaces/Request/resquest-interfaces';
+import { RequestUpdateValues, SolicitudesRes } from '../../interfaces/Request/resquest-interfaces';
 
 interface PaginationParams {
    pgNum: number;
@@ -30,7 +30,17 @@ export const requestApi = createApi({
             }
          },
       }),
+
+      editRequest: builder.mutation< {message: string }, {values: RequestUpdateValues, id_request: number}>({
+         query: ({id_request, values}) => {
+            return {
+               url: `/api/SolicitudColaborador/${id_request}`,
+               method: "PUT",
+               body: values
+            }
+         }
+      })
    }),
  })
 
- export const { useGetSolicitudesQuery, useCreateColaboradorServiceMutation } = requestApi;
+ export const { useGetSolicitudesQuery, useCreateColaboradorServiceMutation, useEditRequestMutation } = requestApi;

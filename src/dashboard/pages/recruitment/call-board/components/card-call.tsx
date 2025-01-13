@@ -1,14 +1,13 @@
-import { Box, Card, CardContent, IconButton, Typography } from "@mui/material";
+import { Box, Card, CardContent, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 import {
    Call,
    RecruiterRes,
 } from "../../request-area-recruiter/interfaces/calls-interface";
 import CircleIcon from "@mui/icons-material/Circle";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useState } from "react";
 import { ModalAsingReclutador } from "./modal-asing-reclutador";
-import { getRecruitersAvailableService } from "../../request-area-recruiter/services/request-service";
+// import { getRecruitersAvailableService } from "../../request-area-recruiter/services/request-service";
 
 interface Props {
    call: Call;
@@ -28,23 +27,24 @@ export const CardCall = ({ call, handleGetCallsService }: Props) => {
 
    const navigation = useNavigate();
 
-   const openModal = async (modalName: string) => {
-      const currentId = call.idConvocatoria;
-      setIdConvocatoria(currentId);
+   // const openModal = async (modalName: string) => {
+   //    const currentId = call.idConvocatoria;
+   //    setIdConvocatoria(currentId);
 
-      if (modalName === "asign") {
-         setIsLoading(true);
-         try {
-            const { data } = await getRecruitersAvailableService();
-            setRecruiters(data); // Actualiza el estado con los datos de la API
-         } catch (error) {
-            console.error("Error al obtener los reclutadores:", error);
-         } finally {
-            setIsLoading(false);
-         }
-      }
-      setActiveModal(modalName);
-   };
+   //    if (modalName === "asign") {
+   //       setIsLoading(true);
+   //       try {
+   //          const { data } = await getRecruitersAvailableService();
+   //          setRecruiters(data); // Actualiza el estado con los datos de la API
+   //       } catch (error) {
+   //          console.error("Error al obtener los reclutadores:", error);
+   //       } finally {
+   //          setIsLoading(false);
+   //       }
+   //    }
+   //    setActiveModal(modalName);
+   // };
+
    const closeModal = () => setActiveModal(null);
 
    return (
@@ -69,11 +69,11 @@ export const CardCall = ({ call, handleGetCallsService }: Props) => {
                      {call.estadoSolicitud}
                   </Typography>
                </Box>
-               <Box>
+               {/* <Box>
                   <IconButton sx={{ pl: 2 }} onClick={() => openModal("asign")}>
                      <MoreHorizIcon sx={{ mr: 1, color: "#9EA5B0" }} />
                   </IconButton>
-               </Box>
+               </Box> */}
             </Box>
 
             <Box

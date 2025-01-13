@@ -20,7 +20,7 @@ export function Requests() {
 
    const [formData, setFormData] = useState<Collaborator | null>(null);
    const [editId, setEditId] = useState<number | null>(null);
-   const { cards, updateCollaborator, loading, postCollaborator } =
+   const { cards, updateCollaborator, loading, postCollaborator, setCards } =
       useCollaborator();
 
    const [dataQt, setdataQt] = useState(3);
@@ -40,7 +40,6 @@ export function Requests() {
 
    const handlePreview = (card: Collaborator) => {
       setFormData(card);
-      console.log({ card });
       setEditId(card.id ?? null);
       setModalStep(3);
    };
@@ -102,7 +101,7 @@ export function Requests() {
             <PreviewRequest
                {...formData}
                onClose={handleCloseAllModals}
-               handleData={handleData}
+               setCards={setCards}
             />
          </TransitionsModal>
       </>

@@ -22,4 +22,9 @@ export interface Solicitudes {
 
 }
 
+export interface RequestUpdateValues {
+   cantidad: number;
+   habilidadesBlandas: string;
+   conocimientosTecnicos: string
+}
 

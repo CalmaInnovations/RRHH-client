@@ -1,19 +1,22 @@
-import { Navigate, Route, Routes } from "react-router-dom"
-import { LoginPage, RegisterPage } from '../pages';
+import { Navigate, Route, Routes } from "react-router-dom";
+import { LoginPage, RegisterPage } from "../pages";
 
 interface AuthRoutesProps {
    handleLogin: () => void;
 }
 
 export const AuthRoutes = ({ handleLogin }: AuthRoutesProps) => {
-
    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
 
+   console.log("isAuthenticated", isAuthenticated);
 
    return (
       <Routes>
          {isAuthenticated ? (
-            <Route path="*" element={<Navigate to="/recruitment/requests-recruiter" />} />
+            <Route
+               path="*"
+               element={<Navigate to="/recruitment/requests-recruiter" />}
+            />
          ) : (
             <>
                <Route
@@ -26,4 +29,4 @@ export const AuthRoutes = ({ handleLogin }: AuthRoutesProps) => {
          )}
       </Routes>
    );
-}
+};

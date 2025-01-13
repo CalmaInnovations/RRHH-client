@@ -6,17 +6,9 @@ import {
    Card,
    Avatar,
    Button,
-   IconButton,
-   ListItemIcon,
-   ListItemText,
 } from "@mui/material";
 
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { format } from "date-fns";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import BorderColorIcon from "@mui/icons-material/BorderColor";
-import React from "react";
 import { Solicitudes } from "../../../../../../../redux/interfaces/Request/resquest-interfaces";
 
 interface ItemProps {
@@ -26,15 +18,6 @@ interface ItemProps {
 
 export const TableItem = ({ sold, handleOpen }: ItemProps) => {
    const formatDate = format(new Date(sold?.fechaSolicitud), "dd/MM/yyyy");
-
-   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-   const open = Boolean(anchorEl);
-   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-      setAnchorEl(event.currentTarget);
-   };
-   const handleClose = () => {
-      setAnchorEl(null);
-   };
 
    return (
       <>
@@ -49,7 +32,7 @@ export const TableItem = ({ sold, handleOpen }: ItemProps) => {
                   "&:hover": { boxShadow: 6 },
                }}
             >
-               <CardContent sx={{height:520}}>
+               <CardContent sx={{ height: 520 }}>
                   {/* contenido del titulo  */}
                   <Box
                      sx={{
@@ -76,7 +59,7 @@ export const TableItem = ({ sold, handleOpen }: ItemProps) => {
                            Area de Desarrollo de Software
                         </Typography>
                      </Box>
-                     <Box>
+                     {/* <Box>
                         <IconButton
                            aria-controls={open ? "basic-menu" : undefined}
                            aria-haspopup="true"
@@ -104,16 +87,16 @@ export const TableItem = ({ sold, handleOpen }: ItemProps) => {
                               </ListItemIcon>
                               <ListItemText>Editar</ListItemText>
                            </MenuItem>
-                           {/*
+
                            <MenuItem onClick={handleClose}>
                               <ListItemIcon>
                                  <DeleteIcon  sx={{fontSize:"18px"}}/>
                               </ListItemIcon>
                               <ListItemText>Eliminar</ListItemText>
 
-                           </MenuItem> */}
+                           </MenuItem>
                         </Menu>
-                     </Box>
+                     </Box> */}
                   </Box>
 
                   {/* descripcion de la "Funcion" */}
@@ -291,22 +274,20 @@ export const TableItem = ({ sold, handleOpen }: ItemProps) => {
                         </Box>
                      </Box>
                   </Box>
-
-
                </CardContent>
                <Button
-                     fullWidth
-                     variant="contained"
-                     sx={{
-                        color: "white",
-                        position:"relative",
-                        bottom:0,
-                        backgroundColor: "#5BC1E6",
-                     }}
-                     onClick={() => handleOpen()}
-                  >
-                     Convertir solicitud
-                  </Button>
+                  fullWidth
+                  variant="contained"
+                  sx={{
+                     color: "white",
+                     position: "relative",
+                     bottom: 0,
+                     backgroundColor: "#5BC1E6",
+                  }}
+                  onClick={() => handleOpen()}
+               >
+                  Convertir a convocatoria
+               </Button>
             </Card>
          </Grid>
       </>
