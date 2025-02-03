@@ -72,7 +72,10 @@ export const Call = () => {
             ) : (
                <Grid container spacing={2}>
                   {calls.convocatorias?.map((call) => (
-                     <Grid key={call.idConvocatoria} item xs={6}>
+                     <Grid key={call.idConvocatoria} item xs={12} sm={6}>
+                        <CardCall call={call} handleGetCallsService={handleGetCallsService}/>
+                        <CardCall call={call} handleGetCallsService={handleGetCallsService}/>
+                        <CardCall call={call} handleGetCallsService={handleGetCallsService}/>
                         <CardCall call={call} handleGetCallsService={handleGetCallsService}/>
                      </Grid>
                   ))}

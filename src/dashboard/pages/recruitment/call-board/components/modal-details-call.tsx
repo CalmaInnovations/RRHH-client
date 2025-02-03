@@ -1,14 +1,17 @@
 import {
    Box,
    Button,
-   List,
-   ListItem,
-   ListItemText,
+   //List,
+   //ListItem,
+   //ListItemText,
    Modal,
    Typography,
 } from "@mui/material";
 
+import { Row } from "../../request-area-recruiter/components/table/models/row";
+
 interface Props {
+   row: Row;
    openModalDetails: boolean;
    handleOpenModalDetailsEdit: () => void;
    handleCloseModal: () => void;
@@ -37,7 +40,7 @@ export const ModalDetailsCall = ({
                top: "50%",
                left: "50%",
                transform: "translate(-50%, -50%)",
-               width: 400,
+               width: 420,
                bgcolor: "#EBF2F5",
                boxShadow: 24,
                p: 4,
@@ -50,7 +53,7 @@ export const ModalDetailsCall = ({
                   component="h2"
                   sx={{
                      marginBottom: 2,
-                     fontWeight: 500,
+                     fontWeight: 600,
                   }}
                >
                   Detalles de la Convocatoria
@@ -59,10 +62,10 @@ export const ModalDetailsCall = ({
                <Box sx={{ display: "flex", flexDirection: "column" }}>
                   <Typography
                      id="modal-modal-title"
-                     sx={{ marginBottom: 2 }}
                      component="p"
+                     sx={{ marginBottom: 2 }}
                   >
-                     Desarrollador Fronted
+                     <strong>Área:</strong> Recursos Humanos
                   </Typography>
 
                   <Typography
@@ -70,7 +73,7 @@ export const ModalDetailsCall = ({
                      component="p"
                      sx={{ marginBottom: 2 }}
                   >
-                     Cantidad 2
+                     <strong>Reclutador Senior:</strong> Valeria
                   </Typography>
 
                   <Typography
@@ -78,7 +81,7 @@ export const ModalDetailsCall = ({
                      component="p"
                      sx={{ marginBottom: 2 }}
                   >
-                     Practicante
+                     <strong>Recursos General:</strong> Lopez
                   </Typography>
 
                   <Typography
@@ -86,42 +89,7 @@ export const ModalDetailsCall = ({
                      component="p"
                      sx={{ marginBottom: 2 }}
                   >
-                     HTML, CSS, Javascript, React, Tailwind
-                  </Typography>
-
-                  <List dense={true}>
-                     <ListItem
-                        sx={{
-                           display: "flex",
-                           padding: 0,
-                           flexDirection: "column",
-                           listStyleType: "disc",
-                           marginLeft: 2,
-                           marginBottom: 2,
-                        }}
-                        alignItems="flex-start"
-                     >
-                        <ListItemText
-                           sx={{ display: "list-item" }}
-                           primary="Apoyar con los prototipos de Figma"
-                        />
-                        <ListItemText
-                           sx={{ display: "list-item" }}
-                           primary="Desarrollar Interfaces"
-                        />
-                        <ListItemText
-                           sx={{ display: "list-item" }}
-                           primary="Mantener el diseño escalable"
-                        />
-                     </ListItem>
-                  </List>
-
-                  <Typography
-                     id="modal-modal-title"
-                     component="p"
-                     sx={{ marginBottom: 2 }}
-                  >
-                     Fecha de publicacion: Sin definir
+                     <strong>Subárea:</strong> Reclutamiento
                   </Typography>
 
                   <Typography
@@ -129,16 +97,71 @@ export const ModalDetailsCall = ({
                      component="p"
                      sx={{ marginBottom: 2 }}
                   >
-                     Beneficios: Sin definir
+                     <strong>Puesto:</strong> Reclutador General
                   </Typography>
 
+                  <Typography
+                     id="modal-modal-title"
+                     component="p"
+                     sx={{ marginBottom: 2 }}
+                  >
+                     <strong>Tipo:</strong> Practicante
+                  </Typography>
+
+                  <Typography
+                     id="modal-modal-title"
+                     component="p"
+                     sx={{ marginBottom: 2 }}
+                  >
+                     <strong>Fecha:</strong> 01/01/2025
+                  </Typography>
+
+                  <Typography
+                     id="modal-modal-title"
+                     component="p"
+                     sx={{ marginBottom: 2 }}
+                  >
+                     <strong>Cantidad:</strong> 2
+                  </Typography>
+
+                  <Typography
+                     id="modal-modal-title"
+                     component="p"
+                     sx={{ marginBottom: 2 }}
+                  >
+                     <strong>Restantes:</strong> 1
+                  </Typography>
+
+                  <Typography
+                     id="modal-modal-title"
+                     component="p"
+                     sx={{ marginBottom: 2}}
+                  >
+                     <strong>Estado:</strong> En proceso
+                  </Typography>
+
+                  <Typography
+                     id="modal-modal-title"
+                     component="p"
+                     //sx={{ marginBottom: 2 }}
+                  >
+                     <strong>Observaciones:</strong> No definido
+                  </Typography>
+               </Box>
+               <Box sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>
                   <Button
                      variant="contained"
                      onClick={() => handleEditModal()}
                      sx={{ width: "100%", color: "white" }}
                   >
-                     Editar Convocatoria
+                     Editar
                   </Button>
+                  <Button
+                     onClick={() => handleCloseModal()}
+                     sx={{ color: "#35B1F6", cursor: "pointer", width: "100%"}} 
+                  >
+                  Cerrar
+               </Button>
                </Box>
             </Box>
          </Box>

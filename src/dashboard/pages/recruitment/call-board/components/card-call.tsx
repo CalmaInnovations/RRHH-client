@@ -66,7 +66,7 @@ export const CardCall = ({ call, handleGetCallsService }: Props) => {
                      sx={{ fontSize: 15 }}
                      color="#9EA5B0"
                   >
-                     {call.estadoSolicitud}
+                     En Proceso{call.estadoSolicitud}
                   </Typography>
                </Box>
                {/* <Box>
@@ -81,22 +81,21 @@ export const CardCall = ({ call, handleGetCallsService }: Props) => {
                   navigation(`/recruitment/call/${call.idConvocatoria}`)
                }
             >
-               <Box sx={{ mt: 2 }}>
+               <Box sx={{ mt: 2 }}> 
                   <Typography
                      sx={{
                         fontWeight: 600,
                         color: "#5BC1E6",
                         fontSize: "28px",
                      }}
-                  >
-                     {call.nombrePuesto}
-                  </Typography>
-
+                  > 
+                     Desarrollador Front-End {call.nombrePuesto}
+                  </Typography> 
                   <Typography
                      sx={{ mb: 1.5, fontSize: "18px", fontWeight: 500 }}
                      color="#7E8299"
                   >
-                     {call.modalidad}
+                     Practicante {call.modalidad}
                   </Typography>
                </Box>
                <Box
