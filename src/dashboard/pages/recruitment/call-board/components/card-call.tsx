@@ -27,23 +27,25 @@ export const CardCall = ({ call, handleGetCallsService }: Props) => {
 
    const navigation = useNavigate();
 
-   // const openModal = async (modalName: string) => {
-   //    const currentId = call.idConvocatoria;
-   //    setIdConvocatoria(currentId);
+   /*
+      const openModal = async (modalName: string) => {
+      const currentId = call.idConvocatoria;
+      setIdConvocatoria(currentId);
 
-   //    if (modalName === "asign") {
-   //       setIsLoading(true);
-   //       try {
-   //          const { data } = await getRecruitersAvailableService();
-   //          setRecruiters(data); // Actualiza el estado con los datos de la API
-   //       } catch (error) {
-   //          console.error("Error al obtener los reclutadores:", error);
-   //       } finally {
-   //          setIsLoading(false);
-   //       }
-   //    }
-   //    setActiveModal(modalName);
-   // };
+      if (modalName === "asign") {
+         setIsLoading(true);
+         try {
+            const { data } = await getRecruitersAvailableService();
+            setRecruiters(data); // Actualiza el estado con los datos de la API
+         } catch (error) {
+            console.error("Error al obtener los reclutadores:", error);
+         } finally {
+            setIsLoading(false);
+         }
+      }
+       setActiveModal(modalName);
+      };}
+   */
 
    const closeModal = () => setActiveModal(null);
 
@@ -66,7 +68,7 @@ export const CardCall = ({ call, handleGetCallsService }: Props) => {
                      sx={{ fontSize: 15 }}
                      color="#9EA5B0"
                   >
-                     En Proceso{call.estadoSolicitud}
+                     {call.estadoSolicitud}
                   </Typography>
                </Box>
                {/* <Box>
@@ -89,13 +91,13 @@ export const CardCall = ({ call, handleGetCallsService }: Props) => {
                         fontSize: "28px",
                      }}
                   > 
-                     Desarrollador Front-End {call.nombrePuesto}
+                     {call.nombrePuesto}
                   </Typography> 
                   <Typography
                      sx={{ mb: 1.5, fontSize: "18px", fontWeight: 500 }}
                      color="#7E8299"
                   >
-                     Practicante {call.modalidad}
+                     {call.modalidad}
                   </Typography>
                </Box>
                <Box
@@ -125,7 +127,7 @@ export const CardCall = ({ call, handleGetCallsService }: Props) => {
                   }}
                >
                   <Typography sx={{ fontWeight: 500, color: "#2E384D" }}>
-                     Reclutador(a) asginado:
+                     Reclutador(a) asignado:
                   </Typography>
 
                   <Typography sx={{ fontWeight: 500, color: "#B5B5C3" }}>
