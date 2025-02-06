@@ -27,11 +27,11 @@ export interface CallDetail {
 export interface Call {
    idConvocatoria: number;
    nombreArea: string;
-   reclutadorSenior: number;
+   reclutador: number;
    reclutadorGeneral: number;
    nombreSubArea: string;
    nombrePuesto: string;
-   cantidad: number;
+   cantidadSolicitada: number;
    cantidadRestante: string
    modalidad: string;
    estadoSolicitud: string;

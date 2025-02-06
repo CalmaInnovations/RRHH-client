@@ -115,7 +115,7 @@ export const CardCall = ({ call, handleGetCallsService }: Props) => {
 
                   <Typography sx={{ fontWeight: 500, color: "#B5B5C3" }}>
                      <span style={{ color: "#2E384D" }}>Cantidad:</span>{" "}
-                     {call.cantidad}
+                     {call.cantidadSolicitada}
                   </Typography>
                </Box>
 
@@ -131,7 +131,7 @@ export const CardCall = ({ call, handleGetCallsService }: Props) => {
                   </Typography>
 
                   <Typography sx={{ fontWeight: 500, color: "#B5B5C3" }}>
-                     {call.reclutadorSenior}
+                     {call.reclutador}
                   </Typography>
                </Box>
             </Box>
