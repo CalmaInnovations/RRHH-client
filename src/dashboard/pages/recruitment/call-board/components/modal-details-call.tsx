@@ -1,35 +1,36 @@
 import {
    Box,
    Button,
-   //List,
-   //ListItem,
-   //ListItemText,
    Modal,
-   Typography,
-} from "@mui/material";
+   Dialog, 
+   DialogTitle, 
+   DialogContent, 
+   Typography 
+   } from "@mui/material";
+import { Call } from "../../request-area-recruiter/interfaces/calls-interface";
 
-import { Row } from "../../request-area-recruiter/components/table/models/row";
-
-interface Props {
-   row: Row;
+interface ModalDetailsCallProps {
    openModalDetails: boolean;
-   handleOpenModalDetailsEdit: () => void;
    handleCloseModal: () => void;
+   callData: Call;
+   handleOpenModalDetailsEdit: () => void;
 }
 
 export const ModalDetailsCall = ({
    openModalDetails,
-   handleOpenModalDetailsEdit,
    handleCloseModal,
-}: Props) => {
+   callData,
+   handleOpenModalDetailsEdit,
+}: ModalDetailsCallProps) => {
    const handleEditModal = () => {
       handleCloseModal();
       handleOpenModalDetailsEdit();
    };
 
+
    return (
-      <Modal
-         open={openModalDetails}
+      <Modal 
+         open={openModalDetails} 
          onClose={handleCloseModal}
          aria-labelledby="modal-details-call"
          aria-describedby="modal-details-call-description"
@@ -47,6 +48,7 @@ export const ModalDetailsCall = ({
                borderRadius: 2,
             }}
          >
+         
             <Box className="flex flex-col w-full items-start gap-y-4">
                <Typography
                   variant="h5"
@@ -56,112 +58,68 @@ export const ModalDetailsCall = ({
                      fontWeight: 600,
                   }}
                >
-                  Detalles de la Convocatoria
+                  Detalles de Solicitud
                </Typography>
-
+       
                <Box sx={{ display: "flex", flexDirection: "column" }}>
-                  <Typography
-                     id="modal-modal-title"
-                     component="p"
-                     sx={{ marginBottom: 2 }}
-                  >
-                     <strong>Área:</strong> Recursos Humanos
+                  <Typography id="modal-modal-title" component="p" sx={{ marginBottom: 2 }}>
+                     <strong>Área:</strong> {callData?.nombreArea ?? "Recursos Humanos"}
                   </Typography>
 
-                  <Typography
-                     id="modal-modal-title"
-                     component="p"
-                     sx={{ marginBottom: 2 }}
-                  >
-                     <strong>Reclutador Senior:</strong> Valeria
+                  <Typography id="modal-modal-title" component="p" sx={{ marginBottom: 2 }}>
+                     <strong>Reclutador Senior:</strong> {callData.reclutador ?? "Valeria"}
                   </Typography>
 
-                  <Typography
-                     id="modal-modal-title"
-                     component="p"
-                     sx={{ marginBottom: 2 }}
-                  >
-                     <strong>Recursos General:</strong> Lopez
+                  <Typography id="modal-modal-title" component="p" sx={{ marginBottom: 2 }}>
+                     <strong>Recursos General:</strong> {callData.reclutador ?? "Lopez"}
                   </Typography>
 
-                  <Typography
-                     id="modal-modal-title"
-                     component="p"
-                     sx={{ marginBottom: 2 }}
-                  >
-                     <strong>Subárea:</strong> Reclutamiento
+                  <Typography id="modal-modal-title" component="p" sx={{ marginBottom: 2 }}>
+                     <strong>Subárea:</strong> {callData?.modalidad ?? "Reclutamiento"}
                   </Typography>
 
-                  <Typography
-                     id="modal-modal-title"
-                     component="p"
-                     sx={{ marginBottom: 2 }}
-                  >
-                     <strong>Puesto:</strong> Reclutador General
+                  <Typography id="modal-modal-title" component="p" sx={{ marginBottom: 2 }}>
+                     <strong>Puesto:</strong> {callData?.nombrePuesto ?? "Reclutador General"}
                   </Typography>
 
-                  <Typography
-                     id="modal-modal-title"
-                     component="p"
-                     sx={{ marginBottom: 2 }}
-                  >
-                     <strong>Tipo:</strong> Practicante
+                  <Typography id="modal-modal-title" component="p" sx={{ marginBottom: 2 }}>
+                     <strong>Tipo:</strong> {callData?.modalidad ?? "Practicante"}
                   </Typography>
 
-                  <Typography
-                     id="modal-modal-title"
-                     component="p"
-                     sx={{ marginBottom: 2 }}
-                  >
-                     <strong>Fecha:</strong> 01/01/2025
+                  <Typography id="modal-modal-title" component="p" sx={{ marginBottom: 2 }}>
+                     <strong>Fecha:</strong> {callData?.fechaSolicitud ?? "01/01/2025"}
                   </Typography>
 
-                  <Typography
-                     id="modal-modal-title"
-                     component="p"
-                     sx={{ marginBottom: 2 }}
-                  >
-                     <strong>Cantidad:</strong> 2
+                  <Typography id="modal-modal-title" component="p" sx={{ marginBottom: 2 }}>
+                     <strong>Cantidad:</strong> {callData?.cantidadSolicitada ?? "2"}
                   </Typography>
 
-                  <Typography
-                     id="modal-modal-title"
-                     component="p"
-                     sx={{ marginBottom: 2 }}
-                  >
-                     <strong>Restantes:</strong> 1
+                  <Typography id="modal-modal-title" component="p" sx={{ marginBottom: 2 }}>
+                     <strong>Restantes:</strong> {callData?.cantidadRestante ?? "1"}
                   </Typography>
 
-                  <Typography
-                     id="modal-modal-title"
-                     component="p"
-                     sx={{ marginBottom: 2}}
-                  >
-                     <strong>Estado:</strong> En proceso
+                  <Typography id="modal-modal-title" component="p" sx={{ marginBottom: 2 }}>
+                     <strong>Estado:</strong> {callData?.estadoSolicitud ?? "No definido"}
                   </Typography>
 
-                  <Typography
-                     id="modal-modal-title"
-                     component="p"
-                     //sx={{ marginBottom: 2 }}
-                  >
-                     <strong>Observaciones:</strong> No definido
+                  <Typography id="modal-modal-title" component="p">
+                     <strong>Observaciones:</strong> {callData?.observaciones ?? "No definido"}
                   </Typography>
                </Box>
                <Box sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>
                   <Button
                      variant="contained"
-                     onClick={() => handleEditModal()}
+                     onClick={handleEditModal}
                      sx={{ width: "100%", color: "white" }}
                   >
                      Editar
                   </Button>
                   <Button
-                     onClick={() => handleCloseModal()}
+                     onClick={handleCloseModal}
                      sx={{ color: "#35B1F6", cursor: "pointer", width: "100%"}} 
                   >
-                  Cerrar
-               </Button>
+                     Cerrar
+                  </Button>
                </Box>
             </Box>
          </Box>

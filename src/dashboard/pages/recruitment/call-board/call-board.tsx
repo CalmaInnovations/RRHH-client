@@ -163,6 +163,7 @@ export const CallBoard = () => {
             openModalDetails={activeModal === "details"}
             handleOpenModalDetailsEdit={() => openModal("detailsEdit")}
             handleCloseModal={closeModal}
+            callData={call}
          />
 
          <ModalDetailsEditCall
