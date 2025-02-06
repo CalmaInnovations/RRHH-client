@@ -67,11 +67,7 @@ export const ModalDetailsCall = ({
                   </Typography>
 
                   <Typography id="modal-modal-title" component="p" sx={{ marginBottom: 2 }}>
-                     <strong>Reclutador Senior:</strong> {callData.reclutador ?? "Valeria"}
-                  </Typography>
-
-                  <Typography id="modal-modal-title" component="p" sx={{ marginBottom: 2 }}>
-                     <strong>Recursos General:</strong> {callData.reclutador ?? "Lopez"}
+                     <strong>Reclutador:</strong> {callData.reclutador ?? "Valeria Lopez"}
                   </Typography>
 
                   <Typography id="modal-modal-title" component="p" sx={{ marginBottom: 2 }}>
