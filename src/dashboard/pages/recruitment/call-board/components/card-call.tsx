@@ -58,26 +58,7 @@ export const CardCall = ({ call, handleGetCallsService }: Props) => {
             "&:hover": { boxShadow: 5 },
          }}
       >
-         <CardContent>
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-               <Box>
-                  <CircleIcon sx={{ fontSize: 12, mr: 1, color: "#9EA5B0" }} />
-                  <Typography
-                     component="span"
-                     gutterBottom
-                     sx={{ fontSize: 15 }}
-                     color="#9EA5B0"
-                  >
-                     {call.estadoSolicitud}
-                  </Typography>
-               </Box>
-               {/* <Box>
-                  <IconButton sx={{ pl: 2 }} onClick={() => openModal("asign")}>
-                     <MoreHorizIcon sx={{ mr: 1, color: "#9EA5B0" }} />
-                  </IconButton>
-               </Box> */}
-            </Box>
-
+         <CardContent>         
             <Box
                onClick={() =>
                   navigation(`/recruitment/call/${call.idConvocatoria}`)
