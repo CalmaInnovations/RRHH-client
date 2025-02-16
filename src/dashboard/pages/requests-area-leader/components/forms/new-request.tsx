@@ -32,7 +32,8 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
    const [selectSubArea, setselectSubArea] = useState<string | number>("0");
 
    const onSubmit: SubmitHandler<FormValues> = (data) => {
-      const values: Collaborator = {
+      if (Object.keys(errors).length === 0) {
+         const values: Collaborator = {
          colaboradorLiderId: 1,
          beneficios: "",
          puestoId: data.puestoId,
@@ -42,8 +43,10 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
          tipoModalidad: "Prácticas",
       };
 
-      handleData(values);
-      handleNextModal();
+         handleData(values);
+         handleNextModal();
+      }
+      
    };
 
    const filteredSubAreas = subAreas.filter(
@@ -72,7 +75,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   Nueva Solicitud
                </Typography>
             </Grid>
-
+            
             <Grid item xs={12} sm={6}>
                <RHFSelect
                   control={control}
@@ -147,7 +150,8 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   error={errors.conocimientosTecnicos}
                />
             </Grid>
-
+            
+            
             <Grid item xs={12}>
                <footer>
                   <Button
@@ -166,6 +170,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   </Button>
                </footer>
             </Grid>
+             
          </Grid>
       </form>
    );
