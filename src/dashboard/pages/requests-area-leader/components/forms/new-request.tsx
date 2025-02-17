@@ -30,10 +30,10 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
    const { areas, subAreas, position } = useAreas();
    const [selectedArea, setSelectedArea] = useState<string | number>("0");
    const [selectSubArea, setselectSubArea] = useState<string | number>("0");
+   const [selectedPuesto, setSelectedPuesto] = useState<string | number>("0");
 
    const onSubmit: SubmitHandler<FormValues> = (data) => {
-      if (Object.keys(errors).length === 0) {
-         const values: Collaborator = {
+      const values: Collaborator = {
          colaboradorLiderId: 1,
          beneficios: "",
          puestoId: data.puestoId,
@@ -43,18 +43,20 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
          tipoModalidad: "Prácticas",
       };
 
-         handleData(values);
-         handleNextModal();
-      }
-      
+      handleData(values);
+      handleNextModal();
    };
 
-   const filteredSubAreas = subAreas.filter(
+   const filteredSubAreas = subAreas?.filter(
       ({ areaId }) => areaId === Number(selectedArea)
    );
 
-   const filteredPosition = position.filter(
+   const filteredPosition = position?.filter(
       ({ subAreaId }) => subAreaId === Number(selectSubArea)
+   );
+
+   const filteredPuesto = position?.filter(
+      ({ puesto }) => puesto === Number(selectedPuesto)
    );
 
    const handleClear = () => {
@@ -76,17 +78,17 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                </Typography>
             </Grid>
             
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}>
                <RHFSelect
                   control={control}
                   name="area"
-                  label="Area"
+                  label="Nombre del puesto"
                   options={areas}
                   handleChange={(value) => setSelectedArea(Number(value))}
                   error={errors.area}
                />
             </Grid>
-
+            {/*
             <Grid item xs={12} sm={6}>
                <RHFSelect
                   control={control}
@@ -98,28 +100,9 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   error={errors.subArea}
                />
             </Grid>
-
-            <Grid item xs={12} sm={12}>
-               <RHFSelect
-                  control={control}
-                  name="puestoId"
-                  label="Tipo de puesto"
-                  options={filteredPosition}
-                  disabled={!selectSubArea}
-                  error={errors.puestoId}
-               />
-            </Grid>
-            {/* <Grid item xs={12} sm={6}>
-               <RHFSelectModalidad
-                  control={control}
-                  name="tipoModalidad"
-                  label="tipo de Modalidad"
-                  options={filteredPosition}
-                  error={errors.tipoModalidad}
-               />
-            </Grid> */}
-
-            <Grid item xs={12} sm={6}>
+             */} 
+           
+           <Grid item xs={12} sm={6}>
                <RHFInput
                   control={control}
                   name="cantidad"
@@ -132,6 +115,29 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
             </Grid>
 
             <Grid item xs={12} sm={6}>
+               <RHFSelect
+                  control={control}
+                  name="puestoId"
+                  label="Tipo de puesto"
+                  options={filteredPosition}
+                  disabled={!selectSubArea}
+                  handleChange={(value)=> setSelectedPuesto(Number(value))}
+                  error={errors.puestoId}
+               />
+            </Grid>
+            {/*
+            <Grid item xs={12} sm={6}>
+               <RHFSelectModalidad
+                  control={control}
+                  name="tipoModalidad"
+                  label="tipo de Modalidad"
+                  options={filteredPosition}
+                  error={errors.tipoModalidad}
+               />
+            </Grid> 
+            */}
+            
+            <Grid item xs={12} sm={6}>
                <RHFInput
                   control={control}
                   name="habilidadesBlandas"
@@ -140,7 +146,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   error={errors.habilidadesBlandas}
                />
             </Grid>
-
+            
             <Grid item xs={12} sm={6}>
                <RHFInput
                   control={control}
@@ -150,7 +156,6 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   error={errors.conocimientosTecnicos}
                />
             </Grid>
-            
             
             <Grid item xs={12}>
                <footer>
@@ -170,7 +175,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   </Button>
                </footer>
             </Grid>
-             
+            
          </Grid>
       </form>
    );

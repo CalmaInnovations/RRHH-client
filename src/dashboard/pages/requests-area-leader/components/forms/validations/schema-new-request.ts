@@ -10,6 +10,7 @@ export const schema = z.object({
          .number()
          .min(1, { message: "El ID del líder debe ser un número positivo" })
    ),
+   puesto: z.optional(z.number().min(1, { message: "Debe seleccionar un puesto" })),
    puestoId: z.number().min(1, { message: "Debe seleecionar un puesto" }),
    cantidad: z.coerce
       .number()
