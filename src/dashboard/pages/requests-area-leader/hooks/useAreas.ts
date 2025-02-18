@@ -4,12 +4,14 @@ import {
    getArea,
    getPosition,
    getSubArea,
+   getCollaboratorModality,
 } from "../components/table/service/request-service";
 
 export const useAreas = () => {
    const [areas, setAreas] = useState([]);
    const [subAreas, setsubAreas] = useState([]);
    const [position, setPosition] = useState([]);
+   const [collaboratorModality, setCollaboratorModality] = useState<string[]>([]);
    const [Loading, setLoading] = useState(false);
 
    const fetchAreas = async () => {
@@ -60,6 +62,21 @@ export const useAreas = () => {
       fetchPosition();
    }, []);
 
+   const fetchCollaboratorModality = async () => {
+      try {
+         setLoading(true);
+         const response = await getCollaboratorModality();
+         setCollaboratorModality(response); // Guardamos solo los valores de tipoModalidad
+      } catch (error) {
+         console.log("Error:", error);
+      } finally {
+         setLoading(false);
+      }
+   };
 
-   return { areas, fetchAreas, fetchSubAreas, subAreas, Loading, fetchPosition, position };
+   useEffect(() => {
+      fetchCollaboratorModality();
+   }, []);
+
+   return { areas, subAreas, position, collaboratorModality, Loading };
 };

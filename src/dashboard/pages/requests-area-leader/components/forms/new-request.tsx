@@ -1,4 +1,4 @@
-import { Grid, Typography, Button } from "@mui/material";
+import { Grid, Typography, Button, MenuItem } from "@mui/material";
 import "./styles/forms.style.css";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,10 +27,11 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
       },
    });
 
-   const { areas, subAreas, position } = useAreas();
+   const { areas, subAreas, position, collaboratorModality } = useAreas();
    const [selectedArea, setSelectedArea] = useState<string | number>("0");
    const [selectSubArea, setselectSubArea] = useState<string | number>("0");
    const [selectedPuesto, setSelectedPuesto] = useState<string | number>("0");
+   const [selectedModalidad, setSelectedModalidad] = useState<string | number>("0");
 
    const onSubmit: SubmitHandler<FormValues> = (data) => {
       const values: Collaborator = {
@@ -83,7 +84,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   control={control}
                   name="area"
                   label="Nombre del puesto"
-                  options={areas}
+                  options={position}
                   handleChange={(value) => setSelectedArea(Number(value))}
                   error={errors.area}
                />
@@ -117,12 +118,11 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
             <Grid item xs={12} sm={6}>
                <RHFSelect
                   control={control}
-                  name="puestoId"
-                  label="Tipo de puesto"
-                  options={filteredPosition}
-                  disabled={!selectSubArea}
-                  handleChange={(value)=> setSelectedPuesto(Number(value))}
-                  error={errors.puestoId}
+                  name="tipoModalidad"
+                  label="Tipo de Modalidad"
+                  options={collaboratorModality.map((mod) => ({ value: mod, label: mod }))}
+                  handleChange={(value) => setSelectedModalidad(value)}
+                  error={errors.tipoModalidad}
                />
             </Grid>
             {/*

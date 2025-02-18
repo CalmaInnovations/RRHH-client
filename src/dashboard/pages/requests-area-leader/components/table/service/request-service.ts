@@ -56,3 +56,20 @@ export const getPosition = async () => {
       console.log("Error:", error);
    }
 };
+
+export const getCollaboratorModality = async () => {
+   try {
+      const response = await clientAxios.get("/api/SolicitudColaborador");
+
+      const modalidades = response.data.solicitudes
+         .map((solicitud: any) => solicitud.tipoModalidad)
+         .filter((value: any, index: number, self: any[]) => value && self.indexOf(value) === index);
+
+      return modalidades;
+   } catch (error) {
+      console.log("Error:", error);
+      return [];
+   }
+};
+
+
