@@ -7,20 +7,19 @@ import {
 } from "@mui/material";
 import { Control, Controller, FieldError } from "react-hook-form";
 
-interface option {
-   id?: number;
-   nombre?: string;
+interface Option {
+   id: string | number; 
+   nombre: string;
 }
 
 interface Props {
-   // eslint-disable-next-line @typescript-eslint/no-explicit-any
    control: Control<any>;
    error?: FieldError;
    name: string;
    label: string;
    disabled?: boolean;
-   options: option[];
-   handleChange?: (value: string | number) => void;
+   options: Option[];
+   handleChange?: (value: string | number) => void; 
 }
 
 export function RHFSelect({
@@ -54,8 +53,11 @@ export function RHFSelect({
                   }
                   error={!!error}
                   onChange={(event) => {
-                     field.onChange(event);
-                     handleChange?.(event.target.value);
+                     const selectedValue = isNaN(Number(event.target.value))
+                        ? event.target.value 
+                        : Number(event.target.value); 
+                     field.onChange(selectedValue);
+                     handleChange?.(selectedValue);
                   }}
                >
                   {options.length > 0 ? (

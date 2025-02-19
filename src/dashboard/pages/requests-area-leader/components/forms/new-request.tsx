@@ -85,7 +85,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   name="area"
                   label="Nombre del puesto"
                   options={position}
-                  handleChange={(value) => setSelectedArea(Number(value))}
+                  handleChange={(value) => setSelectedArea(value)}
                   error={errors.area}
                />
             </Grid>
@@ -120,8 +120,8 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   control={control}
                   name="tipoModalidad"
                   label="Tipo de Modalidad"
-                  options={collaboratorModality.map((mod) => ({ value: mod, label: mod }))}
-                  handleChange={(value) => setSelectedModalidad(value)}
+                  options={collaboratorModality.map((mod, index) => ({ id: index, nombre: mod }))}
+                  handleChange={(value) => setSelectedModalidad(String(value))}
                   error={errors.tipoModalidad}
                />
             </Grid>
