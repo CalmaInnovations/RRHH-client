@@ -13,7 +13,10 @@ export const schema = z.object({
       required_error: "La modalidad es requerida",
       invalid_type_error: "Elegir uno de estos valores",
    }),
-   tipoModalidad: z.string().nonempty("Este campo es obligatorio"),
+   tipoModalidad: z.union([z.string(), z.number()]).refine(
+      (val) => val !== "" && val !== null && val !== undefined,
+      { message: "Seleccione una modalidad" }
+    ),
    direccion: z.string().min(1, "Campo Obligatorio"),
    pais: z.string().min(1, "Campo Obligatorio"),
    departamento: z.string().min(1, "Campo Obligatorio"),

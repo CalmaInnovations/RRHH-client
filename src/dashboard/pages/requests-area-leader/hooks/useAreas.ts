@@ -66,7 +66,7 @@ export const useAreas = () => {
       try {
          setLoading(true);
          const response = await getCollaboratorModality();
-         setCollaboratorModality(response); // Guardamos solo los valores de tipoModalidad
+         setCollaboratorModality(response);
       } catch (error) {
          console.log("Error:", error);
       } finally {

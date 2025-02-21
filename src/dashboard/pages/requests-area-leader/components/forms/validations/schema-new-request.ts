@@ -21,9 +21,11 @@ export const schema = z.object({
    conocimientosTecnicos: z
       .string()
       .min(1, { message: "Los conocimientos técnicos son obligatorios" }),
-   tipoModalidad: z
+      tipoModalidad: z
+      .coerce
       .string()
       .min(1, { message: "El tipo de modalidad es obligatorio" }),
+
    beneficios: z.optional(z.string()),
 });
 

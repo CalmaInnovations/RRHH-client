@@ -121,7 +121,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   name="tipoModalidad"
                   label="Tipo de Modalidad"
                   options={collaboratorModality.map((mod, index) => ({ id: index, nombre: mod }))}
-                  handleChange={(value) => setSelectedModalidad(String(value))}
+                  handleChange={(value) => setSelectedModalidad(value)}
                   error={errors.tipoModalidad}
                />
             </Grid>

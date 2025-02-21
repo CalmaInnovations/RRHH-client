@@ -55,7 +55,7 @@ export function RHFSelect({
                   onChange={(event) => {
                      const selectedValue = isNaN(Number(event.target.value))
                         ? event.target.value 
-                        : Number(event.target.value); 
+                        : Number (event.target.value); 
                      field.onChange(selectedValue);
                      handleChange?.(selectedValue);
                   }}
