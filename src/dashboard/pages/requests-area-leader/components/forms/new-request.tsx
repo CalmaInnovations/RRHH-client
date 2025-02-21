@@ -23,7 +23,6 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
       mode: "onSubmit",
       resolver: zodResolver(schema),
       defaultValues: {
-         tipoModalidad: "Prácticas",
       },
    });
 
@@ -32,21 +31,28 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
    const [selectSubArea, setselectSubArea] = useState<string | number>("0");
    const [selectedPuesto, setSelectedPuesto] = useState<string | number>("0");
    const [selectedModalidad, setSelectedModalidad] = useState<string | number>("0");
+   const [cardItems, setCardItems] = useState<Collaborator[]>([]);
 
    const onSubmit: SubmitHandler<FormValues> = (data) => {
-      const values: Collaborator = {
-         colaboradorLiderId: 1,
-         beneficios: "",
-         puestoId: data.puestoId,
-         cantidad: data.cantidad,
-         habilidadesBlandas: data.habilidadesBlandas,
-         conocimientosTecnicos: data.conocimientosTecnicos,
-         tipoModalidad: "Prácticas",
+      const newCardItem: Collaborator = {
+        colaboradorLiderId: 1,
+        beneficios: "", // Puedes ajustar este campo según sea necesario
+        puestoId: data.puestoId,
+        cantidad: data.cantidad,
+        habilidadesBlandas: data.habilidadesBlandas,
+        conocimientosTecnicos: data.conocimientosTecnicos,
+        tipoModalidad: data.tipoModalidad, // ✅ Usando el valor del formulario
       };
-
-      handleData(values);
+    
+      // Agregar el nuevo CardItem al estado
+      setCardItems((prevItems) => [...prevItems, newCardItem]);
+    
+      // Opcional: Limpiar el formulario después de enviar
+      reset();
+    
+      // Cerrar el modal o cualquier otro flujo necesario
       handleNextModal();
-   };
+    };
 
    const filteredSubAreas = subAreas?.filter(
       ({ areaId }) => areaId === Number(selectedArea)
@@ -89,19 +95,6 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   error={errors.area}
                />
             </Grid>
-            {/*
-            <Grid item xs={12} sm={6}>
-               <RHFSelect
-                  control={control}
-                  name="subArea"
-                  label="Sub Area"
-                  options={filteredSubAreas}
-                  handleChange={(value) => setselectSubArea(Number(value))}
-                  disabled={!selectedArea}
-                  error={errors.subArea}
-               />
-            </Grid>
-             */} 
            
            <Grid item xs={12} sm={6}>
                <RHFInput
@@ -125,18 +118,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   error={errors.tipoModalidad}
                />
             </Grid>
-            {/*
-            <Grid item xs={12} sm={6}>
-               <RHFSelectModalidad
-                  control={control}
-                  name="tipoModalidad"
-                  label="tipo de Modalidad"
-                  options={filteredPosition}
-                  error={errors.tipoModalidad}
-               />
-            </Grid> 
-            */}
-            
+
             <Grid item xs={12} sm={6}>
                <RHFInput
                   control={control}
@@ -160,9 +142,10 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
             <Grid item xs={12}>
                <footer>
                   <Button
-                     type="submit"
+                     type="button" 
                      variant="contained"
                      sx={{ color: "white", paddingInline: "15px" }}
+                     onClick={handleSubmit(onSubmit)} 
                   >
                      Solicitar
                   </Button>
