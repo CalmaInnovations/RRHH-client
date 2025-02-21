@@ -1,4 +1,4 @@
-import { Grid, Typography, Button, MenuItem } from "@mui/material";
+import { Grid, Typography, Button } from "@mui/material";
 import "./styles/forms.style.css";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,10 +26,8 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
       },
    });
 
-   const { areas, subAreas, position, collaboratorModality } = useAreas();
+   const {position, collaboratorModality } = useAreas();
    const [selectedArea, setSelectedArea] = useState<string | number>("0");
-   const [selectSubArea, setselectSubArea] = useState<string | number>("0");
-   const [selectedPuesto, setSelectedPuesto] = useState<string | number>("0");
    const [selectedModalidad, setSelectedModalidad] = useState<string | number>("0");
    const [cardItems, setCardItems] = useState<Collaborator[]>([]);
 
@@ -50,18 +48,6 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
     
       handleNextModal();
     };
-
-   const filteredSubAreas = subAreas?.filter(
-      ({ areaId }) => areaId === Number(selectedArea)
-   );
-
-   const filteredPosition = position?.filter(
-      ({ subAreaId }) => subAreaId === Number(selectSubArea)
-   );
-
-   const filteredPuesto = position?.filter(
-      ({ puesto }) => puesto === Number(selectedPuesto)
-   );
 
    const handleClear = () => {
       reset();
