@@ -36,21 +36,18 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
    const onSubmit: SubmitHandler<FormValues> = (data) => {
       const newCardItem: Collaborator = {
         colaboradorLiderId: 1,
-        beneficios: "", // Puedes ajustar este campo según sea necesario
+        beneficios: "",
         puestoId: data.puestoId,
         cantidad: data.cantidad,
         habilidadesBlandas: data.habilidadesBlandas,
         conocimientosTecnicos: data.conocimientosTecnicos,
-        tipoModalidad: data.tipoModalidad, // ✅ Usando el valor del formulario
+        tipoModalidad: data.tipoModalidad,
       };
     
-      // Agregar el nuevo CardItem al estado
       setCardItems((prevItems) => [...prevItems, newCardItem]);
     
-      // Opcional: Limpiar el formulario después de enviar
       reset();
     
-      // Cerrar el modal o cualquier otro flujo necesario
       handleNextModal();
     };
 
