@@ -40,7 +40,6 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
    const { position, collaboratorModality } = useAreas();
    const [selectedArea, setSelectedArea] = useState<string | number>("0");
    const [selectedModalidad, setSelectedModalidad] = useState<string | number>("0");
-   const [cardItems, setCardItems] = useState<Collaborator[]>([]);
    const [formValues, setFormValues] = useState<CollaboratorPost>(initialFormState);
 
    const onSubmit: SubmitHandler<FormValues> = async (data) => {
