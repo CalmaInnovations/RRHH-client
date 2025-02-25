@@ -5,6 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormValues, schema } from "./validations/schema-new-request";
 import { RHFSelect, RHFInput } from "./components/custom-inputs";
 import { Collaborator } from "../../interface/request-items.model";
+import { createColaboradorService } from "../../components/table/service/request-service";
+import { CollaboratorPost } from "../../interface/request-items.model";
 import { useAreas } from "../../hooks/useAreas";
 import { useState } from "react";
 
@@ -12,6 +14,16 @@ interface PropsNextModal {
    handleNextModal: () => void;
    handleData: (data: Collaborator) => void;
 }
+
+const initialFormState: CollaboratorPost = {
+   colaboradorLiderId: 0,
+   puestoId: 0,
+   cantidad: 0,
+   habilidadesBlandas: "",
+   conocimientosTecnicos: "",
+   tipoModalidad: "",
+   observaciones: "",
+};
 
 export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
    const {
@@ -22,32 +34,36 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
    } = useForm<FormValues>({
       mode: "onSubmit",
       resolver: zodResolver(schema),
-      defaultValues: {
-      },
+      defaultValues: {},
    });
 
-   const {position, collaboratorModality } = useAreas();
+   const { position, collaboratorModality } = useAreas();
    const [selectedArea, setSelectedArea] = useState<string | number>("0");
    const [selectedModalidad, setSelectedModalidad] = useState<string | number>("0");
    const [cardItems, setCardItems] = useState<Collaborator[]>([]);
+   const [formValues, setFormValues] = useState<CollaboratorPost>(initialFormState);
 
-   const onSubmit: SubmitHandler<FormValues> = (data) => {
-      const newCardItem: Collaborator = {
-        colaboradorLiderId: 1,
-        beneficios: "",
-        puestoId: data.puestoId,
-        cantidad: data.cantidad,
-        habilidadesBlandas: data.habilidadesBlandas,
-        conocimientosTecnicos: data.conocimientosTecnicos,
-        tipoModalidad: data.tipoModalidad,
+   const onSubmit: SubmitHandler<FormValues> = async (data) => {
+      const newCollaborator: CollaboratorPost = {
+         colaboradorLiderId: 1,
+         puestoId: data.puestoId,
+         cantidad: data.cantidad,
+         habilidadesBlandas: data.habilidadesBlandas,
+         conocimientosTecnicos: data.conocimientosTecnicos,
+         tipoModalidad: data.tipoModalidad,
+         observaciones: data.observaciones || "",
       };
-    
-      setCardItems((prevItems) => [...prevItems, newCardItem]);
-    
-      reset();
-    
-      handleNextModal();
-    };
+
+      try {
+         const response = await createColaboradorService(newCollaborator);
+         console.log("Solicitud enviada exitosamente:", response);
+         handleData(response);
+         reset();
+         handleNextModal();
+      } catch (error) {
+         console.error("Error al enviar la solicitud:", error);
+      }
+   };
 
    const handleClear = () => {
       reset();
@@ -67,7 +83,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   Nueva Solicitud
                </Typography>
             </Grid>
-            
+
             <Grid item xs={12} sm={12}>
                <RHFSelect
                   control={control}
@@ -78,8 +94,8 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   error={errors.area}
                />
             </Grid>
-           
-           <Grid item xs={12} sm={6}>
+
+            <Grid item xs={12} sm={6}>
                <RHFInput
                   control={control}
                   name="cantidad"
@@ -111,7 +127,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   error={errors.habilidadesBlandas}
                />
             </Grid>
-            
+
             <Grid item xs={12} sm={6}>
                <RHFInput
                   control={control}
@@ -121,14 +137,13 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   error={errors.conocimientosTecnicos}
                />
             </Grid>
-            
+
             <Grid item xs={12}>
                <footer>
                   <Button
-                     type="button" 
+                     type="submit"
                      variant="contained"
                      sx={{ color: "white", paddingInline: "15px" }}
-                     onClick={handleSubmit(onSubmit)} 
                   >
                      Solicitar
                   </Button>
@@ -141,7 +156,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   </Button>
                </footer>
             </Grid>
-            
+
          </Grid>
       </form>
    );
