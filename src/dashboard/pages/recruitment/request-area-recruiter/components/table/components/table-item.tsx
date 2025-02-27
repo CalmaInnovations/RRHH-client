@@ -17,7 +17,12 @@ interface ItemProps {
 }
 
 export const TableItem = ({ sold, handleOpen }: ItemProps) => {
-   const formatDate = format(new Date(sold?.fechaSolicitud), "dd/MM/yyyy");
+   const formatDate = sold?.fechaSolicitud
+   ? format(new Date(sold.fechaSolicitud), "dd/MM/yyyy")
+   : format(new Date(), "dd/MM/yyyy"); // Muestra la fecha de hoy
+
+
+
 
    return (
       <>

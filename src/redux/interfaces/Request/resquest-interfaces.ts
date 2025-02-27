@@ -8,6 +8,7 @@ export interface SolicitudesRes {
 
 
 export interface Solicitudes {
+   categoria: string;
    id: number;
    colaborador: string;
    puesto: string;
