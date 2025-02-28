@@ -6,7 +6,7 @@ import { useGetSolicitudesQuery } from "../../../../../../redux/services/request
 import { ModalAssingRecruiter } from "../../../../../components/Modal/ModalAssingRecruiter";
 
 export const RequestTable = () => {
-   const [openModal, setOpenModal] = useState<boolean>(false);
+  
    const [page, setPage] = useState<number>(1);
    const [filteredSolicitudes, setFilteredSolicitudes] = useState<any[]>([]);
    const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
@@ -82,7 +82,7 @@ export const RequestTable = () => {
                         <TableItem
                            sold={sold}
                            key={sold.uniqueKey} // Usar clave única
-                           handleOpen={() => setOpenModal(true)}
+                           
                         />
                      ))}
                </Grid>
@@ -112,11 +112,7 @@ export const RequestTable = () => {
             </>
          )}
 
-         <ModalAssingRecruiter
-            open={openModal}
-            handleClose={() => setOpenModal(false)}
-            requestId={0}
-         />
+         
       </Box>
    );
 };

@@ -70,10 +70,10 @@ export const ModalAssingRecruiter: React.FC<ModalAssingRecruiterProps> = ({
       setIsSubmitting(true);
       try {
          console.log("Enviando solicitud a la API con ID:", requestId);
-         const response = await fetch(`http://localhost:5000/api/convert-to-call`, {
+         const response = await fetch(`http://localhost:8080/api/SolicitudColaborador/convertir-solicitud/${requestId}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ requestId, recruiterType, recruiterId: Number(selectedRecruiter) }),
+            body: JSON.stringify({ reclutadorId: Number(selectedRecruiter) }),
          });
          
          if (!response.ok) throw new Error(`Error ${response.status}: ${await response.text()}`);

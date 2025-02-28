@@ -10,18 +10,19 @@ import {
 
 import { format } from "date-fns";
 import { Solicitudes } from "../../../../../../../redux/interfaces/Request/resquest-interfaces";
+import { useState } from "react";
+import { ModalAssingRecruiter } from "@/dashboard/components/Modal";
 
 interface ItemProps {
    sold: Solicitudes;
-   handleOpen: () => void;
 }
 
-export const TableItem = ({ sold, handleOpen }: ItemProps) => {
+export const TableItem = ({ sold }: ItemProps) => {
    const formatDate = sold?.fechaSolicitud
    ? format(new Date(sold.fechaSolicitud), "dd/MM/yyyy")
    : format(new Date(), "dd/MM/yyyy"); // Muestra la fecha de hoy
 
-
+ const [openModal, setOpenModal] = useState<boolean>(false);
 
 
    return (
@@ -289,11 +290,16 @@ export const TableItem = ({ sold, handleOpen }: ItemProps) => {
                      bottom: 0,
                      backgroundColor: "#5BC1E6",
                   }}
-                  onClick={() => handleOpen()}
+                  onClick={() => setOpenModal(true)}
                >
                   Convertir a convocatoria
                </Button>
             </Card>
+            <ModalAssingRecruiter
+            open={openModal}
+            handleClose={() => setOpenModal(false)}
+            requestId={sold?.id}
+         />
          </Grid>
       </>
    );
