@@ -2,7 +2,7 @@ import RequestsTable from "./components/table/status-table";
 import TransitionsModal from "./components/modal/modal";
 import { NewRequest } from "./components/forms/new-request";
 import { SuccessfulSending } from "./components/forms/components/successful-sending";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Box, Button, CircularProgress } from "@mui/material";
 import { PreviewRequest } from "./components/forms/preview-request";
 import { Collaborator } from "./interface/request-items.model";
@@ -12,16 +12,10 @@ import { Paginations } from "./components/table/components/Paginations";
 
 export function Requests() {
    const [modalStep, setModalStep] = useState(0);
-
-   const handleNextModal = () => {
-      setModalStep((prevStep) => prevStep + 1);
-   };
-   const handleCloseAllModals = () => setModalStep(0);
-
    const [formData, setFormData] = useState<Collaborator | null>(null);
    const [editId, setEditId] = useState<number | null>(null);
-   const { cards, updateCollaborator, loading, postCollaborator, setCards } =
-      useCollaborator();
+
+   const { cards, updateCollaborator, loading, postCollaborator, setCards } = useCollaborator();
 
    const [dataQt, setdataQt] = useState(3);
    const [currentPage, setcurrentPage] = useState(1);
@@ -32,17 +26,21 @@ export function Requests() {
    const nData = cards.slice(indexIni, indexFin);
    const nPages = Math.ceil(cards.length / dataQt);
 
-   const handleData = (data: Collaborator) => {
-      postCollaborator(data);
-      updateCollaborator(data, editId);
-      setEditId(null);
-   };
+   const handleNextModal = useCallback(() => setModalStep((prevStep) => prevStep + 1), []);
+   const handleCloseAllModals = useCallback(() => setModalStep(0), []);
 
-   const handlePreview = (card: Collaborator) => {
+   const handleData = useCallback((data: Collaborator, id: number | null) => {
+      postCollaborator(data);
+      updateCollaborator(data, id);
+      setEditId(null);
+      setModalStep(2);
+   }, [postCollaborator, updateCollaborator]);
+
+   const handlePreview = useCallback((card: Collaborator) => {
       setFormData(card);
       setEditId(card.id ?? null);
       setModalStep(3);
-   };
+   }, []);
 
    return (
       <>
@@ -71,38 +69,22 @@ export function Requests() {
          )}
 
          <CardsItem cards={nData} onPreview={handlePreview} />
-         <Paginations
-            setcurrentPage={setcurrentPage}
-            currentPage={currentPage}
-            nPages={nPages}
-         />
-         <TransitionsModal
-            open={modalStep === 1}
-            onClose={handleCloseAllModals}
-         >
-            <NewRequest
-               handleNextModal={handleNextModal}
-               handleData={handleData}
-            />
+         <Paginations setcurrentPage={setcurrentPage} currentPage={currentPage} nPages={nPages} />
+
+         <TransitionsModal open={modalStep === 1} onClose={handleCloseAllModals}>
+            {modalStep === 1 && (
+               <NewRequest handleNextModal={handleNextModal} handleData={(data) => handleData(data, editId)} />
+            )}
          </TransitionsModal>
 
-         <TransitionsModal
-            open={modalStep === 2}
-            onClose={handleCloseAllModals}
-            width={480}
-         >
+         <TransitionsModal open={modalStep === 2} onClose={handleCloseAllModals} width={480}>
             <SuccessfulSending onClose={handleCloseAllModals} />
          </TransitionsModal>
 
-         <TransitionsModal
-            open={modalStep === 3}
-            onClose={handleCloseAllModals}
-         >
-            <PreviewRequest
-               {...formData}
-               onClose={handleCloseAllModals}
-               setCards={setCards}
-            />
+         <TransitionsModal open={modalStep === 3} onClose={handleCloseAllModals}>
+            {formData && (
+               <PreviewRequest {...formData} onClose={handleCloseAllModals} setCards={setCards} />
+            )}
          </TransitionsModal>
       </>
    );

@@ -1,95 +1,98 @@
+import { useState, useRef } from "react";
 import { Grid, Typography, Button } from "@mui/material";
-import "./styles/forms.style.css";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormValues, schema } from "./validations/schema-new-request";
 import { RHFSelect, RHFInput } from "./components/custom-inputs";
-import { Collaborator } from "../../interface/request-items.model";
-import { createColaboradorService } from "../../components/table/service/request-service";
-import { CollaboratorPost } from "../../interface/request-items.model";
+import { useCreateColaboradorServiceMutation } from "../../../../../redux/services/request/request-api";
 import { useAreas } from "../../hooks/useAreas";
-import { useState } from "react";
 
 interface PropsNextModal {
    handleNextModal: () => void;
-   handleData: (data: Collaborator) => void;
+   handleData: (data: any) => void;
 }
 
-const initialFormState: CollaboratorPost = {
-   colaboradorLiderId: 0,
-   puestoId: 0,
-   cantidad: 0,
-   habilidadesBlandas: "",
-   conocimientosTecnicos: "",
-   tipoModalidad: "",
-   observaciones: "",
-};
-
 export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
-   const {
-      control,
-      handleSubmit,
-      reset,
-      formState: { errors },
-   } = useForm<FormValues>({
+   const renderCount = useRef(0);
+   renderCount.current += 1;
+   console.log(`Render #${renderCount.current} del componente NewRequest`);
+
+   const [createRequest, { isLoading, error }] = useCreateColaboradorServiceMutation();
+
+   const { control, handleSubmit, reset, formState: { errors } } = useForm<FormValues>({
       mode: "onSubmit",
       resolver: zodResolver(schema),
       defaultValues: {},
    });
 
    const { position, collaboratorModality } = useAreas();
-   const [selectedArea, setSelectedArea] = useState<string | number>("0");
-   const [selectedModalidad, setSelectedModalidad] = useState<string | number>("0");
-   const [formValues, setFormValues] = useState<CollaboratorPost>(initialFormState);
+   
+   const selectedArea = useRef<string | number>("0");
+   const selectedModalidad = useRef<string | number>("0");
 
-   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-      const newCollaborator: CollaboratorPost = {
+   const handleChangeArea = (value: string | number) => {
+      console.log("Cambió el área:", value);
+      selectedArea.current = value;
+   };
+
+   const handleChangeModalidad = (value: string | number) => {
+      console.log("Cambió la modalidad:", value);
+      selectedModalidad.current = value;
+   };
+
+   const onSubmit = async (data: FormValues) => {
+      console.log("Enviando formulario...");
+   
+      if (selectedArea.current === "0") {
+         console.error("No se ha seleccionado un puesto.");
+         return;
+      }
+      if (selectedModalidad.current === "0") {
+         console.error("No se ha seleccionado un tipo de modalidad.");
+         return;
+      }
+   
+      const newCollaborator = {
          colaboradorLiderId: 1,
-         puestoId: data.puestoId,
-         cantidad: data.cantidad,
-         habilidadesBlandas: data.habilidadesBlandas,
-         conocimientosTecnicos: data.conocimientosTecnicos,
-         tipoModalidad: data.tipoModalidad,
+         puestoId: Number(selectedArea.current),
+         cantidad: data.cantidad || 0,
+         habilidadesBlandas: data.habilidadesBlandas || "",
+         conocimientosTecnicos: data.conocimientosTecnicos || "",
+         tipoModalidad: String(selectedModalidad.current),
          observaciones: data.observaciones || "",
+         beneficios: data.beneficios || "",
       };
-
+   
+      console.log("Datos preparados para enviar:", newCollaborator);
+   
       try {
-         const response = await createColaboradorService(newCollaborator);
-         console.log("Solicitud enviada exitosamente:", response);
+         console.log("Enviando solicitud a la API...");
+         const response = await createRequest(newCollaborator).unwrap();
+   
+         console.log("Solicitud enviada correctamente:", response);
          handleData(response);
          reset();
          handleNextModal();
       } catch (error) {
-         console.error("Error al enviar la solicitud:", error);
+         console.error("Error en la solicitud:", error);
       }
    };
-
-   const handleClear = () => {
-      reset();
-   };
+   
 
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <Grid container spacing={3}>
             <Grid item xs={12}>
-               <Typography
-                  id="transition-modal-title"
-                  variant="h5"
-                  component="h2"
-                  marginBottom={2}
-                  fontWeight="bold"
-               >
-                  Nueva Solicitud
-               </Typography>
+               <Typography variant="h5" fontWeight="bold">Nueva Solicitud</Typography>
             </Grid>
 
-            <Grid item xs={12} sm={12}>
+            <Grid item xs={12}>
                <RHFSelect
                   control={control}
                   name="area"
                   label="Nombre del puesto"
                   options={position}
-                  handleChange={(value) => setSelectedArea(value)}
+                  handleChange={handleChangeArea}
                   error={errors.area}
                />
             </Grid>
@@ -112,7 +115,7 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                   name="tipoModalidad"
                   label="Tipo de Modalidad"
                   options={collaboratorModality.map((mod, index) => ({ id: index, nombre: mod }))}
-                  handleChange={(value) => setSelectedModalidad(value)}
+                  handleChange={handleChangeModalidad}
                   error={errors.tipoModalidad}
                />
             </Grid>
@@ -143,19 +146,21 @@ export function NewRequest({ handleNextModal, handleData }: PropsNextModal) {
                      type="submit"
                      variant="contained"
                      sx={{ color: "white", paddingInline: "15px" }}
+                     disabled={isLoading}
                   >
-                     Solicitar
+                     {isLoading ? "Enviando..." : "Solicitar"}
                   </Button>
+
                   <Button
                      sx={{ paddingInline: "15px" }}
                      variant="text"
-                     onClick={handleClear}
+                     onClick={() => reset()}
                   >
                      Limpiar
                   </Button>
                </footer>
+               {error && <Typography color="error">Error al enviar la solicitud</Typography>}
             </Grid>
-
          </Grid>
       </form>
    );

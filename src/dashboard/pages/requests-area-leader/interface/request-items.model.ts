@@ -9,6 +9,7 @@ export interface CollaboratorPost {
    conocimientosTecnicos: string;
    tipoModalidad: string;
    observaciones: string;
+   beneficios: string;
 }
 
 export interface CollaboratorGet {

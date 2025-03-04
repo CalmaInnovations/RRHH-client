@@ -1,24 +1,46 @@
 import clientAxios from "../../../../../../config/client-axios";
-import { Collaborator } from "../../../interface/request-items.model";
+import { CollaboratorPost } from "../../../interface/request-items.model";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const createColaboradorService = async (values: Collaborator) => {
+export const createColaboradorService = async (values: CollaboratorPost) => {
    try {
       const response = await clientAxios.post(
          "/api/SolicitudColaborador",
-         values, 
+         JSON.stringify(values),
          {
             headers: {
-               "Content-Type": "application/json", 
-            }
+               "Content-Type": "application/json",
+            },
          }
       );
-      console.log("Envio de solicitud exitoso:", response.data);
+      console.log("Envío de solicitud exitoso:", response.data);
       return response.data;
    } catch (error) {
-      console.error("Error en envio de solicitud:", error);
+      console.error("Error en envío de solicitud:", error);
       throw error;
    }
 };
+
+export const CreateCollaborator = createApi({
+   reducerPath: "apiCreateCollaborator",
+   baseQuery: fetchBaseQuery({
+      baseUrl: "http://localhost:8080",
+   }),
+   endpoints: (builder) => ({
+      getSolicitudCollaborators: builder.query<CollaboratorPost[], void>({
+         query: () => "/api/SolicitudColaborador",
+      }),
+      postSolicitudCollaborator: builder.mutation<CollaboratorPost, Partial<CollaboratorPost>>({
+         query: (newRequest) => ({
+            url: "/api/SolicitudColaborador",
+            method: "POST",
+            body: newRequest,
+         }),
+      }),
+   }),
+});
+
+export const { useGetSolicitudCollaboratorsQuery, usePostSolicitudCollaboratorMutation } = CreateCollaborator;
 
 export const getCollaborator = async () => {
    try {
@@ -38,7 +60,7 @@ export const getArea = async () => {
       console.log("Error:", error);
    }
 };
-
+/*
 export const getSubArea = async () => {
    try {
       const response = await clientAxios.get("/api/SubArea");
@@ -47,7 +69,7 @@ export const getSubArea = async () => {
       console.log("Error:", error);
    }
 };
-
+*/
 export const getPosition = async () => {
    try {
       const response = await clientAxios.get("/api/Puesto");

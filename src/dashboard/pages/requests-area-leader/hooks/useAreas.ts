@@ -3,15 +3,15 @@ import { useEffect, useState } from "react";
 import {
    getArea,
    getPosition,
-   getSubArea,
+   //getSubArea,
    getCollaboratorModality,
 } from "../components/table/service/request-service";
 
 export const useAreas = () => {
    const [areas, setAreas] = useState([]);
-   const [subAreas, setsubAreas] = useState([]);
+   //const [subAreas, setsubAreas] = useState([]);
    const [position, setPosition] = useState([]);
-   const [collaboratorModality, setCollaboratorModality] = useState<string[]>([]);
+   const [collaboratorModality, setCollaboratorModality] = useState([]); //<string[]>
    const [Loading, setLoading] = useState(false);
 
    const fetchAreas = async () => {
@@ -29,7 +29,7 @@ export const useAreas = () => {
    useEffect(() => {
       fetchAreas();
    }, []);
-
+/*
    const fetchSubAreas = async () => {
       try {
          setLoading(true);
@@ -45,7 +45,7 @@ export const useAreas = () => {
    useEffect(() => {
       fetchSubAreas();
    }, []);
-
+*/
    const fetchPosition = async () => {
       try {
          setLoading(true);
@@ -78,5 +78,5 @@ export const useAreas = () => {
       fetchCollaboratorModality();
    }, []);
 
-   return { areas, subAreas, position, collaboratorModality, Loading };
+   return { areas, position, collaboratorModality, Loading };
 };
