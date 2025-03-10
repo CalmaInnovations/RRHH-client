@@ -1,4 +1,4 @@
-@import "tailwindcss";
+/* @import "tailwindcss";
 
 
 @theme {
@@ -6,7 +6,7 @@
   --font-sans: "Poppins", sans-serif;
 
 
-  --color-primary: #5BC1E6;
+  --color-primary: #35B1F6;
   --color-secondary: #2E384D;
   --color-secondary-dark:#252E41;
   --color-bg: #F5F7FF;
@@ -21,4 +21,96 @@
 
 body {
   font-family: var(--font-sans);
+} */
+
+
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap');
+
+@theme {
+  --font-sans: "Poppins", sans-serif;
+  --font-heading: "Lato", sans-serif;
+
+
+  --font-size-body: 12px;
+  --font-size-small: 12px;
+  
+  
+  --color-primary: #35B1F6;
+  --color-secondary: #2E384D;
+  --color-secondary-dark:#252E41;
+  --color-bg: #F5F7FF;
+  --color-grey: #9EA5B0;
+  --color-grey-light: #CBD5E1;
+  --color-light: #FFFFFF;
+  --color-dark: #202021;
+  --color-grey-blue: #3C4A63;
+  --color-hover-grey:#F3F6F9;
+  --color-grey-dark-ligth : #7E8299;
+  --color-heading-primary: #002D72;
+  --color-heading-secondary: #53565A;
+
+  --color-button-primary: #002D72;
+  --color-button-hover: #2A5BA7;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
+  line-height: 1.5;
+}
+
+h1 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 25px;
+  color: var(--color-heading-primary);
+}
+
+h2 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--color-heading-primary);
+}
+
+h3 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-heading-secondary);
+}
+
+/* Body Text Styles */
+.text-bold {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: var(--font-size-body);
+  color: var(--color-text-grey);
+}
+
+.text-regular {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--font-size-body);
+}
+
+.text-light {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--font-size-small);
+}
+
+/* Button Styles */
+.btn-primary {
+  background-color: var(--color-button-primary);
+  color: var(--color-light);
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-button-hover);
 }
