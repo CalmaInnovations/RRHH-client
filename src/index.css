@@ -21,6 +21,10 @@
    --color-grey-dark-ligth: #7e8299;
    --color-heading-primary: #002d72;
    --color-heading-secondary: #53565a;
+   --color-heading-tertiary: #0f0f0f;
+   --color-heading-fourth: #727272;
+   --color-button-primary: #002d72;
+   --color-button-hover: #2a5ba7;
 
    --color-backg-warning: #fff4de;
    --color-tx-warning: #ffa84e;
@@ -49,18 +53,27 @@ h1 {
 h2 {
    font-family: var(--font-heading);
    font-weight: 700;
-   font-size: 18px;
-   color: var(--color-heading-primary);
+   font-size: 22px;
+   color: var(--color-heading-secondary);
+   line-height: 1.3;
 }
 
 h3 {
    font-family: var(--font-heading);
    font-weight: 700;
-   font-size: 14px;
-   color: var(--color-heading-secondary);
+   font-size: 18px;
+   color: var(--color-heading-tertiary);
+   line-height: 1.4;
+   margin-bottom: 0.5rem;
 }
 
-/* Body Text Styles */
+h4 {
+   font-family: var(--font-heading);
+   font-weight: 700;
+   font-size: 16px;
+   color: var(--color-heading-fourth);
+}
+
 .text-bold {
    font-family: var(--font-body);
    font-weight: 700;
@@ -80,7 +93,6 @@ h3 {
    font-size: var(--font-size-small);
 }
 
-/* Button Styles */
 .btn-primary {
    background-color: var(--color-button-primary);
    color: var(--color-light);
