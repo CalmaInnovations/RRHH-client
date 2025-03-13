@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { environment } from '../../../../config/Environments';
-import { CallRes, RecruiterAvailableRes } from '../interfaces/calls-interfaces';
+import { CallDetail, CallRes, RecruiterAvailableRes } from '../interfaces/calls-interfaces';
 
 
 export const callsApi = createApi({
@@ -21,10 +21,18 @@ export const callsApi = createApi({
          }),
       }),
 
+      getConvocatoriaById: builder.query<CallDetail, number>({
+         query: (idConvocatoria) => ({
+            url: `api/Convocatoria/${idConvocatoria}`,
+            method: "GET",
+         }),
+      }),
+
    }),
  })
 
  export const {
     useGetReclutadoresAvbQuery,
-    useGetConvocatoriasQuery
+    useGetConvocatoriasQuery,
+    useGetConvocatoriaByIdQuery
  } = callsApi;

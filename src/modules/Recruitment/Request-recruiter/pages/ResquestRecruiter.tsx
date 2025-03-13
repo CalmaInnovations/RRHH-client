@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ItemRequestRct from "../components/ItemRequestRct";
 import Pagination from "../../../../shared/components/Pagination";
 import { useGetSolicitudesRctQuery } from "../services/requestRct-api";

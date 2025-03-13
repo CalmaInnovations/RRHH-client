@@ -6,7 +6,6 @@ export interface SolicitudesRes {
     registros: number;
  }
 
-
  export interface Solicitudes {
     id: number;
     colaborador: string;
@@ -19,7 +18,6 @@ export interface SolicitudesRes {
     fechaActualizacion: string;
     observaciones: string;
     estado: string;
-
  }
 
  export interface RequestUpdateValues {
