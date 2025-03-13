@@ -21,14 +21,38 @@ export interface RecruiterAvailableRes {
 export interface CallDetail {
    idConvocatoria: number;
    nombreArea: string;
+   nombrePuesto?: string;
    reclutador: string;
-   fechaSolicitud: string;
+   fechaSolicitud?: string;
    tipo_reclutador: string;
    modalidad: string;
    cantidadSolicitada: number;
    cantidadRestante: number;
    estadoSolicitud: string;
-   observaciones: string;
+   observaciones?: string;
    fechaActualizacion: string;
    fechaPublicacion: string;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//kanban
+
+

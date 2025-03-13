@@ -2,11 +2,11 @@
 
 
 @theme {
-
   --font-sans: "Poppins", sans-serif;
 
 
   --color-primary: #5BC1E6;
+  --color-primary-bg: #E1F0FF;
   --color-secondary: #2E384D;
   --color-secondary-dark:#252E41;
   --color-bg: #F5F7FF;
@@ -17,8 +17,14 @@
   --color-grey-blue: #3C4A63;
   --color-hover-grey:#F3F6F9;
   --color-grey-dark-ligth : #7E8299;
+
+  --color-backg-warning :#FFF4DE;
+  --color-tx-warning: #FFA84E;
+
+  --color-drop-border:#F0F0F0
 }
 
 body {
   font-family: var(--font-sans);
 }
+

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import ItemCall from "../components/ItemCall";
 import { useGetConvocatoriasQuery } from "../services/calls-api";
 import Pagination from "../../../../shared/components/Pagination";
