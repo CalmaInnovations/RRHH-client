@@ -86,7 +86,7 @@ const Sidebar: React.FC<{
                               }`
                            }
                         >
-                           - Solicitudes
+                           Solicitudes
                         </NavLink>
                      </li>
                      <li>
@@ -98,7 +98,7 @@ const Sidebar: React.FC<{
                               }`
                            }
                         >
-                           - Convocatorias
+                           Convocatorias
                         </NavLink>
                      </li>
                   </ul>
