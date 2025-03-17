@@ -20,6 +20,8 @@ const Sidebar: React.FC<{
 
    return (
       <div
+         role="navigation"
+         aria-label="Sidebar"
          className={`fixed left-0 top-0 h-screen ${
             isCollapsed ? "w-16" : "w-64"
          } bg-secondary text-white p-2 flex flex-col transition-all duration-300`}
@@ -27,121 +29,150 @@ const Sidebar: React.FC<{
          {/* Logo y botón de minimizar */}
          <div className="flex justify-between items-center my-5">
             {!isCollapsed && (
-               <img src={logo} alt="logo" className="w-24 ml-4" />
+               <img src={logo} alt="Logo" className="w-24 ml-4" />
             )}
 
             <FaAnglesLeft
-               className={`size-5 text-grey-light cursor-pointer transform transition-transform duration-300 hover:scale-110
-            ${isCollapsed ? "mx-auto rotate-180" : "ml-auto mr-3 rotate-0"}`}
+               role="button"
+               aria-label={isCollapsed ? "Expandir menú" : "Colapsar menú"}
+               tabIndex={0}
+               className={`size-5 text-grey-light cursor-pointer transform transition-transform duration-300 hover:scale-110 ${
+                  isCollapsed ? "mx-auto rotate-180" : "ml-auto mr-3 rotate-0"
+               }`}
                onClick={() => setIsCollapsed(!isCollapsed)}
+               onKeyPress={(e) => {
+                  if (e.key === "Enter") setIsCollapsed(!isCollapsed);
+               }}
             />
          </div>
 
          {/* Menú Principal */}
-         <ul className="flex-1 mt-5">
-            {/* Menú con subMenus*/}
-            <li className="mb-2">
-               <div
-                  className={`flex items-center p-2 cursor-pointer rounded transition-colors duration-300
-            ${isCollapsed ? "justify-center" : "justify-start"}
-            ${
-               isRecruitmentOpen
-                  ? "bg-secondary-dark text-light"
-                  : "hover:bg-secondary-dark text-grey-light hover:text-light"
-            }`}
-                  onClick={handleRecruitmentClick}
-               >
-                  <MdPersonSearch
-                     className={`size-6 ${
-                        isRecruitmentOpen ? "text-primary" : "text-grey-light"
-                     } `}
-                  />
-                  {!isCollapsed && (
-                     <>
-                        <span className="ml-2 text-sm">Reclutamiento</span>
-                        <FaAngleRight
-                           className={`ml-auto size-4 transition-transform duration-300 mr-1 ${
-                              isRecruitmentOpen ? "rotate-90" : "rotate-0"
-                           }`}
-                        />
-                     </>
-                  )}
-               </div>
-
-               {/* Submenú con transición suave */}
-               <div
-                  className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                     isRecruitmentOpen && !isCollapsed
-                        ? "max-h-40 opacity-100 bg-secondary-dark"
-                        : "max-h-0 opacity-0"
-                  }`}
-               >
-                  <ul className="pl-8 my-4 space-y-6">
-                     <li>
-                        <NavLink
-                           to="/requests-recruiter/list-request-recruiter"
-                           className={({ isActive }) =>
-                              `block text-sm hover:text-light ${
-                                 isActive ? "text-primary" : "text-grey-light"
-                              }`
-                           }
-                        >
-                           Solicitudes
-                        </NavLink>
-                     </li>
-                     <li>
-                        <NavLink
-                           to="/call/list-calls"
-                           className={({ isActive }) =>
-                              `block text-sm hover:text-light ${
-                                 isActive ? "text-primary" : "text-grey-light"
-                              }`
-                           }
-                        >
-                           Convocatorias
-                        </NavLink>
-                     </li>
-                  </ul>
-               </div>
-            </li>
-
-            {/* Menú */}
-            <li className="mb-2">
-               <NavLink
-                  to="/requests-leader/list-request-leader"
-                  className={({ isActive }) =>
-                     `flex items-center p-2 rounded transition-colors duration-300 hover:bg-secondary-dark hover:text-light ${
-                        isActive
+         <nav className="flex-1 mt-5">
+            <ul>
+               {/* Menú con submenú */}
+               <li className="mb-2">
+                  <div
+                     role="button"
+                     tabIndex={0}
+                     aria-expanded={isRecruitmentOpen}
+                     title={isCollapsed ? "Reclutamiento" : ""}
+                     className={`flex items-center p-2 cursor-pointer rounded transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary ${
+                        isCollapsed ? "justify-center" : "justify-start"
+                     } ${
+                        isRecruitmentOpen
                            ? "bg-secondary-dark text-light"
-                           : "text-grey-light"
-                     } ${isCollapsed ? "justify-center" : "justify-start"}`
-                  }
-               >
-                  {({ isActive }) => (
-                     <>
-                        <FaUserPlus
-                           className={`size-6 ${
-                              isActive ? "text-primary" : "text-grey-light"
-                           }`}
-                        />
-                        {!isCollapsed && (
-                           <span className="ml-2 text-sm">
-                              Solicitar Colaborador
-                           </span>
-                        )}
-                     </>
-                  )}
-               </NavLink>
-            </li>
-         </ul>
+                           : "hover:bg-secondary-dark text-grey-light hover:text-light"
+                     }`}
+                     onClick={handleRecruitmentClick}
+                     onKeyDown={(e) => {
+                        if (e.key === "Enter") handleRecruitmentClick();
+                     }}
+                  >
+                     <MdPersonSearch
+                        className={`size-6 ${
+                           isRecruitmentOpen
+                              ? "text-primary"
+                              : "text-grey-light"
+                        }`}
+                     />
+                     {!isCollapsed && (
+                        <>
+                           <span className="ml-2 text-sm">Reclutamiento</span>
+                           <FaAngleRight
+                              className={`ml-auto size-4 transition-transform duration-300 mr-1 ${
+                                 isRecruitmentOpen ? "rotate-90" : "rotate-0"
+                              }`}
+                           />
+                        </>
+                     )}
+                  </div>
+
+                  {/* Submenú con transición suave */}
+                  <div
+                     className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                        isRecruitmentOpen && !isCollapsed
+                           ? "max-h-40 opacity-100 bg-secondary-dark"
+                           : "max-h-0 opacity-0"
+                     }`}
+                  >
+                     <ul className="pl-8 my-4 space-y-6">
+                        <li>
+                           <NavLink
+                              to="/requests-recruiter/list-request-recruiter"
+                              className={({ isActive }) =>
+                                 `block text-sm hover:text-light ${
+                                    isActive
+                                       ? "text-primary"
+                                       : "text-grey-light"
+                                 }`
+                              }
+                              title={isCollapsed ? "Solicitudes" : ""}
+                           >
+                              Solicitudes
+                           </NavLink>
+                        </li>
+                        <li>
+                           <NavLink
+                              to="/call/list-calls"
+                              className={({ isActive }) =>
+                                 `block text-sm hover:text-light ${
+                                    isActive
+                                       ? "text-primary"
+                                       : "text-grey-light"
+                                 }`
+                              }
+                              title={isCollapsed ? "Convocatorias" : ""}
+                           >
+                              Convocatorias
+                           </NavLink>
+                        </li>
+                     </ul>
+                  </div>
+               </li>
+
+               {/* Menú sin submenú */}
+               <li className="mb-2">
+                  <NavLink
+                     to="/requests-leader/list-request-leader"
+                     className={({ isActive }) =>
+                        `flex items-center p-2 rounded transition-colors duration-300 hover:bg-secondary-dark hover:text-light ${
+                           isActive
+                              ? "bg-secondary-dark text-light"
+                              : "text-grey-light"
+                        } ${isCollapsed ? "justify-center" : "justify-start"}`
+                     }
+                     title={isCollapsed ? "Solicitar Colaborador" : ""}
+                  >
+                     {({ isActive }) => (
+                        <>
+                           <FaUserPlus
+                              className={`size-6 ${
+                                 isActive ? "text-primary" : "text-grey-light"
+                              }`}
+                           />
+                           {!isCollapsed && (
+                              <span className="ml-2 text-sm">
+                                 Solicitar Colaborador
+                              </span>
+                           )}
+                        </>
+                     )}
+                  </NavLink>
+               </li>
+            </ul>
+         </nav>
 
          {/* Configuración y Cerrar Sesión en la parte inferior */}
          <ul className="mt-auto">
             <li className="mb-2">
                <a
                   href="#"
-                  className={`flex items-center p-3 bg-grey-blue hover:bg-secondary rounded-md
-              ${isCollapsed ? "justify-center" : "justify-start"}`}
+                  role="button"
+                  tabIndex={0}
+                  title={isCollapsed ? "Configuración" : ""}
+                  className={`flex items-center p-3 bg-grey-blue hover:bg-secondary rounded-md focus:outline-none focus:ring-2 focus:ring-primary ${
+                     isCollapsed ? "justify-center" : "justify-start"
+                  }`}
                >
                   <IoMdSettings className="size-6 text-primary" />
                   {!isCollapsed && (
@@ -152,8 +183,12 @@ const Sidebar: React.FC<{
             <li>
                <a
                   href="#"
-                  className={`flex items-center p-3 bg-grey-blue hover:bg-secondary rounded-md
-              ${isCollapsed ? "justify-center" : "justify-start"}`}
+                  role="button"
+                  tabIndex={0}
+                  title={isCollapsed ? "Cerrar Sesión" : ""}
+                  className={`flex items-center p-3 bg-grey-blue hover:bg-secondary rounded-md focus:outline-none focus:ring-2 focus:ring-primary ${
+                     isCollapsed ? "justify-center" : "justify-start"
+                  }`}
                >
                   <IoIosLogOut className="size-6 text-primary" />
                   {!isCollapsed && (

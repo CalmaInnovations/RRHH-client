@@ -16,7 +16,6 @@ const ItemCall = ({ call }: ItemProps) => {
                <TbPointFilled className="size-5 text-heading-fourth" />
                <h4>{call?.estadoSolicitud}</h4>
             </div>
-
             {/* Title Section */}
             <div className="mt-3">
                <h1>Nombre del Puesto</h1>
