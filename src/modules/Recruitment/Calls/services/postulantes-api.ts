@@ -63,7 +63,15 @@ export const postulantesApi = createApi({
          invalidatesTags: ["Postulantes"],
       }),
 
+      deletePostulante: builder.mutation<void, number>({
+         query: (id) => ({
+            url: `api/Postulante/${id}`,
+            method: "DELETE",
+         }),
+         invalidatesTags: ["Postulantes"],
+      }),
+
    }),
 });
 
-export const { useGetPostulantesQuery, useCreatePostulanteMutation, useUpdatePostulanteEstadoMutation, useGetPostulanteByIdQuery ,useUpdatePostulanteMutation} = postulantesApi;
+export const { useGetPostulantesQuery, useCreatePostulanteMutation, useUpdatePostulanteEstadoMutation, useGetPostulanteByIdQuery ,useUpdatePostulanteMutation,useDeletePostulanteMutation} = postulantesApi;

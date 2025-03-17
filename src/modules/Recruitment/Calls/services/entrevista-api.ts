@@ -43,7 +43,7 @@ export const entrevistasApi = createApi({
          query: ({ id, data }) => ({
             url: `api/Entrevista/${id}`,
             method: "PUT",
-            body: data,
+            body: data,// data q tenemos q enviar
             headers: {
                "Content-Type": "application/json",
             },
@@ -51,14 +51,10 @@ export const entrevistasApi = createApi({
          invalidatesTags: ["Entrevistas"],
       }),
 
-      updateResultadoEntrevista: builder.mutation<void,{ id: number; resultado: boolean }>({
-         query: ({ id, resultado }) => ({
-            url: `api/Entrevista/${id}/resultado`,
-            method: "PATCH",
-            body: resultado, // solo enviamos true o false
-            headers: {
-               "Content-Type": "application/json",
-            },
+      deleteEntrevista: builder.mutation<void, number>({
+         query: (id) => ({
+            url: `api/Entrevista/${id}`,
+            method: "DELETE",
          }),
          invalidatesTags: ["Entrevistas"],
       }),
@@ -68,4 +64,4 @@ export const entrevistasApi = createApi({
    }),
 });
 
-export const { useCreateEntrevistaMutation, useGetEntrevistasQuery, useGetEntrevistaByIdQuery, useUpdateEntrevistaMutation ,useUpdateResultadoEntrevistaMutation } = entrevistasApi;
+export const { useCreateEntrevistaMutation, useGetEntrevistasQuery, useGetEntrevistaByIdQuery, useUpdateEntrevistaMutation,useDeleteEntrevistaMutation } = entrevistasApi;

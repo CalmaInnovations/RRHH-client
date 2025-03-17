@@ -21,7 +21,9 @@
   --color-backg-warning :#FFF4DE;
   --color-tx-warning: #FFA84E;
 
-  --color-drop-border:#F0F0F0
+  --color-drop-border:#F0F0F0;
+
+  --color-danger:#F64E60;
 }
 
 body {

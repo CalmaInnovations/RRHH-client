@@ -58,7 +58,6 @@ const ModalEntrevista: React.FC<ModalEditPostulanteProps> = ({
          isOpen={true}
          onClose={() => dispatch(closeModalKanban())}
       >
-         {postulanteId}
          <div className="flex flex-col gap-5">
             <div className="flex gap-5">
                <Input
