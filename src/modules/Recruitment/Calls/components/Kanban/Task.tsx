@@ -131,17 +131,21 @@ const Task: React.FC<TaskProps> = ({ task, columnId }) => {
                                  ? "Editar Entrevista"
                                  : "Agregar Entrevista"}
                            </h1>
-                           <h1
-                              className="p-2 text-sm cursor-pointer hover:bg-hover-grey text-dark"
-                              onMouseDown={(e) =>
-                                 handleOpenModalDeleted(
-                                    e,
-                                    "eliminar_entrevista"
-                                 )
-                              }
-                           >
-                              Eliminar Entrevista
-                           </h1>
+                           {entrevistasPostulante?.length ? (
+                              <h1
+                                 className="p-2 text-sm cursor-pointer hover:bg-hover-grey text-dark"
+                                 onMouseDown={(e) =>
+                                    handleOpenModalDeleted(
+                                       e,
+                                       "eliminar_entrevista"
+                                    )
+                                 }
+                              >
+                                 Eliminar Entrevista
+                              </h1>
+                           ) : (
+                              <></>
+                           )}
                         </>
                      )}
 
