@@ -1,72 +1,128 @@
-import React, { useState } from "react";
-import { FaAnglesLeft, FaUserPlus, FaAngleRight } from "react-icons/fa6";
+import React, { useState, useEffect } from "react";
+import { FaUserPlus, FaAngleRight } from "react-icons/fa6";
 import { MdPersonSearch } from "react-icons/md";
 import { IoMdSettings, IoIosLogOut } from "react-icons/io";
 import logo from "../../assets/images/logo-calma.png";
 import { NavLink } from "react-router-dom";
 
-const Sidebar: React.FC<{
+// Componente para el icono de cerrar moderno (X)
+const CloseIcon = () => (
+   <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-5 h-5"
+   >
+      <path
+         d="M1 1L15 15"
+         stroke="currentColor"
+         strokeWidth="2"
+         strokeLinecap="round"
+         strokeLinejoin="round"
+      />
+      <path
+         d="M15 1L1 15"
+         stroke="currentColor"
+         strokeWidth="2"
+         strokeLinecap="round"
+         strokeLinejoin="round"
+      />
+   </svg>
+);
+
+interface SidebarProps {
    isCollapsed: boolean;
    setIsCollapsed: (value: boolean) => void;
-}> = ({ isCollapsed, setIsCollapsed }) => {
+   isMobileOpen: boolean;
+   closeSidebarMobile: () => void;
+   manualOverride: boolean;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({
+   isCollapsed,
+   setIsCollapsed,
+   isMobileOpen,
+   closeSidebarMobile,
+   manualOverride,
+}) => {
    const [isRecruitmentOpen, setIsRecruitmentOpen] = useState(false);
 
-   const handleRecruitmentClick = () => {
-      if (isCollapsed) {
+   useEffect(() => {
+      if (!isMobileOpen) {
+         setIsRecruitmentOpen(false);
+      }
+   }, [isMobileOpen]);
+
+   // Solo se activan los eventos de hover si NO hay override manual
+   const handleMouseEnter = () => {
+      if (window.innerWidth >= 768 && !manualOverride) {
          setIsCollapsed(false);
       }
-      setIsRecruitmentOpen(!isRecruitmentOpen);
+   };
+   const handleMouseLeave = () => {
+      if (window.innerWidth >= 768 && !manualOverride) {
+         setIsCollapsed(true);
+      }
+   };
+
+   const handleRecruitmentClick = () => {
+      setIsRecruitmentOpen((prev) => !prev);
    };
 
    return (
-      <div
-         role="navigation"
-         aria-label="Sidebar"
-         className={`fixed left-0 top-0 h-screen ${
-            isCollapsed ? "w-16" : "w-64"
-         } bg-secondary text-white p-2 flex flex-col transition-all duration-300`}
-      >
-         {/* Logo y botón de minimizar */}
-         <div className="flex justify-between items-center my-5">
-            {!isCollapsed && (
-               <img src={logo} alt="Logo" className="w-24 ml-4" />
-            )}
+      <>
+         {/* Overlay para móvil */}
+         {isMobileOpen && (
+            <div
+               className="fixed inset-0 bg-black/50 md:hidden z-40"
+               onClick={closeSidebarMobile}
+            ></div>
+         )}
 
-            <FaAnglesLeft
-               role="button"
-               aria-label={isCollapsed ? "Expandir menú" : "Colapsar menú"}
-               tabIndex={0}
-               className={`size-5 text-grey-light cursor-pointer transform transition-transform duration-300 hover:scale-110 ${
-                  isCollapsed ? "mx-auto rotate-180" : "ml-auto mr-3 rotate-0"
-               }`}
-               onClick={() => setIsCollapsed(!isCollapsed)}
-               onKeyPress={(e) => {
-                  if (e.key === "Enter") setIsCollapsed(!isCollapsed);
-               }}
-            />
-         </div>
+         <div
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className={`
+           fixed left-0 top-0 h-screen z-50 bg-secondary text-white p-2 flex flex-col transition-all duration-300
+           ${isMobileOpen ? "w-64 translate-x-0" : "w-64 -translate-x-full"}
+           ${
+              !isMobileOpen && (isCollapsed ? "md:w-16" : "md:w-64")
+           } md:translate-x-0
+         `}
+         >
+            {/* Encabezado: botón de cerrar y logo */}
+            <div className="my-5 flex items-center gap-4 px-2">
+               {isMobileOpen && (
+                  <button
+                     className="flex items-center justify-center w-10 h-10 text-grey-light  bg-transparent dark:lg:bg-transparent bg-gray-100 hover:bg-secondary-dark rounded-lg z-[9999] lg:h-11 lg:w-11"
+                     onClick={closeSidebarMobile}
+                     aria-label="Close Sidebar"
+                  >
+                     <CloseIcon />
+                  </button>
+               )}
+               {(!isCollapsed || isMobileOpen) && (
+                  <img src={logo} alt="logo" className="w-24" />
+               )}
+            </div>
 
-         {/* Menú Principal */}
-         <nav className="flex-1 mt-5">
-            <ul>
-               {/* Menú con submenú */}
+            {/* Menú Principal */}
+            <ul className="flex-1 mt-5">
+               {/* Ítem con submenú: Reclutamiento */}
                <li className="mb-2">
                   <div
-                     role="button"
-                     tabIndex={0}
-                     aria-expanded={isRecruitmentOpen}
-                     title={isCollapsed ? "Reclutamiento" : ""}
-                     className={`flex items-center p-2 cursor-pointer rounded transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary ${
-                        isCollapsed ? "justify-center" : "justify-start"
-                     } ${
-                        isRecruitmentOpen
-                           ? "bg-secondary-dark text-light"
-                           : "hover:bg-secondary-dark text-grey-light hover:text-light"
-                     }`}
+                     className={`
+                 flex items-center p-2 cursor-pointer rounded transition-colors duration-300
+                 ${isCollapsed ? "justify-center" : "justify-start"}
+                 ${
+                    isRecruitmentOpen
+                       ? "bg-secondary-dark text-light"
+                       : "hover:bg-secondary-dark text-grey-light hover:text-light"
+                 }
+               `}
                      onClick={handleRecruitmentClick}
-                     onKeyDown={(e) => {
-                        if (e.key === "Enter") handleRecruitmentClick();
-                     }}
                   >
                      <MdPersonSearch
                         className={`size-6 ${
@@ -79,21 +135,25 @@ const Sidebar: React.FC<{
                         <>
                            <span className="ml-2 text-sm">Reclutamiento</span>
                            <FaAngleRight
-                              className={`ml-auto size-4 transition-transform duration-300 mr-1 ${
-                                 isRecruitmentOpen ? "rotate-90" : "rotate-0"
-                              }`}
+                              className={`
+                       ml-auto size-4 transition-transform duration-300 mr-1
+                       ${isRecruitmentOpen ? "rotate-90" : "rotate-0"}
+                     `}
                            />
                         </>
                      )}
                   </div>
 
-                  {/* Submenú con transición suave */}
+                  {/* Submenú */}
                   <div
-                     className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                        isRecruitmentOpen && !isCollapsed
-                           ? "max-h-40 opacity-100 bg-secondary-dark"
-                           : "max-h-0 opacity-0"
-                     }`}
+                     className={`
+                 overflow-hidden transition-all duration-500 ease-in-out
+                 ${
+                    isRecruitmentOpen
+                       ? "max-h-40 opacity-100 bg-secondary-dark"
+                       : "max-h-0 opacity-0"
+                 }
+               `}
                   >
                      <ul className="pl-8 my-4 space-y-6">
                         <li>
@@ -106,7 +166,6 @@ const Sidebar: React.FC<{
                                        : "text-grey-light"
                                  }`
                               }
-                              title={isCollapsed ? "Solicitudes" : ""}
                            >
                               Solicitudes
                            </NavLink>
@@ -121,7 +180,6 @@ const Sidebar: React.FC<{
                                        : "text-grey-light"
                                  }`
                               }
-                              title={isCollapsed ? "Convocatorias" : ""}
                            >
                               Convocatorias
                            </NavLink>
@@ -130,7 +188,7 @@ const Sidebar: React.FC<{
                   </div>
                </li>
 
-               {/* Menú sin submenú */}
+               {/* Otro ítem */}
                <li className="mb-2">
                   <NavLink
                      to="/requests-leader/list-request-leader"
@@ -141,7 +199,6 @@ const Sidebar: React.FC<{
                               : "text-grey-light"
                         } ${isCollapsed ? "justify-center" : "justify-start"}`
                      }
-                     title={isCollapsed ? "Solicitar Colaborador" : ""}
                   >
                      {({ isActive }) => (
                         <>
@@ -160,44 +217,40 @@ const Sidebar: React.FC<{
                   </NavLink>
                </li>
             </ul>
-         </nav>
 
-         {/* Configuración y Cerrar Sesión en la parte inferior */}
-         <ul className="mt-auto">
-            <li className="mb-2">
-               <a
-                  href="#"
-                  role="button"
-                  tabIndex={0}
-                  title={isCollapsed ? "Configuración" : ""}
-                  className={`flex items-center p-3 bg-grey-blue hover:bg-secondary rounded-md focus:outline-none focus:ring-2 focus:ring-primary ${
-                     isCollapsed ? "justify-center" : "justify-start"
-                  }`}
-               >
-                  <IoMdSettings className="size-6 text-primary" />
-                  {!isCollapsed && (
-                     <span className="ml-2 text-sm">Configuración</span>
-                  )}
-               </a>
-            </li>
-            <li>
-               <a
-                  href="#"
-                  role="button"
-                  tabIndex={0}
-                  title={isCollapsed ? "Cerrar Sesión" : ""}
-                  className={`flex items-center p-3 bg-grey-blue hover:bg-secondary rounded-md focus:outline-none focus:ring-2 focus:ring-primary ${
-                     isCollapsed ? "justify-center" : "justify-start"
-                  }`}
-               >
-                  <IoIosLogOut className="size-6 text-primary" />
-                  {!isCollapsed && (
-                     <span className="ml-2 text-sm">Cerrar Sesión</span>
-                  )}
-               </a>
-            </li>
-         </ul>
-      </div>
+            {/* Sección inferior */}
+            <ul className="mt-auto">
+               <li className="mb-2">
+                  <a
+                     href="#"
+                     className={`
+                 flex items-center p-3 bg-grey-blue hover:bg-secondary rounded-md
+                 ${isCollapsed ? "justify-center" : "justify-start"}
+               `}
+                  >
+                     <IoMdSettings className="size-6 text-primary" />
+                     {!isCollapsed && (
+                        <span className="ml-2 text-sm">Configuración</span>
+                     )}
+                  </a>
+               </li>
+               <li>
+                  <a
+                     href="#"
+                     className={`
+                 flex items-center p-3 bg-grey-blue hover:bg-secondary rounded-md
+                 ${isCollapsed ? "justify-center" : "justify-start"}
+               `}
+                  >
+                     <IoIosLogOut className="size-6 text-primary" />
+                     {!isCollapsed && (
+                        <span className="ml-2 text-sm">Cerrar Sesión</span>
+                     )}
+                  </a>
+               </li>
+            </ul>
+         </div>
+      </>
    );
 };
 
