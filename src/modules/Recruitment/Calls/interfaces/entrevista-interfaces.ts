@@ -29,5 +29,7 @@ export interface EntrevistaUpdate {
    postulanteId: number;
    fechaEntrevista: string;
    horaEntrevista: string;
+   resultado: boolean;
+   comentarios:string
 }
 

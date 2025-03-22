@@ -12,6 +12,8 @@ import ModalColAdd from "./Modals/Colaboradores/ModalColAdd";
 import { useGetEntrevistasQuery } from "../../services/entrevista-api";
 import ModalEntrevistaEdit from "./Modals/Entrevista/ModalEntrevistaEdit";
 import ModalEntrevista from "./Modals/Entrevista/ModalEntrevista";
+import ModalEliminarEntrevista from "./Modals/Entrevista/ModalEliminarEntrevista";
+import ModalEliminarPostulante from "./Modals/Postulantes/ModalEliminarPostulante";
 
 interface TaskProps {
    task: {
@@ -54,6 +56,12 @@ const Task: React.FC<TaskProps> = ({ task, columnId }) => {
       setActiveDropdown(false);
    };
 
+   const handleOpenModalDeleted = (event: React.MouseEvent, type: string) => {
+      event.stopPropagation(); // 🔹 Evita interferencias con el drag
+      dispatch(openModalKanban({ id: task.id, type }));
+      setActiveDropdown(false);
+   };
+
    const toggleDropdown = () => {
       setActiveDropdown(!activeDropdown);
    };
@@ -92,8 +100,16 @@ const Task: React.FC<TaskProps> = ({ task, columnId }) => {
                            >
                               Editar Postulante
                            </h1>
-                           <h1 className="p-2 text-sm cursor-pointer hover:bg-hover-grey text-dark">
-                              Descartar
+                           <h1
+                              className="p-2 text-sm cursor-pointer hover:bg-hover-grey text-dark"
+                              onMouseDown={(e) =>
+                                 handleOpenModalDeleted(
+                                    e,
+                                    "eliminar_postulante"
+                                 )
+                              }
+                           >
+                              Eliminar Postulante
                            </h1>
                         </>
                      )}
@@ -115,9 +131,21 @@ const Task: React.FC<TaskProps> = ({ task, columnId }) => {
                                  ? "Editar Entrevista"
                                  : "Agregar Entrevista"}
                            </h1>
-                           <h1 className="p-2 text-sm cursor-pointer hover:bg-hover-grey text-dark">
-                              Descartar
-                           </h1>
+                           {entrevistasPostulante?.length ? (
+                              <h1
+                                 className="p-2 text-sm cursor-pointer hover:bg-hover-grey text-dark"
+                                 onMouseDown={(e) =>
+                                    handleOpenModalDeleted(
+                                       e,
+                                       "eliminar_entrevista"
+                                    )
+                                 }
+                              >
+                                 Eliminar Entrevista
+                              </h1>
+                           ) : (
+                              <></>
+                           )}
                         </>
                      )}
 
@@ -186,6 +214,7 @@ const Task: React.FC<TaskProps> = ({ task, columnId }) => {
             </span>
          )}
 
+         {/* MODALES */}
          {activeModalKanban === task.id && modalType === "editar" && (
             <ModalEditPostulante postulanteId={task.id} />
          )}
@@ -193,7 +222,9 @@ const Task: React.FC<TaskProps> = ({ task, columnId }) => {
             (modalType === "editar_entrevista" ? (
                <ModalEntrevistaEdit
                   postulanteId={task.id}
-                  entrevistaId={Number(entrevistasPostulante?.[0]?.idEntrevista)}
+                  entrevistaId={Number(
+                     entrevistasPostulante?.[0]?.idEntrevista
+                  )}
                />
             ) : modalType === "entrevista" ? (
                <ModalEntrevista postulanteId={task.id} />
@@ -208,6 +239,20 @@ const Task: React.FC<TaskProps> = ({ task, columnId }) => {
          {activeModalKanban === task.id && modalType === "colaboradores" && (
             <ModalColAdd />
          )}
+
+         {/* MODALES DE ELIMINACIONES*/}
+         {activeModalKanban === task.id &&
+            modalType === "eliminar_entrevista" && (
+               <ModalEliminarEntrevista
+                  entrevistaId={Number(
+                     entrevistasPostulante?.[0]?.idEntrevista
+                  )}
+               />
+            )}
+         {activeModalKanban === task.id &&
+            modalType === "eliminar_postulante" && (
+               <ModalEliminarPostulante postulanteId={task.id} />
+            )}
       </div>
    );
 };

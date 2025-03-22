@@ -65,20 +65,34 @@ const ModalEntrevistaEdit: React.FC<ModalEditPostulanteProps> = ({
 
    const handleUpdate = async () => {
       try {
+         const dataToSend: Partial<{
+            postulanteId: number;
+            fechaEntrevista: string;
+            horaEntrevista: string;
+            resultado: boolean;
+            comentarios: string;
+         }> = {
+            postulanteId: Number(postulanteId),
+            fechaEntrevista: fecha,
+            horaEntrevista: hora,
+            comentarios: comentarios,
+         };
+
+         // Solo agregar "resultado" si el usuario ha seleccionado una opción
+         if (selectedResult !== undefined) {
+            dataToSend.resultado = selectedResult.id === 1;
+         }
+
          await updateEntrevista({
             id: entrevistaId,
-            data: {
-               postulanteId: Number(postulanteId),
-               fechaEntrevista: fecha,
-               horaEntrevista: hora,
-            },
+            data: dataToSend,
          }).unwrap();
+
          dispatch(closeModalKanban());
       } catch (error) {
          console.error("Error al actualizar la entrevista:", error);
       }
    };
-
 
 
    return (
@@ -87,7 +101,6 @@ const ModalEntrevistaEdit: React.FC<ModalEditPostulanteProps> = ({
          isOpen={true}
          onClose={() => dispatch(closeModalKanban())}
       >
-         {postulanteId}- {entrevistaId}
          <div className="flex flex-col gap-5">
             <div className="flex gap-5">
                <Input
@@ -109,7 +122,11 @@ const ModalEntrevistaEdit: React.FC<ModalEditPostulanteProps> = ({
                selected={selectedResult}
                onChange={handleResultChange}
             />
-            <TextArea label="Observaciones" value={comentarios} />
+            <TextArea
+               label="Observaciones"
+               value={comentarios}
+               onChange={(e) => setComentarios(e.target.value)}
+            />
 
             <div className="flex gap-5">
                <Button fullWidth={true} onClick={handleUpdate}>
