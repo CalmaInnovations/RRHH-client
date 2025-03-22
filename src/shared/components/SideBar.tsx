@@ -83,7 +83,7 @@ const Sidebar: React.FC<SidebarProps> = ({
          <div
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className={`fixed left-0 top-0 h-screen z-50 bg-secondary text-white p-2 flex flex-col transition-all duration-300
+            className={`fixed left-0 top-0 h-screen z-50 bg-sidebar text-white p-2 flex flex-col transition-all duration-300
            ${isMobileOpen ? "w-64 translate-x-0" : "w-64 -translate-x-full"}
            ${
               !isMobileOpen && (isCollapsed ? "md:w-16" : "md:w-64")
