@@ -4,9 +4,7 @@ import Navbar from "../shared/components/NavBar";
 import Sidebar from "../shared/components/SideBar";
 
 const MainLayout: React.FC = () => {
-   const [isCollapsed, setIsCollapsed] = useState(
-      window.innerWidth >= 768 ? false : true
-   );
+   const [isCollapsed, setIsCollapsed] = useState(true);
    const [isMobileOpen, setIsMobileOpen] = useState(false);
    const [manualOverride, setManualOverride] = useState(false);
 
