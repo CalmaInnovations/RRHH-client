@@ -18,7 +18,7 @@ const Navbar: React.FC<{ isCollapsed: boolean }> = ({ isCollapsed }) => {
                />
             </div>
             <div>
-               <p className="text-xs text-heading-fourth">Developer Frontend</p>
+               <p className="text-xs text-grey">Developer Frontend</p>
                <p className="text-sm font-medium">Carlos lora</p>
             </div>
          </div>
