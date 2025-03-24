@@ -108,11 +108,3 @@ h4 {
 .btn-primary:hover {
    background-color: var(--color-button-hover);
 }
-
-.text-tx-warning {
-   color: var(--color-tx-warning);
-}
-
-.bg-backg-warning {
-   background-color: var(--color-backg-warning);
-}
