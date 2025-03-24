@@ -5,17 +5,8 @@
    --font-sans: "Poppins", sans-serif;
    --font-heading: "Lato", sans-serif;
 
-   /* Font sizes for desktop */
-   --font-size-h1: 24px;
-   --font-size-h2: 20px;
-   --font-size-h3: 16px;
-   --font-size-h4: 16px;
-   --font-size-body: 16px;
-
-   /* Spacing */
-   --spacing-base: 1rem;
-   --spacing-tight: 0.75rem;
-   --spacing-loose: 1.5rem;
+   --font-size-body: 12px;
+   --font-size-small: 12px;
 
    --color-primary: #35b1f6;
    --color-secondary: #2e384d;
@@ -29,7 +20,7 @@
    --color-hover-grey: #f3f6f9;
    --color-grey-dark-ligth: #7e8299;
    --color-heading-primary: #002d72;
-   --color-heading-secondary: #6a6a6a;
+   --color-heading-secondary: #53565a;
    --color-heading-tertiary: #0f0f0f;
    --color-heading-fourth: #727272;
    --color-button-primary: #002d72;
@@ -55,16 +46,14 @@ body {
 h1 {
    font-family: var(--font-heading);
    font-weight: 700;
-   font-size: var(--font-size-h1);
+   font-size: 25px;
    color: var(--color-heading-primary);
-   line-height: 1.2;
-   margin-bottom: 0.75rem;
 }
 
 h2 {
    font-family: var(--font-heading);
    font-weight: 700;
-   font-size: var(--font-size-h2);
+   font-size: 22px;
    color: var(--color-heading-secondary);
    line-height: 1.3;
 }
@@ -72,31 +61,38 @@ h2 {
 h3 {
    font-family: var(--font-heading);
    font-weight: 700;
-   font-size: var(--font-size-h3);
+   font-size: 18px;
    color: var(--color-heading-tertiary);
    line-height: 1.4;
-   margin-bottom: 0.4rem;
+   margin-bottom: 0.5rem;
 }
 
 h4 {
    font-family: var(--font-heading);
    font-weight: 700;
-   font-size: var(--font-size-h4);
+   font-size: 16px;
    color: var(--color-heading-fourth);
-   line-height: 1.4;
 }
 
-/* Update body text classes */
-.text-bold,
-.text-regular {
+.text-bold {
+   font-family: var(--font-body);
+   font-weight: 700;
    font-size: var(--font-size-body);
-   line-height: 1.4;
+   color: var(--color-text-grey);
+}
+
+.text-regular {
+   font-family: var(--font-body);
+   font-weight: 400;
+   font-size: var(--font-size-body);
 }
 
 .text-light {
+   font-family: var(--font-body);
+   font-weight: 400;
    font-size: var(--font-size-small);
-   line-height: 1.4;
 }
+
 .btn-primary {
    background-color: var(--color-button-primary);
    color: var(--color-light);
