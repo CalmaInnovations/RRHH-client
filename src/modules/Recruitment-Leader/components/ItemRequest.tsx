@@ -1,83 +1,116 @@
 import { Static, Group, Redondo, Time } from "../../../assets/images";
 import { format } from "date-fns";
 import { Solicitudes } from "../interfaces/Request-interfaces";
+import { FiEdit } from "react-icons/fi";
 
 interface ItemProps {
-    sold: Solicitudes;
- }
-const ItemRequest= ({ sold }: ItemProps) => {
-    const formatDate = format(new Date(sold?.fechaSolicitud), "dd/MM/yyyy");
+   sold: Solicitudes;
+   onEdit: (id: string) => void;
+}
 
-  return (
-    <div className="bg-white shadow-lg rounded-lg px-10 py-8 mb-6 w-[24rem] h-[38rem]">
-      <div className="h-full">
-        {/* Título y Área */}
-        <h2 className="text-2xl font-semibold text-gray-800">
-        {sold?.puesto}
-        </h2>
-        <p className="text-md text-grey-dark-ligth mb-4">
-          Area de Desarrollo de Software
-        </p>
+const ItemRequest = ({ sold }: ItemProps) => {
+   const formatDate = format(new Date(sold?.fechaSolicitud), "dd/MM/yyyy");
 
-        {/* Descripción */}
-        <p className="text-gray-700 mb-4">
-        {sold?.observaciones}
-        </p>
+   return (
+      <div className="bg-white mx-auto shadow-xl rounded-lg p-6 max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl h-full flex flex-col">
+         {/* Contenedor principal */}
+         <div className="flex-grow flex flex-col">
+            {/* Título y Área */}
+            <div className="space-y-2 mb-4 sm:mb-6">
+               <h1 className="text-lg sm:text-xl font-bold break-words">
+                  {sold?.puesto}
+               </h1>
+               <h2 className="text-md sm:text-lg">
+                  Área de Desarrollo de Software
+               </h2>
+            </div>
 
-        {/* Detalles */}
-        <div className="mb-8 flex flex-col gap-y-4">
-          <div className="flex gap-3">
-            <div className="flex justify-center items-center p-2 rounded-md bg-hover-grey w-12 h-12">
-              <img src={Static} />
+            {/* Descripción */}
+            <h4 className="mb-4 sm:mb-6 text-sm sm:text-base break-words">
+               {sold?.observaciones}
+            </h4>
+
+            {/* Detalles */}
+            <div className="flex flex-col gap-4 sm:gap-5">
+               {/* Cantidad */}
+               <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0 flex justify-center items-center p-2 sm:p-3 rounded-md bg-hover-grey w-10 h-10 sm:w-12 sm:h-12">
+                     <img
+                        src={Static}
+                        alt="Cantidad"
+                        className="w-5 h-5 sm:w-6 sm:h-6"
+                     />
+                  </div>
+                  <div>
+                     <p className="text-md text-secondary-blue font-semibold">
+                        Cantidad:
+                     </p>
+                     <h4 className="break-words text-sm sm:text-base">
+                        {sold?.cantidad}
+                     </h4>
+                  </div>
+               </div>
+
+               {/* Fecha */}
+               <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0 flex justify-center items-center p-2 sm:p-3 rounded-md bg-hover-grey w-10 h-10 sm:w-12 sm:h-12">
+                     <img
+                        src={Time}
+                        alt="Fecha"
+                        className="w-5 h-5 sm:w-6 sm:h-6"
+                     />
+                  </div>
+                  <div>
+                     <p className="text-md text-secondary-blue font-semibold">
+                        Fecha:
+                     </p>
+                     <h4 className="break-words text-sm sm:text-base">
+                        {formatDate}
+                     </h4>
+                  </div>
+               </div>
+
+               {/* Habilidades blandas */}
+               <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0 flex justify-center items-center p-2 sm:p-3 rounded-md bg-hover-grey w-10 h-10 sm:w-12 sm:h-12">
+                     <img
+                        src={Group}
+                        alt="Habilidades blandas"
+                        className="w-5 h-5 sm:w-6 sm:h-6"
+                     />
+                  </div>
+                  <div className="flex-1">
+                     <p className="text-md text-secondary-blue font-semibold">
+                        Habilidades blandas:
+                     </p>
+                     <h4 className="line-clamp-3 break-words text-sm sm:text-base">
+                        {sold?.habilidadesBlandas}
+                     </h4>
+                  </div>
+               </div>
+
+               {/* Habilidades técnicas */}
+               <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0 flex justify-center items-center p-2 sm:p-3 rounded-md bg-hover-grey w-10 h-10 sm:w-12 sm:h-12">
+                     <img
+                        src={Redondo}
+                        alt="Habilidades técnicas"
+                        className="w-5 h-5 sm:w-6 sm:h-6"
+                     />
+                  </div>
+                  <div className="flex-1">
+                     <p className="text-md text-secondary-blue font-semibold">
+                        Habilidades técnicas:
+                     </p>
+                     <h4 className="line-clamp-3 break-words text-sm sm:text-base">
+                        {sold?.conocimientosTecnicos}
+                     </h4>
+                  </div>
+               </div>
             </div>
-            <div>
-              <p className="text-md text-primary font-semibold">Cantidad:</p>
-              <p className="text-md text-grey"> {sold?.cantidad}</p>
-            </div>
-          </div>
-          <div className="flex gap-3">
-            <div className="flex justify-center items-center p-2 rounded-md bg-hover-grey w-12 h-12">
-              <img src={Time} />
-            </div>
-            <div>
-              <p className="text-md text-primary font-semibold">Fecha:</p>
-              <p className="text-md text-grey">{formatDate}</p>
-            </div>
-          </div>
-          <div className="flex gap-3">
-            <div>
-              <div className="flex justify-center items-center p-2 rounded-md bg-hover-grey w-12 h-12">
-                <img src={Group} />
-              </div>
-            </div>
-            <div className="w-64">
-              <p className="text-md text-primary font-semibold">
-                Habilidades blandas:
-              </p>
-              <p className="text-md text-grey break-words">
-              {sold?.habilidadesBlandas}
-              </p>
-            </div>
-          </div>
-          <div className="flex gap-3">
-            <div>
-              <div className="flex justify-center items-center p-2 rounded-md bg-hover-grey w-12 h-12">
-                <img src={Redondo} />
-              </div>
-            </div>
-            <div className="w-64">
-              <p className="text-md text-primary font-semibold">
-                Habilidades técnicas:
-              </p>
-              <p className="text-md text-grey break-words">
-              {sold?.conocimientosTecnicos}
-              </p>
-            </div>
-          </div>
-        </div>
+         </div>
       </div>
-    </div>
-  );
+   );
 };
 
 export default ItemRequest;

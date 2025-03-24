@@ -7,6 +7,7 @@ export interface SolicitudesRes {
  }
 
  export interface Solicitudes {
+    nombreArea: string;
     id: number;
     colaborador: string;
     puesto: string;
