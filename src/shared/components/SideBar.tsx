@@ -64,8 +64,6 @@ const Sidebar: React.FC<SidebarProps> = ({
    const handleMouseLeave = () => {
       if (window.innerWidth >= 768 && !manualOverride) {
          setIsCollapsed(true);
-         // Cerrar el submenú de Reclutamiento al quitar el mouse
-         setIsRecruitmentOpen(false);
       }
    };
 
@@ -85,7 +83,7 @@ const Sidebar: React.FC<SidebarProps> = ({
          <div
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className={`fixed left-0 top-0 h-screen z-50 bg-sidebar text-white p-2 flex flex-col overflow-hidden transition-all duration-300
+            className={`fixed left-0 top-0 h-screen z-50 bg-sidebar text-white p-2 flex flex-col transition-all duration-300
            ${isMobileOpen ? "w-64 translate-x-0" : "w-64 -translate-x-full"}
            ${
               !isMobileOpen && (isCollapsed ? "md:w-16" : "md:w-64")
@@ -114,13 +112,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                <li>
                   <div
                      className={`flex items-center p-2 cursor-pointer rounded transition-colors duration-300
-                        ${
-                           isMobileOpen
-                              ? "justify-start"
-                              : isCollapsed
-                              ? "justify-center"
-                              : "justify-start"
-                        }
+                        ${isCollapsed ? "justify-center" : "justify-start"}
                         ${
                            isRecruitmentOpen
                               ? "bg-secondary-dark text-light"
@@ -193,31 +185,22 @@ const Sidebar: React.FC<SidebarProps> = ({
                   <NavLink
                      to="/requests-leader/list-request-leader"
                      className={({ isActive }) =>
-                        `flex items-center p-2 rounded transition-colors duration-300 hover:bg-secondary-dark hover:text-light 
-                        ${
+                        `flex items-center p-2 rounded transition-colors duration-300 hover:bg-secondary-dark hover:text-light ${
                            isActive
                               ? "bg-secondary-dark text-light"
                               : "text-grey-light"
-                        } ${
-                           isMobileOpen
-                              ? "justify-start"
-                              : isCollapsed
-                              ? "justify-center"
-                              : "justify-start"
-                        }`
+                        } ${isCollapsed ? "justify-center" : "justify-start"}`
                      }
                   >
                      {({ isActive }) => (
                         <>
                            <FaUserPlus
                               className={`size-6 ${
-                                 !isCollapsed || isMobileOpen ? "mr-2" : ""
-                              } ${
                                  isActive ? "text-primary" : "text-grey-light"
                               }`}
                            />
                            {(!isCollapsed || isMobileOpen) && (
-                              <span className="text-sm">
+                              <span className="ml-2 text-sm">
                                  Solicitar Colaborador
                               </span>
                            )}
@@ -233,9 +216,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                   <a
                      href="#"
                      className={`flex items-center p-3 bg-grey-blue hover:bg-secondary rounded-md ${
-                        isMobileOpen
-                           ? "justify-start"
-                           : isCollapsed
+                        isCollapsed && !isMobileOpen
                            ? "justify-center"
                            : "justify-start"
                      }`}
@@ -250,9 +231,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                   <a
                      href="#"
                      className={`flex items-center p-3 bg-grey-blue hover:bg-secondary rounded-md ${
-                        isMobileOpen
-                           ? "justify-start"
-                           : isCollapsed
+                        isCollapsed && !isMobileOpen
                            ? "justify-center"
                            : "justify-start"
                      }`}
