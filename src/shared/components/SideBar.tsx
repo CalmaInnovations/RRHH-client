@@ -185,25 +185,24 @@ const Sidebar: React.FC<SidebarProps> = ({
                   <NavLink
                      to="/requests-leader/list-request-leader"
                      className={({ isActive }) =>
-                        `flex items-center p-2 rounded transition-colors duration-300 hover:bg-secondary-dark hover:text-light ${
+                        `flex items-center p-2 rounded transition-colors duration-300 hover:bg-secondary-dark hover:text-light 
+                        ${
                            isActive
                               ? "bg-secondary-dark text-light"
                               : "text-grey-light"
-                        } ${isCollapsed ? "justify-center" : "justify-start"}`
+                        }`
                      }
                   >
                      {({ isActive }) => (
                         <>
                            <FaUserPlus
-                              className={`size-6 ${
+                              className={`size-6 mr-2 ${
                                  isActive ? "text-primary" : "text-grey-light"
                               }`}
                            />
-                           {(!isCollapsed || isMobileOpen) && (
-                              <span className="ml-2 text-sm">
-                                 Solicitar Colaborador
-                              </span>
-                           )}
+                           <span className="text-sm">
+                              Solicitar Colaborador
+                           </span>
                         </>
                      )}
                   </NavLink>
