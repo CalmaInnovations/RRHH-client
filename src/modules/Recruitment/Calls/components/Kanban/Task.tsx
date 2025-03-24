@@ -5,7 +5,6 @@ import ModalEditPostulante from "./Modals/Postulantes/ModalEditPostulante";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 import { openModalKanban } from "../../slices/modalkanbanSlice";
-// import ModalEntrevista from "./Modals/Entrevista/ModalEntrevista";
 import ModalDocAdd from "./Modals/Documentacion/ModalDocAdd";
 import ModalOnbAdd from "./Modals/Onboarding/ModalOnbAdd";
 import ModalColAdd from "./Modals/Colaboradores/ModalColAdd";
@@ -14,6 +13,10 @@ import ModalEntrevistaEdit from "./Modals/Entrevista/ModalEntrevistaEdit";
 import ModalEntrevista from "./Modals/Entrevista/ModalEntrevista";
 import ModalEliminarEntrevista from "./Modals/Entrevista/ModalEliminarEntrevista";
 import ModalEliminarPostulante from "./Modals/Postulantes/ModalEliminarPostulante";
+import { useGetOnboardingsQuery } from "../../services/onboarding-api";
+import ModalEditOnb from "./Modals/Onboarding/ModalEditOnb";
+import { useGetDocumentationsQuery } from "../../services/documentation-api";
+import ModalEditDoc from "./Modals/Documentacion/ModalEditDoc";
 
 interface TaskProps {
    task: {
@@ -42,12 +45,27 @@ const Task: React.FC<TaskProps> = ({ task, columnId }) => {
    });
 
    const { data: getAllEntrevista } = useGetEntrevistasQuery();
+   const { data: getAllOnboarding } = useGetOnboardingsQuery();
+   const { data: getAllDocumentation } = useGetDocumentationsQuery();
 
    const entrevistasPostulante = useMemo(() => {
       return getAllEntrevista?.entrevistas.filter(
-         (entrevista) => entrevista.postulanteId === Number(task.id)
+         (entrevista) => entrevista?.postulanteId === Number(task?.id)
       );
-   }, [getAllEntrevista, task.id]);
+   }, [getAllEntrevista, task?.id]);
+
+   const onboardingsPostulante = useMemo(() => {
+      return getAllOnboarding?.inducciones.filter(
+         (onboarding) => onboarding?.postulanteId === Number(task?.id)
+      );
+   }, [getAllOnboarding]);
+
+   const documentationsPostulante = useMemo(() => {
+      return getAllDocumentation?.filter(
+         (documentation) => documentation?.postulanteId === Number(task?.id)
+      );
+   }, [getAllDocumentation]);
+
 
    const handleOpenModal = (event: React.MouseEvent, type: string) => {
       event.stopPropagation(); // 🔹 Evita interferencias con el drag
@@ -154,14 +172,21 @@ const Task: React.FC<TaskProps> = ({ task, columnId }) => {
                            <h1
                               className="p-2 text-sm cursor-pointer hover:bg-hover-grey text-dark"
                               onMouseDown={(e) =>
-                                 handleOpenModal(e, "documentacion")
+                                 handleOpenModal(
+                                    e,
+                                    documentationsPostulante?.length
+                                       ? "editar_documentacion"
+                                       : "documentacion"
+                                 )
                               }
                            >
-                              Agregar documentos
+                              {documentationsPostulante?.length
+                                 ? "Editar Documentos"
+                                 : " Agregar Documentos"}
                            </h1>
-                           <h1 className="p-2 text-sm cursor-pointer hover:bg-hover-grey text-dark">
+                           {/* <h1 className="p-2 text-sm cursor-pointer hover:bg-hover-grey text-dark">
                               Descartar
-                           </h1>
+                           </h1> */}
                         </>
                      )}
 
@@ -170,14 +195,21 @@ const Task: React.FC<TaskProps> = ({ task, columnId }) => {
                            <h1
                               className="p-2 text-sm cursor-pointer hover:bg-hover-grey text-dark"
                               onMouseDown={(e) =>
-                                 handleOpenModal(e, "onboarding")
+                                 handleOpenModal(
+                                    e,
+                                    onboardingsPostulante?.length
+                                       ? "editar_onboarding"
+                                       : "onboarding"
+                                 )
                               }
                            >
-                              Agregar Onboarding
+                              {onboardingsPostulante?.length
+                                 ? "Editar onboarding"
+                                 : "Agregar onboarding"}
                            </h1>
-                           <h1 className="p-2 text-sm cursor-pointer hover:bg-hover-grey text-dark">
+                           {/* <h1 className="p-2 text-sm cursor-pointer hover:bg-hover-grey text-dark">
                               Descartar
-                           </h1>
+                           </h1> */}
                         </>
                      )}
 
@@ -191,9 +223,9 @@ const Task: React.FC<TaskProps> = ({ task, columnId }) => {
                            >
                               Agregar Colaborador
                            </h1>
-                           <h1 className="p-2 text-sm cursor-pointer hover:bg-hover-grey text-dark">
+                           {/* <h1 className="p-2 text-sm cursor-pointer hover:bg-hover-grey text-dark">
                               Descartar
-                           </h1>
+                           </h1> */}
                         </>
                      )}
                   </div>
@@ -230,12 +262,18 @@ const Task: React.FC<TaskProps> = ({ task, columnId }) => {
                <ModalEntrevista postulanteId={task.id} />
             ) : null)}
 
-         {activeModalKanban === task.id && modalType === "documentacion" && (
-            <ModalDocAdd />
-         )}
-         {activeModalKanban === task.id && modalType === "onboarding" && (
-            <ModalOnbAdd />
-         )}
+         {activeModalKanban === task.id &&
+         modalType === "editar_documentacion" ? (
+            <ModalEditDoc postulanteId={task.id} />
+         ) : modalType === "documentacion" ? (
+            <ModalDocAdd postulanteId={task.id}/>
+         ) : null}
+
+         {activeModalKanban === task.id && modalType === "editar_onboarding" ? (
+            <ModalEditOnb postulanteId={task.id} />
+         ) : modalType === "onboarding" ? (
+            <ModalOnbAdd postulanteId={task.id} />
+         ) : null}
          {activeModalKanban === task.id && modalType === "colaboradores" && (
             <ModalColAdd />
          )}

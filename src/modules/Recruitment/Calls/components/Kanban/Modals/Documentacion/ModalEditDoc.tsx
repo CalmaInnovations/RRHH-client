@@ -1,19 +1,22 @@
-import { useCreateDocumentationMutation } from "@/modules/Recruitment/Calls/services/documentation-api";
+import { useGetDocumentationByIdQuery, useUpdateDocumentationMutation } from "@/modules/Recruitment/Calls/services/documentation-api";
 import { closeModalKanban } from "@/modules/Recruitment/Calls/slices/modalkanbanSlice";
 import Button from "@/shared/components/Button";
 import Input from "@/shared/components/Input";
 import Modal from "@/shared/components/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 interface ModalPostulanteProps {
    postulanteId: string; // 🔹 Recibe el ID como prop
 }
+const ModalEditDoc: React.FC<ModalPostulanteProps> = ({ postulanteId }) => {
 
-const ModalDocAdd : React.FC<ModalPostulanteProps> = ({ postulanteId }) => {
+   const { data: GetByIdDocumentation } = useGetDocumentationByIdQuery(
+      Number(postulanteId)
+   );
+    const [updateDocumentation] = useUpdateDocumentationMutation();
+
    const dispatch = useDispatch();
-
-   const [createDocumentation] = useCreateDocumentationMutation();
 
    const [enlace, setenlace] = useState("");
    const [cartaPresentacion, setcartaPresentacion] = useState(false);
@@ -23,42 +26,63 @@ const ModalDocAdd : React.FC<ModalPostulanteProps> = ({ postulanteId }) => {
    const [cv, setcv] = useState(false);
    const [horarioPracticas, sethorarioPracticas] = useState(false);
 
-      const handleSubmit = async () => {
+   useEffect(() => {
+      if (GetByIdDocumentation) {
+         setenlace(GetByIdDocumentation?.legajoUrl);
+         setcartaPresentacion(GetByIdDocumentation?.cartaPresentacion);
+         setcartaConfidencial(GetByIdDocumentation?.cartaConfidencialidad);
+         setcartaCompromiso(GetByIdDocumentation?.cartaCompromiso);
+         setdocumentDni(GetByIdDocumentation?.documentoDNI);
+         setcv(GetByIdDocumentation?.documentoCV);
+         sethorarioPracticas(GetByIdDocumentation?.documentoHorarioPracticas);
+      }
+   }, [GetByIdDocumentation]);
+
+
+      const handleUpdate = async () => {
+
          try {
-            await createDocumentation({
-               postulanteId: Number(postulanteId),
-               encargadoEnvioDocsId:1,
-               fechaEnvioDocs:new Date().toISOString().split('T')[0], // fecha actual en formato YYYY-MM-DD
-               legajoUrl:enlace,
+            const dataToSend: Partial<{
+               cartaPresentacion: boolean;
+               cartaConfidencialidad: boolean;
+               cartaCompromiso: boolean;
+               documentoDNI: boolean;
+               documentoCV: boolean;
+               documentoHorarioPracticas: boolean;
+            }> = {
                cartaPresentacion:cartaPresentacion,
-               cartaConfidencialidad:cartaConfidencial,
+               cartaConfidencialidad: cartaConfidencial,
                cartaCompromiso:cartaCompromiso,
-               documentoDNI:documentDni,
+               documentoDNI: documentDni,
                documentoCV:cv,
                documentoHorarioPracticas:horarioPracticas,
+            };
 
+            await updateDocumentation({
+               id: Number(postulanteId),
+               data: dataToSend,
             }).unwrap();
-
-            alert("Documentacion creado exitosamente");
-            dispatch(closeModalKanban()); // cierra el modal
+            alert("Se actualizo el documento");
+            dispatch(closeModalKanban());
          } catch (error) {
-            console.error("Error al crear la Documentacion:", error);
-            alert("Error al crear la Documentacion");
+            console.error("Error al actualizar el documento:", error);
          }
       };
 
+
    return (
       <Modal
-         title="Agregar Documentacion"
+         title="Editar Documentos"
          isOpen={true}
          onClose={() => dispatch(closeModalKanban())}
       >
+
          <div className="flex flex-col gap-5">
             <Input
                label="Enlace de documentos"
                placeholder="Añadir URL  de documentos"
                value={enlace}
-               onChange={(e) => setenlace(e.target.value)}
+               disabled={true}
             />
 
             <div>
@@ -133,8 +157,12 @@ const ModalDocAdd : React.FC<ModalPostulanteProps> = ({ postulanteId }) => {
             </div>
 
             <div className="flex gap-5">
-               <Button fullWidth={true} onClick={handleSubmit}>Agregar</Button>
-               <Button fullWidth={true} variant="secondary">
+               <Button fullWidth={true} onClick={handleUpdate}>Editar</Button>
+               <Button
+                  fullWidth={true}
+                  variant="secondary"
+                  onClick={() => dispatch(closeModalKanban())}
+               >
                   Cancelar
                </Button>
             </div>
@@ -143,4 +171,4 @@ const ModalDocAdd : React.FC<ModalPostulanteProps> = ({ postulanteId }) => {
    );
 };
 
-export default ModalDocAdd;
+export default ModalEditDoc;

@@ -22,7 +22,6 @@ const Kanban: React.FC = () => {
    const dispatch = useDispatch();
 
    const { data } = useGetPostulantesQuery();
-
    const { data: DetailConv } = useGetConvocatoriaByIdQuery(Number(id));
    const [updateEstado] = useUpdatePostulanteEstadoMutation();
 
@@ -150,7 +149,7 @@ const Kanban: React.FC = () => {
       } catch (error) {
          const err = error as FetchBaseQueryError;
          if (err.status === "PARSING_ERROR" && err.originalStatus === 400) {
-            console.warn("Error 400:", err.data); // 🟢 Muestra el mensaje del backend
+            console.warn("Error 400:", err.data); // Muestra el mensaje del backend
             alert("No puedes retroceder un estado")
             setTimeout(()=>{
                window.location.reload();
