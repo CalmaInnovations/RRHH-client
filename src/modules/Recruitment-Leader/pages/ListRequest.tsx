@@ -8,53 +8,48 @@ import ModalAddRq from "../components/ModalAddRq";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../../shared/slices/modalSlice";
 
+
+
 const ListRequest = () => {
-   const dispatch = useDispatch();
-   const [currentPage, setCurrentPage] = useState<number>(1);
-   const pageSize = 4;
+  const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const pageSize = 4;
 
-   const { data } = useGetSolicitudesQuery({ page: currentPage, pageSize });
+  const { data } = useGetSolicitudesQuery({ page: currentPage, pageSize });
 
-   const handlePageChange = (page: number) => {
-      setCurrentPage(page);
-   };
 
-   return (
-      <div className="pt-6 md:px-10 lg:px-10">
-         {/* Header Section */}
-         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-            <h1 className="text-2xl">Solicitudes</h1>
-            <Button
-               icon={<FaPlus />}
-               onClick={() => dispatch(openModal("ModalAddRq"))}
-            >
-               Nueva Solicitud
-            </Button>
-         </div>
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
-         {/* Cards Grid */}
-         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
-            {data?.solicitudes.map((sold) => (
-               <ItemRequest
-                  sold={sold}
-                  key={sold?.id}
-                  onEdit={() => {}} // Add your edit handler here
-               />
-            ))}
-         </div>
 
-         {/* Pagination */}
-         <div className="mt-8 flex justify-center">
-            <Pagination
-               currentPage={currentPage}
-               totalPages={data?.pags || 1}
-               onPageChange={handlePageChange}
-            />
-         </div>
 
-         <ModalAddRq />
+  return (
+    <div>
+      <h1>Solicitudes</h1>
+
+      <div className="flex justify-end mt-6">
+        <Button icon={<FaPlus />} onClick={() => dispatch(openModal("ModalAddRq"))}>
+          Nueva Solicitud
+        </Button>
       </div>
-   );
+
+      <div className="grid grid-cols-4 mt-8">
+        {/* item*/}
+        {data?.solicitudes.map((sold) => (
+          <ItemRequest sold={sold} key={sold?.id} />
+        ))}
+      </div>
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={data?.pags || 1}
+        onPageChange={handlePageChange}
+      />
+
+        <ModalAddRq/>
+    </div>
+  );
 };
 
 export default ListRequest;

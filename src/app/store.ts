@@ -9,6 +9,8 @@ import { requestRCTApi } from "../modules/Recruitment/Request-recruiter/services
 import { callsApi } from "../modules/Recruitment/Calls/services/calls-api";
 import { postulantesApi } from "@/modules/Recruitment/Calls/services/postulantes-api";
 import { entrevistasApi } from "@/modules/Recruitment/Calls/services/entrevista-api";
+import { onboardingApi } from "@/modules/Recruitment/Calls/services/onboarding-api";
+import { documentationApi } from "@/modules/Recruitment/Calls/services/documentation-api";
 
 export const store = configureStore({
    reducer: {
@@ -20,6 +22,8 @@ export const store = configureStore({
       [callsApi.reducerPath]: callsApi.reducer,
       [postulantesApi.reducerPath]: postulantesApi.reducer,
       [entrevistasApi.reducerPath]: entrevistasApi.reducer,
+      [onboardingApi.reducerPath]: onboardingApi.reducer,
+      [documentationApi.reducerPath]: documentationApi.reducer
    },
    middleware: (getDeaultMiddleware) =>
       getDeaultMiddleware().concat(
@@ -28,7 +32,9 @@ export const store = configureStore({
          requestRCTApi.middleware,
          callsApi.middleware,
          postulantesApi.middleware,
-         entrevistasApi.middleware
+         entrevistasApi.middleware,
+         onboardingApi.middleware,
+         documentationApi.middleware,
       ),
 });
 

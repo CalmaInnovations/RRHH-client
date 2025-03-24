@@ -4,112 +4,81 @@ import { format } from "date-fns";
 import Button from "../../../../shared/components/Button";
 
 interface ItemProps {
-   sold: SolicitudesRCT;
-   onAssign: (solicitudId: number) => void;
+  sold: SolicitudesRCT;
+  onAssign: (solicitudId: number) => void;
 }
+const ItemRequestRct = ({ sold,onAssign  }: ItemProps) => {
 
-const ItemRequestRct = ({ sold, onAssign }: ItemProps) => {
-   const formatDate = format(new Date(sold?.fechaSolicitud), "dd/MM/yyyy");
+  const formatDate = format(new Date(sold?.fechaSolicitud), "dd/MM/yyyy");
 
-   return (
-      <div className="bg-white shadow-xl rounded-lg p-6 h-full flex flex-col min-h-full">
-         {/* Content wrapper */}
-         <div className="flex-grow">
-            {/* Header section */}
-            <div className="space-y-2 mb-6">
-               <h1 className="text-lg font-bold break-words">{sold?.puesto}</h1>
-               <h2 className="text-md text-gray-600 break-words">
-                  Área de Desarrollo de Software
-               </h2>
+  return (
+    <div className="bg-white shadow-lg rounded-lg px-10 py-8 mb-6 w-[24rem] h-[38rem]">
+      <div className="h-[32rem]">
+        {/* Título y Área */}
+        <h2 className="text-2xl font-semibold text-gray-800">{sold?.puesto}</h2>
+        <p className="text-md text-grey-dark-ligth mb-4">
+          Area de Desarrollo de Software
+        </p>
+
+        {/* Descripción */}
+        <p className="text-gray-700 mb-4">{sold?.observaciones}</p>
+
+        {/* Detalles */}
+        <div className="mb-8 flex flex-col gap-y-4">
+          <div className="flex gap-3">
+            <div className="flex justify-center items-center p-2 rounded-md bg-hover-grey w-12 h-12">
+              <img src={Static} />
             </div>
-
-            {/* Description */}
-            <div className="mb-8">
-               <h4 className="break-words text-sm text-gray-700">
-                  {sold?.observaciones}
-               </h4>
+            <div>
+              <p className="text-md text-primary font-semibold">Cantidad:</p>
+              <p className="text-md text-grey"> {sold?.cantidad}</p>
             </div>
-
-            {/* Details section */}
-            <div className="space-y-6">
-               {/* Cantidad */}
-               <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 flex justify-center items-center p-3 rounded-md bg-hover-grey w-12 h-12">
-                     <img src={Static} alt="Cantidad" className="w-6 h-6" />
-                  </div>
-                  <div>
-                     <p className="text-md text-secondary-blue font-semibold">
-                        Cantidad:
-                     </p>
-                     <h4 className="break-words">{sold?.cantidad}</h4>
-                  </div>
-               </div>
-
-               {/* Fecha */}
-               <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 flex justify-center items-center p-3 rounded-md bg-hover-grey w-12 h-12">
-                     <img src={Time} alt="Fecha" className="w-6 h-6" />
-                  </div>
-                  <div>
-                     <p className="text-md text-secondary-blue font-semibold">
-                        Fecha:
-                     </p>
-                     <h4 className="break-words">{formatDate}</h4>
-                  </div>
-               </div>
-
-               {/* Habilidades */}
-               <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 flex justify-center items-center p-3 rounded-md bg-hover-grey w-12 h-12">
-                     <img
-                        src={Group}
-                        alt="Habilidades blandas"
-                        className="w-6 h-6"
-                     />
-                  </div>
-                  <div className="flex-1">
-                     <p className="text-md text-secondary-blue font-semibold">
-                        Habilidades blandas:
-                     </p>
-                     <h4 className="break-words text-sm text-gray-700">
-                        {sold?.habilidadesBlandas}
-                     </h4>
-                  </div>
-               </div>
-
-               {/* Conocimientos */}
-               <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 flex justify-center items-center p-3 rounded-md bg-hover-grey w-12 h-12">
-                     <img
-                        src={Redondo}
-                        alt="Habilidades técnicas"
-                        className="w-6 h-6"
-                     />
-                  </div>
-                  <div className="flex-1">
-                     <p className="text-md text-secondary-blue font-semibold">
-                        Habilidades técnicas:
-                     </p>
-                     <h4 className="break-words text-sm text-gray-700">
-                        {sold?.conocimientosTecnicos}
-                     </h4>
-                  </div>
-               </div>
+          </div>
+          <div className="flex gap-3">
+            <div className="flex justify-center items-center p-2 rounded-md bg-hover-grey w-12 h-12">
+              <img src={Time} />
             </div>
-         </div>
-
-         {/* Button section */}
-         <div className="mt-8 pt-6 border-t border-gray-200">
-            <Button
-               fullWidth
-               onClick={() => onAssign(sold?.id)}
-               className="py-2.5 text-sm font-medium transition-colors duration-200"
-            >
-               Convertir a convocatoria
-            </Button>
-         </div>
+            <div>
+              <p className="text-md text-primary font-semibold">Fecha:</p>
+              <p className="text-md text-grey">{formatDate}</p>
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <div>
+              <div className="flex justify-center items-center p-2 rounded-md bg-hover-grey w-12 h-12">
+                <img src={Group} />
+              </div>
+            </div>
+            <div className="w-64">
+              <p className="text-md text-primary font-semibold">
+                Habilidades blandas:
+              </p>
+              <p className="text-md text-grey break-words">
+                {sold?.habilidadesBlandas}
+              </p>
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <div>
+              <div className="flex justify-center items-center p-2 rounded-md bg-hover-grey w-12 h-12">
+                <img src={Redondo} />
+              </div>
+            </div>
+            <div className="w-64">
+              <p className="text-md text-primary font-semibold">
+                Habilidades técnicas:
+              </p>
+              <p className="text-md text-grey break-words">
+                {sold?.conocimientosTecnicos}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-   );
+      {/* Botón para convertir a convocatoria */}
+      <Button fullWidth={true} onClick={() => onAssign(sold?.id)}>Convertir a convocatoria</Button>
+    </div>
+  );
 };
 
 export default ItemRequestRct;
