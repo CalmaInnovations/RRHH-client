@@ -25,7 +25,7 @@ const ItemRequestRct = ({ sold, onAssign }: ItemProps) => {
 
             {/* Description */}
             <div className="mb-8">
-               <h4 className="break-words text-sm text-gray-700">
+               <h4 className="line-clamp-3 break-words text-sm text-gray-700">
                   {sold?.observaciones}
                </h4>
             </div>
@@ -71,7 +71,7 @@ const ItemRequestRct = ({ sold, onAssign }: ItemProps) => {
                      <p className="text-md text-secondary-blue font-semibold">
                         Habilidades blandas:
                      </p>
-                     <h4 className="break-words text-sm text-gray-700">
+                     <h4 className="line-clamp-3 break-words text-sm text-gray-700">
                         {sold?.habilidadesBlandas}
                      </h4>
                   </div>
@@ -90,7 +90,7 @@ const ItemRequestRct = ({ sold, onAssign }: ItemProps) => {
                      <p className="text-md text-secondary-blue font-semibold">
                         Habilidades técnicas:
                      </p>
-                     <h4 className="break-words text-sm text-gray-700">
+                     <h4 className="line-clamp-3 break-words text-sm text-gray-700">
                         {sold?.conocimientosTecnicos}
                      </h4>
                   </div>

@@ -33,13 +33,11 @@ const Button: React.FC<ButtonProps> = ({
    };
 
    const variantStyles = {
-      primary:
-         "bg-[var(--color-button-primary)] text-white hover:bg-[var(--color-button-hover)]",
-      secondary:
-         "border border-[var(--color-button-primary)] text-[var(--color-button-primary)] hover:bg-[var(--color-button-hover)] hover:text-white",
+      primary: "bg-[#002D72] text-white hover:bg-[#2A5BA7]",
+      secondary: "bg-secondary text-light hover:bg-gray-600",
       outline:
-         "border border-[var(--color-button-primary)] text-[var(--color-button-primary)] hover:bg-[var(--color-button-primary)] hover:text-white",
-      ghost: "text-[var(--color-button-primary)] hover:bg-gray-100",
+         "border border-[#002D72] text-[#002D72] hover:bg-[#002D72] hover:text-white",
+      ghost: "text-[#002D72] hover:bg-gray-100",
    };
 
    const buttonClasses = `${baseStyles} ${sizeStyles[size]} ${
