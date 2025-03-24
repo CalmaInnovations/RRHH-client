@@ -13,10 +13,10 @@ const Calls = () => {
       setCurrentPage(page);
    };
    return (
-      <div className="pt-6 md:px-10 lg:px-10">
+      <div className="px-4 md:px-8 lg:px-16 w-full">
          {/* titulo */}
          <h1>Convocatorias</h1>
-         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 mt-8 mb-8">
+         <div className="grid grid-cols-2 mt-8 gap-6 mb-8">
             {/* item*/}
             {data?.convocatorias.map((call) => (
                <ItemCall call={call} key={call?.idConvocatoria} />
