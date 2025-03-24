@@ -55,12 +55,12 @@ const Sidebar: React.FC<SidebarProps> = ({
       }
    }, [isMobileOpen]);
 
+   // Solo se activan los eventos de hover si NO hay override manual
    const handleMouseEnter = () => {
       if (window.innerWidth >= 768 && !manualOverride) {
          setIsCollapsed(false);
       }
    };
-
    const handleMouseLeave = () => {
       if (window.innerWidth >= 768 && !manualOverride) {
          setIsCollapsed(true);
@@ -73,6 +73,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
    return (
       <>
+         {/* Overlay para móvil */}
          {isMobileOpen && (
             <div
                className="fixed inset-0 bg-black/50 md:hidden z-40"
@@ -83,41 +84,44 @@ const Sidebar: React.FC<SidebarProps> = ({
          <div
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className={`fixed left-0 top-0 h-screen z-50 bg-secondary text-white p-2 flex flex-col transition-all duration-300
+            className={`
+           fixed left-0 top-0 h-screen z-50 bg-secondary text-white p-2 flex flex-col transition-all duration-300
            ${isMobileOpen ? "w-64 translate-x-0" : "w-64 -translate-x-full"}
            ${
               !isMobileOpen && (isCollapsed ? "md:w-16" : "md:w-64")
-           } md:translate-x-0`}
+           } md:translate-x-0
+         `}
          >
-            {/* Encabezado */}
+            {/* Encabezado: botón de cerrar y logo */}
             <div className="my-5 flex items-center gap-4 px-2">
                {isMobileOpen && (
                   <button
-                     className="flex items-center justify-center w-10 h-10 text-grey-light bg-transparent dark:lg:bg-transparent bg-gray-100 hover:bg-secondary-dark rounded-lg z-[9999] lg:h-11 lg:w-11 ml-2"
+                     className="flex items-center justify-center w-10 h-10 text-grey-light  bg-transparent dark:lg:bg-transparent bg-gray-100 hover:bg-secondary-dark rounded-lg z-[9999] lg:h-11 lg:w-11"
                      onClick={closeSidebarMobile}
                      aria-label="Close Sidebar"
                   >
                      <CloseIcon />
                   </button>
                )}
-
                {(!isCollapsed || isMobileOpen) && (
                   <img src={logo} alt="logo" className="w-24" />
                )}
             </div>
 
             {/* Menú Principal */}
-            <ul className="flex flex-col gap-2">
-               {/* Reclutamiento con submenú */}
-               <li>
+            <ul className="flex-1 mt-5">
+               {/* Ítem con submenú: Reclutamiento */}
+               <li className="mb-2">
                   <div
-                     className={`flex items-center p-2 cursor-pointer rounded transition-colors duration-300
-                        ${isCollapsed ? "justify-center" : "justify-start"}
-                        ${
-                           isRecruitmentOpen
-                              ? "bg-secondary-dark text-light"
-                              : "hover:bg-secondary-dark text-grey-light hover:text-light"
-                        }`}
+                     className={`
+                 flex items-center p-2 cursor-pointer rounded transition-colors duration-300
+                 ${isCollapsed ? "justify-center" : "justify-start"}
+                 ${
+                    isRecruitmentOpen
+                       ? "bg-secondary-dark text-light"
+                       : "hover:bg-secondary-dark text-grey-light hover:text-light"
+                 }
+               `}
                      onClick={handleRecruitmentClick}
                   >
                      <MdPersonSearch
@@ -127,13 +131,14 @@ const Sidebar: React.FC<SidebarProps> = ({
                               : "text-grey-light"
                         }`}
                      />
-                     {(!isCollapsed || isMobileOpen) && (
+                     {!isCollapsed && (
                         <>
                            <span className="ml-2 text-sm">Reclutamiento</span>
                            <FaAngleRight
-                              className={`ml-auto size-4 transition-transform duration-300 mr-1 ${
-                                 isRecruitmentOpen ? "rotate-90" : "rotate-0"
-                              }`}
+                              className={`
+                       ml-auto size-4 transition-transform duration-300 mr-1
+                       ${isRecruitmentOpen ? "rotate-90" : "rotate-0"}
+                     `}
                            />
                         </>
                      )}
@@ -141,11 +146,14 @@ const Sidebar: React.FC<SidebarProps> = ({
 
                   {/* Submenú */}
                   <div
-                     className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                        isRecruitmentOpen
-                           ? "max-h-40 opacity-100 bg-secondary-dark"
-                           : "max-h-0 opacity-0"
-                     }`}
+                     className={`
+                 overflow-hidden transition-all duration-500 ease-in-out
+                 ${
+                    isRecruitmentOpen
+                       ? "max-h-40 opacity-100 bg-secondary-dark"
+                       : "max-h-0 opacity-0"
+                 }
+               `}
                   >
                      <ul className="pl-8 my-4 space-y-6">
                         <li>
@@ -180,8 +188,8 @@ const Sidebar: React.FC<SidebarProps> = ({
                   </div>
                </li>
 
-               {/* Solicitar Colaborador */}
-               <li>
+               {/* Otro ítem */}
+               <li className="mb-2">
                   <NavLink
                      to="/requests-leader/list-request-leader"
                      className={({ isActive }) =>
@@ -199,7 +207,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                                  isActive ? "text-primary" : "text-grey-light"
                               }`}
                            />
-                           {(!isCollapsed || isMobileOpen) && (
+                           {!isCollapsed && (
                               <span className="ml-2 text-sm">
                                  Solicitar Colaborador
                               </span>
@@ -210,19 +218,18 @@ const Sidebar: React.FC<SidebarProps> = ({
                </li>
             </ul>
 
-            {/* Sección inferior (Configuración y Cerrar Sesión) */}
-            <ul className="mt-auto flex flex-col gap-2">
-               <li>
+            {/* Sección inferior */}
+            <ul className="mt-auto">
+               <li className="mb-2">
                   <a
                      href="#"
-                     className={`flex items-center p-3 bg-grey-blue hover:bg-secondary rounded-md ${
-                        isCollapsed && !isMobileOpen
-                           ? "justify-center"
-                           : "justify-start"
-                     }`}
+                     className={`
+                 flex items-center p-3 bg-grey-blue hover:bg-secondary rounded-md
+                 ${isCollapsed ? "justify-center" : "justify-start"}
+               `}
                   >
                      <IoMdSettings className="size-6 text-primary" />
-                     {(!isCollapsed || isMobileOpen) && (
+                     {!isCollapsed && (
                         <span className="ml-2 text-sm">Configuración</span>
                      )}
                   </a>
@@ -230,14 +237,13 @@ const Sidebar: React.FC<SidebarProps> = ({
                <li>
                   <a
                      href="#"
-                     className={`flex items-center p-3 bg-grey-blue hover:bg-secondary rounded-md ${
-                        isCollapsed && !isMobileOpen
-                           ? "justify-center"
-                           : "justify-start"
-                     }`}
+                     className={`
+                 flex items-center p-3 bg-grey-blue hover:bg-secondary rounded-md
+                 ${isCollapsed ? "justify-center" : "justify-start"}
+               `}
                   >
                      <IoIosLogOut className="size-6 text-primary" />
-                     {(!isCollapsed || isMobileOpen) && (
+                     {!isCollapsed && (
                         <span className="ml-2 text-sm">Cerrar Sesión</span>
                      )}
                   </a>
