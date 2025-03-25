@@ -49,8 +49,8 @@ function Sidebar({
         ? "opacity-100 translate-x-0"
         : "opacity-0 -translate-x-full"
     }
-    md:flex md:opacity-100 md:translate-x-0 md:${
-      isCollapsed ? "w-16" : "w-64"
+    md:flex md:opacity-100 md:translate-x-0 ${
+      isCollapsed ? "md:w-16" : "md:w-64"
     }`}
       >
         <div
