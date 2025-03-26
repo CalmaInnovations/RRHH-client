@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FaAnglesLeft, FaUserPlus, FaAngleRight } from "react-icons/fa6";
 import { MdPersonSearch, MdClose } from "react-icons/md";
 import { IoMdSettings, IoIosLogOut } from "react-icons/io";
+import { IoBook } from "react-icons/io5";
 import logo from "../../assets/images/logo-calma.png";
 import { NavLink } from "react-router-dom";
 
@@ -161,6 +162,33 @@ function Sidebar({
                   {!isCollapsed && (
                     <span className="ml-2 md:text-sm text-[13px]">
                       Solicitar Colaborador
+                    </span>
+                  )}
+                </>
+              )}
+            </NavLink>
+          </li>
+
+
+          <li className="mb-2">
+            <NavLink
+              to="/attendace/list-asistencia"
+              className={({ isActive }) =>
+                `flex items-center p-2 rounded transition-colors duration-300 hover:bg-secondary-dark hover:text-light ${
+                  isActive ? "bg-secondary-dark text-light" : "text-grey-light"
+                } ${isCollapsed ? "justify-center" : "justify-start"}`
+              }
+            >
+              {({ isActive }) => (
+                <>
+                  <IoBook
+                    className={`md:size-6 size-5 ${
+                      isActive ? "text-primary" : "text-grey-light"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="ml-2 md:text-sm text-[13px]">
+                      Asistencia
                     </span>
                   )}
                 </>

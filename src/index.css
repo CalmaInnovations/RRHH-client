@@ -23,7 +23,11 @@
 
   --color-drop-border:#F0F0F0;
 
+  --color-backg-danger :#FFE2E5;
   --color-danger:#F64E60;
+
+  --color-backg-success :#C9F7F5;
+  --color-success:#1BC5BD;
 }
 
 body {

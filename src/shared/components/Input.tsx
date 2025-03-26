@@ -29,7 +29,7 @@ const Input: React.FC<InputProps> = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className={`mt-1 p-2 border border-grey rounded-md w-full focus:outline-none ${disabled ? "text-grey-dark-ligth cursor-not-allowed" : "text-dark"}`}
+        className={`bg-light mt-1 p-2 border border-grey rounded-md w-full focus:outline-none ${disabled ? "text-grey-dark-ligth cursor-not-allowed" : "text-dark"}`}
         disabled={disabled}
       />
 
