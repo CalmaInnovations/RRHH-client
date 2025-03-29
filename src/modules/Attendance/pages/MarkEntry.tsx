@@ -14,10 +14,10 @@ const MarkEntry = () => {
       return () => clearInterval(interval);
    }, []);
 
-   // Simular verificación con el backend (esto luego será una petición real)
+
    useEffect(() => {
       const allowedTime = new Date();
-      allowedTime.setHours(9, 50, 0); // 9:50 AM
+      allowedTime.setHours(9, 50, 0);
 
       setCanCheckIn(currentTime >= allowedTime);
    }, [currentTime]);
